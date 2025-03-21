@@ -1,0 +1,138 @@
+.table-payroll-type td,
+.table-payroll-type th {
+    padding: 8px 5px !important;
+    background-color: #fff !important;
+}
+
+.table-payroll-type td:first-child input {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.table-payroll-type .col-stt {
+    min-width: 70px !important;
+}
+
+.table-payroll-type .col-title {
+    min-width: 250px !important;
+}
+
+.table-payroll-type .col-value,
+.table-payroll-type .col-keyword,
+.table-payroll-type .col-value-type,
+.table-payroll-type .col-salary {
+    min-width: 200px !important;
+}
+
+.table-payroll-type .col-math,
+.table-payroll-type .col-decs {
+    min-width: 350px !important;
+}
+
+.table-payroll-type .col-value-total {
+    min-width: 300px !important;
+}
+
+.table-manv-salary {
+    width: 130px !important;
+    min-width: 130px !important;
+    max-width: 130px !important;
+}
+
+.table-input {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+}
+
+.sticky-table-salary {
+    overflow: auto;
+    border: 1px solid #f0f4f8 !important;
+}
+
+.sticky-table-salary table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.sticky-table-salary .table th,
+.sticky-table-salary .table td {
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 8px 15px;
+    word-wrap: break-word;
+    white-space: normal;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+
+
+.sticky-table-salary table tbody td:nth-child(-n+4),
+.sticky-table-salary table thead th:nth-child(-n+4) {
+    position: sticky;
+
+}
+
+.sticky-table-salary table tbody td:nth-child(1),
+.sticky-table-salary table thead th:nth-child(1) {
+    left: 0;
+}
+
+.sticky-table-salary table tbody td:nth-child(2),
+.sticky-table-salary table thead th:nth-child(2) {
+    left: 55px;
+}
+
+.sticky-table-salary table tbody td:nth-child(3),
+.sticky-table-salary table thead th:nth-child(3) {
+    left: 196px;
+
+}
+
+.sticky-table-salary table tbody td:nth-child(4),
+.sticky-table-salary table thead th:nth-child(4) {
+    left: 396px;
+}
+
+
+.sticky-table-salary th {
+    background-color: #f0ecec !important;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.sticky-table-salary td:nth-child(n+6),
+.sticky-table-salary td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sticky-table-salary th:nth-child(n+6) {
+    font-size: 12px !important;
+
+}
+
+.sticky-table-salary td:nth-child(n+6) input {
+    direction: rtl;
+}
+
+.header-payroll span {
+    color: #111827;
+    font-weight: 600;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 25px 100px 1fr 120px 1fr 100px 100px 100px;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.avater-payroll img {
+    width: 25px;
+    height: 25px;
+}

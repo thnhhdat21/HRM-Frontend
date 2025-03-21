@@ -1,0 +1,53 @@
+import React from 'react';
+import './css/context-menu-style.css'
+import { Link, useNavigate } from 'react-router-dom';
+
+const ContextMenuWorkShift = ({ x, y, showMenu, id }) => {
+    const style = () => {
+        return {
+            width: '220px',
+            height: '220px',
+            borderRadius: 10,
+            display: 'flex',
+            padding: 10,
+            top: y,
+            left: x,
+            position: 'absolute',
+            display: showMenu ? 'flex' : 'none'
+        }
+    }
+
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <div class="menu" style={style()}>
+                <ul>
+                    <li style={{ width: "200px" }} onClick={() => navigate('/contract/create-contract')}>
+                        <i className='ti ti-check' />
+                        Duyệt
+                    </li>
+                    <li style={{ width: "200px" }} onClick={() => navigate('/contract/create-contract')}>
+                        <i className='ti ti-edit' />
+                        Sửa
+                    </li>
+                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target="#create_appendix">
+                        <i className='ti ti-trash' />
+                        Xóa
+                    </li>
+                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target="#end_contract">
+                        <i className='ti ti-copy' />
+                        Nhân bản
+                    </li>
+                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target="#end_contract">
+                        <i className='ti ti-external-link' />
+                        Chi tiết
+                    </li>
+                </ul>
+            </div>
+        </>
+    );
+};
+
+export default ContextMenuWorkShift;
+

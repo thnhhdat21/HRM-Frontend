@@ -1,0 +1,139 @@
+.table-tt {
+    width: 70px !important;
+    min-width: 70px !important;
+    max-width: 70px !important;
+
+}
+
+.table-manv {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+
+}
+
+.table-hovaten {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+}
+
+.table-phongban {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+}
+
+.table-vitri {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+}
+
+.sticky-table {
+    overflow: auto;
+    border: 1px solid #f0f4f8 !important;
+}
+
+.sticky-table table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.sticky-table .table th,
+.sticky-table .table td {
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 8px 15px;
+    white-space: nowrap;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+
+
+.sticky-table table tbody td:nth-child(-n+4),
+.sticky-table table thead tr:first-child th:nth-child(-n+4) {
+    position: sticky;
+    /* z-index: 10; */
+
+}
+
+.sticky-table table tbody td:nth-child(1),
+.sticky-table table thead tr:first-child th:nth-child(1) {
+    left: 0;
+}
+
+.sticky-table table tbody td:nth-child(2),
+.sticky-table table thead tr:first-child th:nth-child(2) {
+    left: 70px;
+}
+
+.sticky-table table tbody td:nth-child(3),
+.sticky-table table thead tr:first-child th:nth-child(3) {
+    left: 170px;
+
+}
+
+.sticky-table table tbody td:nth-child(4),
+.sticky-table table thead tr:first-child th:nth-child(4) {
+    left: 370px;
+}
+
+
+.sticky-table th {
+    background-color: #f0ecec !important;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.sticky-table td:nth-child(n+6),
+.sticky-table td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sticky-table th:nth-child(n+6) {
+    font-size: 12px !important;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.header-timekeeping-detail {
+    padding: 0 !important;
+    margin-bottom: 10px;
+}
+
+.header-timekeeping-detail span {
+    padding-bottom: 15px;
+}
+
+.table-work-shift {
+    overflow-y: auto;
+}
+
+.table-work-shift-personal .form-control {
+    width: 170px;
+}
+
+.table-work-shift-personal .id-employee {
+    width: 100px;
+}
+
+.table-work-shift-personal th,
+.table-work-shift-personal td {
+    padding: 8px 5px;
+    vertical-align: middle;
+    font-size: 14px;
+    white-space: nowrap;
+    background-color: #fff !important;
+    border: none !important;
+}
+
+.table-on-leave-detail td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}

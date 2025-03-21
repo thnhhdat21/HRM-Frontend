@@ -1,0 +1,63 @@
+.select-crud {
+    width: 100%;
+}
+
+.select-crud option {
+    margin: 0 20px;
+}
+
+select {
+    width: 100%;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 5px;
+    background-color: #ffffff;
+    appearance: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.crud-depart a:hover {
+    color: #e50012;
+    background-color: white !important;
+}
+
+.tittle {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.table-permission select {
+    background-color: #E5E7EB;
+    width: 200px;
+
+}
+
+.table-permission select {
+    padding: 0.7rem 0.625rem;
+}
+
+.checkbox-permisstion {
+    margin: 15px 0;
+}
+
+.modal-edit-account {
+    /* width: 150%; */
+}
+
+.circle {
+    border: 1px solid #e50012;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px !important;
+    height: 30px;
+    border-radius: 50%;
+    color: #e50012;
+}
+
+.circle:hover {
+    background-color: #e50012;
+    color: #ffffff;
+}

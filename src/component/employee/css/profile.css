@@ -1,0 +1,248 @@
+.profile-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container,
+.profile-container td,
+.profile-container th {
+    color: black !important;
+}
+
+.profile-header {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 0;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.profile-info {
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.profile-img {
+    width: 150px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.profile-details td {
+    padding: 5px 10px;
+    vertical-align: top;
+}
+
+.image-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.image-box {
+    width: 48%;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.image-box img {
+    max-width: 100%;
+    height: auto;
+}
+
+.profile-details th {
+    padding: 5px 10px;
+}
+
+.cate-empl-list {
+    top: 50px;
+    width: 100%;
+    background-color: #f8f9fa;
+    z-index: 999;
+    position: fixed;
+    right: 0;
+    left: 72px;
+    -webkit-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.badge {
+    width: 95px;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #4caf50;
+    color: white;
+    border-radius: 5px;
+}
+
+.table-insurance th,
+.table-insurance td {
+    width: 25%;
+}
+
+
+.table-create-profile th,
+.table-create-profile td {
+    padding: 5px 5px;
+    color: #202c4b;
+    font-weight: 500;
+}
+
+.test-hai {
+    padding: 0;
+    border-bottom: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    padding-bottom: 30px;
+
+}
+
+.test-hai label {
+    text-align: center;
+    font-weight: 500;
+}
+
+.test-hai .test-salary {
+    margin-top: 10px;
+    border-left: 3px solid #a5e3a7;
+    padding: 5px 10px 5px;
+    margin-top: 25px;
+    cursor: pointer;
+}
+
+.test-salary {
+    background-color: #cdf4ce;
+}
+
+
+.test-salary span {
+    display: block;
+}
+
+.test-salary .luong-thuc-nhan {
+    color: #6b7280;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.table-timekeeping-employee th,
+.table-timekeeping-employee td {
+    border: 1px solid #E5E7EB;
+}
+
+.table-timekeeping-employee th,
+.table-timekeeping-employee td:first-child {
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.table-timekeeping-employee td {
+    padding: 0;
+}
+
+.timekeeping-items span {
+    display: block;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+}
+
+.timekeeping-items .reason-leave {
+    color: #0e70c0;
+}
+
+.weekend span {
+    background-color: #e50012;
+    color: #fff !important;
+}
+
+.time-checked span {
+    margin: 5px;
+    background-color: #0e70c0;
+    color: #fff;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.registered-time span {
+    margin: 5px;
+    font-size: 13px;
+    color: black;
+}
+
+.work-time span {
+    margin: 5px;
+    color: black;
+}
+
+.go-late span {
+    margin: 0 5px;
+}
+
+.go-late {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: #ffc107;
+    width: 120px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.go-late span {
+    color: #fff;
+}
+
+
+.strong-timekeeping {
+    font-weight: 600;
+}
+
+.explain i {
+    margin: 7px;
+    margin-left: 10px;
+
+}
+
+.explain {
+    background-color: #18619d;
+    width: 160px;
+    margin: 5px;
+    border-radius: 7px;
+    color: #fff;
+}
+
+.table-timekeeping-employee tbody tr:nth-child(even) td {
+    background-color: #f8f9fa !important;
+}
+
+.table-timekeeping-employee tbody tr:nth-child(odd) td {
+    background-color: #ffffff;
+}
+
+.list-on-leave td {
+    border: none !important;
+    padding-left: 0;
+    color: black !important;
+}
+
+.nav-link-profile {
+    padding: 8px 8px;
+}
+
+.nav-link-profile.active {
+    background-color: inherit;
+    border-bottom: 2px solid #e50012;
+    border-radius: 0;
+}

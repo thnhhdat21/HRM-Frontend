@@ -1,0 +1,73 @@
+.row {
+    --bs-gutter-x: 0.5rem;
+}
+
+.icon-header-2 {
+    width: 50px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.icon-header-2 span {
+    margin-bottom: 5px;
+}
+
+.icon-header-2:hover {
+    color: #e50012;
+}
+
+.table-infomation {
+    padding: 10px 0 !important;
+}
+
+.content-history span {
+    font-size: 13px;
+}
+
+.dots-history {
+    left: -6px !important;
+    Width: 1rem !important;
+    height: 1rem !important;
+    margin-top: 6px !important;
+}
+
+.info-detail label {
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.info-detail span {
+    color: #202c4b;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.my-input-container {
+    position: relative;
+}
+
+.my-label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: 0.3s;
+    pointer-events: none;
+    font-weight: 450;
+}
+
+.my-input:focus+.my-label,
+.my-input:not(:placeholder-shown)+.my-label {
+    top: 1px;
+    left: 10px;
+    background: #fff;
+    padding: 0 2px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #202c4b;
+}
+
+.hrm-menu {
+    box-shadow: 0px 4px 8px 2px rgba(198, 198, 198, 0.4) !important;
+}

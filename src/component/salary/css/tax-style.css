@@ -1,0 +1,59 @@
+.sticky-table-tax {
+    overflow: auto;
+    border: 1px solid #f0f4f8 !important;
+}
+
+.sticky-table-tax table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.sticky-table-tax .table th,
+.sticky-table-tax .table td {
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.sticky-table-tax table tbody td:nth-child(-n+3),
+.sticky-table-tax table thead tr:first-child th:nth-child(-n+3) {
+    position: sticky;
+
+}
+
+.sticky-table-tax table tbody td:nth-child(1),
+.sticky-table-tax table thead tr:first-child th:nth-child(1) {
+    left: 0;
+}
+
+.sticky-table-tax table tbody td:nth-child(2),
+.sticky-table-tax table thead tr:first-child th:nth-child(2) {
+    left: 100px;
+}
+
+.sticky-table-tax table tbody td:nth-child(3),
+.sticky-table-tax table thead tr:first-child th:nth-child(3) {
+    left: 300px;
+
+}
+
+.sticky-table-tax th {
+    background-color: #f0ecec !important;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.sticky-table-tax td:nth-child(n+4),
+.sticky-table-tax td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sticky-table-tax thead tr:first-child th:nth-child(n+4),
+.sticky-table-tax thead tr:nth-child(n+2) th {
+    font-size: 12px !important;
+}

@@ -1,16 +1,16 @@
-import './App.css';
 import HeaderComponnent from './component/common/HeaderComponet';
 import FooterComponent from './component/common/FooterComponent';
-
-
-function App() {
+import LeftMenuComponnent from './component/common/LeftMenuComponent';
+function App({ component: Component }) {
   return (
-    <div className="App">
-      <HeaderComponnent />
-      <h1>Heheeee</h1>
-      {/* <MainComponent /> */}
-      <FooterComponent />
-    </div>
+    <>
+      <div className="App">
+        <HeaderComponnent />
+        <LeftMenuComponnent />
+        {Component && <Component />}
+        <FooterComponent />
+      </div>
+    </>
   );
 }
 
