@@ -8,7 +8,6 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, id }) => {
             width: '600px',
             maxHeight: '440px',
             borderRadius: 10,
-            display: 'flex',
             padding: 20,
             top: y,
             left: x,

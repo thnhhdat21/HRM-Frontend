@@ -7,7 +7,6 @@ const ContextMenuEmployee = ({ x, y, showMenu, id }) => {
             width: '250px',
             height: '550px',
             borderRadius: 10,
-            display: 'flex',
             padding: 10,
             top: y + 250,
             left: x,

@@ -7,7 +7,6 @@ const ContextMenuInsurance = ({ x, y, showMenu, id }) => {
             width: '220px',
             height: '100px',
             borderRadius: 10,
-            display: 'flex',
             padding: 10,
             top: y,
             left: x,

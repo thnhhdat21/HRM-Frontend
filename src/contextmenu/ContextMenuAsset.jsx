@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/context-menu-style.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ContextMenuAsset = ({ x, y, showMenu, id }) => {
     const style = () => {
@@ -8,7 +8,6 @@ const ContextMenuAsset = ({ x, y, showMenu, id }) => {
             width: '220px',
             height: '260px',
             borderRadius: 10,
-            display: 'flex',
             padding: 10,
             top: y,
             left: x,

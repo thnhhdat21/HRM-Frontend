@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { menuApprovalManage, menuAssetManage, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSalaryManage, menuSystemSetting, menuTimekeepingManage } from '../../util/LeftMenuUtil';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const LeftMenuComponnent = () => {
 
@@ -49,7 +49,8 @@ const LeftMenuComponnent = () => {
         }
     }
 
-    const handleSubMenuClick = (item) => {
+    const handleSubMenuClick = (item, e) => {
+        e.preventDefault();
         setActiveSubMenu(item.path);
         navigate(item.path);
     };
@@ -78,21 +79,21 @@ const LeftMenuComponnent = () => {
                                             console.log(activeMenu)
                                             return (
                                                 < li key={index + item.name} className='submenu'>
-                                                    <Link onClick={(e) => handleMenuClick(item, e)}
+                                                    <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
                                                         className={`${activeMenu === item.path || item.path === "setting" ? "active" : ""}  ${selectedMenu === item.path ? "active" : ""} 
                                                                 ${activeMenu === item.path || item.path === "setting" ? "subdrop" : ""}`} >
 
                                                         <i className={item.icon}></i>
                                                         <span>{item.name}</span>
                                                         <span class={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
-                                                    </Link>
+                                                    </a>
                                                     {
                                                         item.child && item.child.length > 0 && (
                                                             <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
                                                                 {
                                                                     item.child.map((itemChild, index) => (
                                                                         <li key={itemChild.name + index} >
-                                                                            <Link onClick={() => handleSubMenuClick(itemChild)} className={`${activeSubMenu === itemChild.path ? "active" : ""}`}>{itemChild.name}</Link>
+                                                                            <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.path ? "active" : ""}`}>{itemChild.name}</a>
                                                                         </li>
                                                                     ))
                                                                 }

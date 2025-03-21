@@ -136,7 +136,6 @@ root.render(
         <Route path='/manage-timekeeping/on-leave-manage' element={<App component={OnLeaveManamentComponent} />} />{/* Check */}
         <Route path='/manage-timekeeping/on-leave-detail' element={<App component={OnLeaveManageDetailComponent} />} />{/* Check */}
 
-
         {/* Asset */}
         <Route path='/manage-asset/asset' element={<App component={ListAssetComponent} />} /> {/* Check */}
         <Route path='/manage-asset/asset-detail' element={<App component={AssetDetailComponent} />} />
@@ -156,12 +155,8 @@ root.render(
 
         <Route path='/manage-salary/tax' element={<App component={ListTaxComponent} />} />{/* Check */}
 
-
-
         {/* Test */}
         <Route path='/test' element={<TestComponent />} />
-
-
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
