@@ -9,7 +9,6 @@ import EmployeeReceiveComponent from './subcomponent.jsx/EmployeeReceiveComponen
 import EmployeeLayoffComponent from './subcomponent.jsx/EmployeeLayoffComponent';
 import EmployeeAssetComponent from './subcomponent.jsx/EmployeeAssetComponent';
 import EmployeeAttachedComponent from './subcomponent.jsx/EmployeeAttachedComponent';
-import TestComponent from '../../../test/TestComponent';
 const ProfileComponnent = () => {
     return (
         <>

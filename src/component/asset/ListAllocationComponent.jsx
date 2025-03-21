@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
-import useRightClickMenu from '../../hooks/useRightClickMenu';
 import AllocationCRUDComponent from './crud/AllocationCRUDComponent';
 import ContextMenuAllocation from '../../contextmenu/ContextMenuAllocation';
-import useDoubleClickDetail from '../../hooks/testDoubleClickDetail';
 import AllocationDetailComponent from './crud/AllocationDetailComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import useDoubleClickDetail from '../../hooks/useDoubleClickDetail';
 
 const ListAllocationComponent = () => {
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
     const { xdb, ydb, showMenudb } = useDoubleClickDetail(tableRef, 550, 220);
-    console.log(xdb + " " + ydb + " " + showMenudb)
 
     return (
         <>

@@ -98,7 +98,7 @@
     font-weight: 500;
 }
 
-.test-hai {
+.item-salary-month {
     padding: 0;
     border-bottom: 1px solid #e5e7eb;
     border-right: 1px solid #e5e7eb;
@@ -106,12 +106,12 @@
 
 }
 
-.test-hai label {
+.item-salary-month label {
     text-align: center;
     font-weight: 500;
 }
 
-.test-hai .test-salary {
+.item-salary-month .content-salary-month {
     margin-top: 10px;
     border-left: 3px solid #a5e3a7;
     padding: 5px 10px 5px;
@@ -119,16 +119,16 @@
     cursor: pointer;
 }
 
-.test-salary {
+.content-salary-month {
     background-color: #cdf4ce;
 }
 
 
-.test-salary span {
+.content-salary-month span {
     display: block;
 }
 
-.test-salary .luong-thuc-nhan {
+.content-salary-month .luong-thuc-nhan {
     color: #6b7280;
     font-size: 12px;
     margin-bottom: 5px;

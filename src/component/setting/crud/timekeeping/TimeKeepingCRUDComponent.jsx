@@ -22,7 +22,7 @@ const TimeKeepingCRUDComponent = () => {
                         <form action="employees.html">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active">
-                                    <div class="modal-body pb-0 test">
+                                    <div class="modal-body pb-0 overflow-modal-crud">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger">Thông tin chung</label>

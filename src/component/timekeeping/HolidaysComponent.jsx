@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
-import ContextMenuContract from '../../contextmenu/ContextMenuContract';
 import HolidaysCRUDComponent from './crud/HolidaysCRUDComponent';
 import ContextMenuTimeKeeping from '../../contextmenu/ContextMenuTimeKeeping';
 

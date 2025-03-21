@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import TimeKeepingDetailComponent from '../../timekeeping/crud/TimeKeepingDetailComponent';
-import useDoubleClickDetail from '../../../hooks/testDoubleClickDetail';
+import useDoubleClickDetail from '../../../hooks/useDoubleClickDetail';
 
 const PayrollEmployeeComponent = () => {
     const tableRef = useRef(null)

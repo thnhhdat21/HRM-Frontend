@@ -16,7 +16,7 @@ const HolidaysCRUDComponent = () => {
                             </button>
                         </div>
 
-                        <div class="modal-body test">
+                        <div class="modal-body overflow-modal-crud">
                             <div class="row ">
                                 <div class="col-md-12">
                                     <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger">Thông tin chung</label>

@@ -16,7 +16,7 @@ const OvertimeApprovalComponent = () => {
                             </button>
                         </div>
 
-                        <div class="modal-body test">
+                        <div class="modal-body overflow-modal-crud">
                             <div class="row ">
                                 <div class="col-md-6">
                                     <div class="mb-3">

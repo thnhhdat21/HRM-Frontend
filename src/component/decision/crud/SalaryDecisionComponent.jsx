@@ -16,7 +16,7 @@ const SalaryDecisionComponent = () => {
                             </button>
                         </div>
 
-                        <div class="modal-body test">
+                        <div class="modal-body overflow-modal-crud">
                             <div class="row ">
                                 <div class="col-md-8">
                                     <div class="mb-3">

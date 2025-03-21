@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import useDoubleClickDetail from '../../../../hooks/testDoubleClickDetail';
 import SalaryQuickWatchComponent from '../../crud/SalaryQuickWatchComponent';
+import useDoubleClickDetail from '../../../../hooks/useDoubleClickDetail';
 
 const EmployeeSalaryComponent = () => {
     const tableRef = useRef(null)
@@ -21,38 +21,38 @@ const EmployeeSalaryComponent = () => {
                             <div class="card-body p-0">
                                 <div style={{ padding: "16px" }}>
                                     <div class="row">
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 1</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 2</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 3</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 4</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
@@ -60,38 +60,38 @@ const EmployeeSalaryComponent = () => {
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 5</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 6</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 7</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai">
+                                        <div class="col-md-3 item-salary-month">
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 8</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
@@ -100,37 +100,37 @@ const EmployeeSalaryComponent = () => {
                                     </div>
 
                                     <div class="row" >
-                                        <div class="col-md-3 test-hai" style={{ borderBottom: "none" }} >
+                                        <div class="col-md-3 item-salary-month" style={{ borderBottom: "none" }} >
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 9</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai" style={{ borderBottom: "none" }}>
+                                        <div class="col-md-3 item-salary-month" style={{ borderBottom: "none" }}>
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 10</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai" style={{ borderBottom: "none" }}>
+                                        <div class="col-md-3 item-salary-month" style={{ borderBottom: "none" }}>
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 11</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 test-hai" style={{ borderBottom: "none" }}>
+                                        <div class="col-md-3 item-salary-month" style={{ borderBottom: "none" }}>
                                             <div class="d-flex flex-column info-detail">
                                                 <label class="form-label">Tháng 12</label>
-                                                <div className='test-salary'>
+                                                <div className='content-salary-month'>
                                                     <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                     <span>72,000,000 VNĐ</span>
                                                 </div>

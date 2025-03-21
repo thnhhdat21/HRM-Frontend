@@ -5,8 +5,6 @@ const menuSystemSetting = [
     { name: 'Lịch sử hoạt động', icon: 'ti ti-history', path: 'path', child: [] },
 ]
 
-
-
 const menuObjectSetting = [
     {
         name: 'Cài đặt chung', icon: 'ti ti-settings', path: 'setting', child: [

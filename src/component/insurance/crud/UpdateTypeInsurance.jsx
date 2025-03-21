@@ -16,7 +16,7 @@ const UpdateTypeInsurance = () => {
                             </button>
                         </div>
 
-                        <div class="modal-body test">
+                        <div class="modal-body overflow-modal-crud">
                             <div class=" d-flex align-items-center justify-content-between flex-wrap row-gap-3">
                                 <div className="tab-container d-flex">
                                     <div className="tab-type active-tab-type">

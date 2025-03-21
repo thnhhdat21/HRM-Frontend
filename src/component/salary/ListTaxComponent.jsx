@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import useDoubleClickDetail from '../../hooks/testDoubleClickDetail';
 import './css/tax-style.css'
+import useDoubleClickDetail from '../../hooks/useDoubleClickDetail';
 
 const ListTaxComponent = () => {
     const tableRef = useRef(null)

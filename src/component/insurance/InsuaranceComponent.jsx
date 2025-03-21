@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuContract from '../../contextmenu/ContextMenuContract';
-import UpdateTypeInsurance from './crud/UpdateTypeInsurance';
 
 const InsuaranceComponent = () => {
     const tableRef = useRef(null)

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import './css/timekeeping-style.css'
-import useDoubleClickDetail from '../../hooks/testDoubleClickDetail';
 import TimeKeepingDetailComponent from './crud/TimeKeepingDetailComponent';
+import useDoubleClickDetail from '../../hooks/useDoubleClickDetail';
 
 const TimeSheetComponent = () => {
     const tableRef = useRef(null)
