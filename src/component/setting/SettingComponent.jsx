@@ -31,7 +31,7 @@ const SettingComponent = () => {
                                 </div>
                                 <span>Đơn từ</span>
                             </Link >
-                            <Link to="/settings/asset-group" className='item'>
+                            <Link to="/settings/asset" className='item'>
                                 <div class="icon" style={{ background: "#76c9af" }} >
                                     <img src="/assets/my-img/responsive.png" alt="" style={{ width: "20px" }} />
                                 </div>
@@ -50,13 +50,13 @@ const SettingComponent = () => {
                                 </div>
                                 <span>Nhân sự</span>
                             </Link >
-                            <Link to="/admin-account" className='item'>
+                            <Link to="/settings/on-leave" className='item'>
                                 <div class="icon" style={{ background: "#3fa694" }} >
                                     <img src="/assets/my-img/checked.png" alt="" style={{ width: "20px" }} />
                                 </div>
                                 <span>Chấm công</span>
                             </Link >
-                            <Link to="/admin-account" className='item'>
+                            <Link to="/settings/allowance" className='item'>
                                 <div class="icon" style={{ background: "#33a17c" }} >
                                     <img src="/assets/my-img/dollar.png" alt="" style={{ width: "20px" }} />
                                 </div>
