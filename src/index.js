@@ -150,7 +150,7 @@ root.render(
 
         <Route path='/manage-salary/payroll-type-detail' element={<App component={PayrollDetailComponent} />} />
         <Route path='/manage-salary/create-payroll-type' element={<App component={CreatePayrollTypeComponent} />} />{/* Check */}
-        <Route path='/manage-salaryv/wage-wage' element={<App component={PayrollEmployeeComponent} />} />
+        <Route path='/manage-salary/wage-wage' element={<App component={PayrollEmployeeComponent} />} />
         <Route path='/manage-salary/wage-wage-detail-formula' element={<App component={FormulaDetailComponent} />} />
 
         <Route path='/manage-salary/tax' element={<App component={ListTaxComponent} />} />{/* Check */}

@@ -22,7 +22,7 @@ const WorkShiftComponent = () => {
                                 <span>Phân ca các nhân</span>
                             </div>
                             <div class="mb-2 dropdown profile-dropdown">
-                                <Link to="/timekeeping/create-work-shift" href="#" class="btn btn-danger d-flex align-items-center" >
+                                <Link to="/manage-timekeeping/create-work-shift" href="#" class="btn btn-danger d-flex align-items-center" >
                                     <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
                                 </Link>
                             </div>

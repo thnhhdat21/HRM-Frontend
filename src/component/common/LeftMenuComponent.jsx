@@ -40,10 +40,12 @@ const LeftMenuComponnent = () => {
 
 
     function handleMenuClick(item, e) {
+        e.preventDefault();
         if (item.child && item.child.length > 0) {
             e.preventDefault();
             setActiveMenu((prev) => (prev === item.path ? null : item.path));
         } else {
+            setActiveSubMenu(null)
             setActiveMenu(item.path);
             navigate(item.path);
         }
