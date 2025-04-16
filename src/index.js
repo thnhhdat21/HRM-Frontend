@@ -14,7 +14,6 @@ import ManageGroupComponent from './component/setting/ManageGroupComponent';
 import GroupCRUDComponent from './component/setting/crud/GroupCRUDComponent';
 import SettingJobPositionComponent from './component/setting/SettingJobPositionComponent';
 import SettingDutyComponent from './component/setting/SettingDutyComponent';
-import SettingWorkplaceComponent from './component/setting/SettingWorkplaceComponent';
 import SettingPenaltyComponent from './component/setting/SettingPenaltyComponent';
 import SettingRewardComponent from './component/setting/SettingRewardComponent';
 import SettingTypeContractComponent from './component/setting/SettingTypeContractComponent';
@@ -61,6 +60,7 @@ import DetailApprovalComponent from './component/approval/crud/DetailApprovalCom
 import EmployeeOTComponent from './component/employee/EmployeeOTComponent';
 import EmployeeLeaveComponent from './component/employee/EmployeeLeaveComponent';
 import SettingAssetComponent from './component/setting/asset/SettingAssetComponent';
+import explorer from './test/test';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -87,7 +87,6 @@ root.render(
         {/* setting hồ sơ nhân sự */}
         <Route path='/settings/employee' element={<App component={SettingJobPositionComponent} />} />{/* Check */}
         <Route path='/settings/duty' element={<App component={SettingDutyComponent} />} />{/* Check */}
-        <Route path='/settings/workplace' element={<App component={SettingWorkplaceComponent} />} />{/* Check */}
         <Route path='/settings/penalty' element={<App component={SettingPenaltyComponent} />} />{/* Check */}
         <Route path='/settings/reward' element={<App component={SettingRewardComponent} />} />{/* Check */}
         <Route path='/settings/contract' element={<App component={SettingTypeContractComponent} />} />{/* Check */}
@@ -127,7 +126,7 @@ root.render(
 
         {/* timekeeping */}
         <Route path='/manage-timekeeping' element={<App component={TimeSheetComponent} />} />{/* Check */}
-        <Route path='/manage-timekeepingg/holidays' element={<App component={HolidaysComponent} />} />{/* Check */}
+        <Route path='/manage-timekeeping/holidays' element={<App component={HolidaysComponent} />} />{/* Check */}
         <Route path='/manage-timekeeping/auto-timekeeping' element={<App component={AutoTimeKeepingComponent} />} />{/* Check */}
         <Route path='/manage-timekeeping/work-shift' element={<App component={WorkShiftComponent} />} />{/* Check */}
         <Route path='/manage-timekeeping/create-work-shift' element={<App component={CreateShiftComponent} />} />{/* Check */}
@@ -156,7 +155,7 @@ root.render(
         <Route path='/manage-salary/tax' element={<App component={ListTaxComponent} />} />{/* Check */}
 
         {/* Test */}
-        <Route path='/test' element={<TestComponent />} />
+        <Route path='/test' element={< TestComponent />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

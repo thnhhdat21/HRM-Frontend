@@ -24,7 +24,7 @@ const ContextMenuTimeKeeping = ({ x, y, showMenu, id }) => {
                 <ul>
                     <li style={{ width: "200px" }} onClick={() => navigate('/contract/create-contract')}>
                         <i className='ti ti-edit' />
-                        Sửa
+                        Chỉnh sửa
                     </li>
                     <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target="#create_appendix">
                         <i className='ti ti-trash' />

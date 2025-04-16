@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import RewardCRUDComponent from './crud/RewardCRUDComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import { deleteRewardOrPenalty, getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
+import { REWARD } from '../../util/RewardAndPenaltyUtil';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingRewardComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listReward, setListReward] = useState({})
+    const [selected, setSelected] = useState("")
+    const [typeOpen, setTypeOpen] = useState([])
+
+    useEffect(() => {
+        getListRewardOrPenalty(REWARD).then((response) => {
+            responseData(response, setListReward)
+        })
+    }, [])
+
+    const handleDeleteReward = () => {
+        deleteRewardOrPenalty(selected.id).then((response) => {
+            responseDelete(response, setListReward, selected.id)
+        })
+    }
+
     return (
         <>
             <div class="page-wrapper">
@@ -13,8 +36,10 @@ const SettingRewardComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_reward"
-                                    class="btn btn-primary d-flex align-items-center"><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}
+                                ><i
+                                    class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
                     </div>
@@ -30,29 +55,26 @@ const SettingRewardComponent = () => {
                                     <table class="table" id='myTable'>
                                         <thead class="thead-light">
                                             <tr>
-                                                <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
-                                                </th>
+                                                <th> </th>
                                                 <th>Người tạo</th>
                                                 <th>Tên phúc lợi</th>
                                                 <th>Số tiền</th>
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>Nhân viên xuất sắc</span></td>
-                                                <td><span>500,000</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listReward.length > 0 && listReward.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelected(item)}>
+                                                        <td>
+                                                        </td>
+                                                        <td><span>{item.createBy}</span></td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.amount}</span></td>
+                                                        <td><span className='badge'>{item.status}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -61,7 +83,8 @@ const SettingRewardComponent = () => {
                     </div>
                 </div>
             </div>
-            <RewardCRUDComponent />
+            <RewardCRUDComponent selected={selected} typeOpen={typeOpen} setListReward={setListReward} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_reward"} handleDelete={handleDeleteReward} setTypeOpen={setTypeOpen} />
         </>
     );
 };

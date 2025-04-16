@@ -10,9 +10,9 @@ const HeaderComponnent = ({ setting }) => {
                     <div class="nav user-menu nav-list">
                         <div class="me-auto d-flex align-items-center" id="header-search">
                             {
-                                setting === 1 ? (<a href="index.html" class="logo logo-normal">
+                                setting === 1 ? (<a href={null} class="logo logo-normal">
                                     <img src="/assets/logo/logo.png" alt="Logo" style={{ width: "200px", height: "50px" }} />
-                                </a>) : (<a id="toggle_btn" href="javascript:void(0);" class="btn btn-menubar me-1">
+                                </a>) : (<a id="toggle_btn" href={null} class="btn btn-menubar me-1">
                                     <i class="ti ti-arrow-bar-to-left"></i>
                                 </a>)
                             }

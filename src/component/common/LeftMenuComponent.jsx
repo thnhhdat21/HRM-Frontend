@@ -62,23 +62,22 @@ const LeftMenuComponnent = () => {
 
     return (
         <>
-            <div class="sidebar " id="sidebar">
-                <div class="sidebar-logo">
-                    <a href="index.html" class="logo logo-normal">
+            <div className="sidebar " id="sidebar">
+                <div className="sidebar-logo">
+                    <a href="index.html" className="logo logo-normal">
                         <img src="/assets/logo/logo.png" alt="Logo" style={{ width: "200px", height: "50px" }} />
                     </a>
-                    <a href="index.html" class="logo-small">
+                    <a href="index.html" className="logo-small">
                         <img src="/assets/logo/logo-small.png" alt="Logo" style={{ width: "140px", height: "38px" }} />
                     </a>
                 </div>
-                <div class="sidebar-inner slimscroll">
-                    <div id="sidebar-menu" class="sidebar-menu">
+                <div className="sidebar-inner slimscroll">
+                    <div id="sidebar-menu" className="sidebar-menu">
                         <ul>
                             <li>
                                 <ul>
                                     {
                                         leftMenu.length > 0 && leftMenu.map((item, index) => {
-                                            console.log(activeMenu)
                                             return (
                                                 < li key={index + item.name} className='submenu'>
                                                     <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
@@ -87,7 +86,7 @@ const LeftMenuComponnent = () => {
 
                                                         <i className={item.icon}></i>
                                                         <span>{item.name}</span>
-                                                        <span class={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
+                                                        <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
                                                     </a>
                                                     {
                                                         item.child && item.child.length > 0 && (

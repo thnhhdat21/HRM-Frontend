@@ -1,8 +1,29 @@
-import React from 'react';
-import JobPositionCRUDComponent from './crud/JobPositionCRUDComponent';
+import React, { useEffect, useRef, useState } from 'react';
 import PenaltyCRUDComponent from './crud/PenaltyCRUDComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import { deleteRewardOrPenalty, getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
+import { PENALTY } from '../../util/RewardAndPenaltyUtil';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingPenaltyComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listPenalty, setListPenalty] = useState({})
+    const [selected, setSelected] = useState("")
+    const [typeOpen, setTypeOpen] = useState([])
+
+    useEffect(() => {
+        getListRewardOrPenalty(PENALTY).then((response) => {
+            responseData(response, setListPenalty)
+        })
+    }, [])
+
+    const handleDeletePanalty = () => {
+        deleteRewardOrPenalty(selected.id).then((response) => {
+            responseDelete(response, setListPenalty, selected.id)
+        })
+    }
     return (
         <>
             <div class="page-wrapper">
@@ -14,8 +35,11 @@ const SettingPenaltyComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_penalty"
-                                    class="btn btn-primary d-flex align-items-center"><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}
+                                ><i
+                                    class="ti ti-circle-plus" style={{ fontSize: "20px" }}
+                                ></i></a>
                             </div>
                         </div>
                     </div>
@@ -31,10 +55,7 @@ const SettingPenaltyComponent = () => {
                                     <table class="table" id='myTable'>
                                         <thead class="thead-light">
                                             <tr>
-                                                <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
+                                                <th>
                                                 </th>
                                                 <th>Người tạo</th>
                                                 <th>Lỗi vi phạm</th>
@@ -42,18 +63,19 @@ const SettingPenaltyComponent = () => {
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>Phạt vi phạm nội quy 5S</span></td>
-                                                <td><span>100,000</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listPenalty.length > 0 && listPenalty.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelected(item)}>
+                                                        <td>
+                                                        </td>
+                                                        <td><span>{item.createBy}</span></td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.amount}</span></td>
+                                                        <td><span className='badge'>{item.status}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -62,7 +84,8 @@ const SettingPenaltyComponent = () => {
                     </div>
                 </div>
             </div>
-            <PenaltyCRUDComponent />
+            <PenaltyCRUDComponent selected={selected} typeOpen={typeOpen} setListPenalty={setListPenalty} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_penalty"} handleDelete={handleDeletePanalty} setTypeOpen={setTypeOpen} />
         </>
     );
 };

@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TypeContractCRUDComponent from './crud/TypeContractCRUDComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import { deleteContractType, getListContractType } from '../../service/ContractTypeService';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingTypeContractComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listContractType, setListContractType] = useState({});
+    const [selectedId, setSelectedId] = useState("");
+    const [typeOpen, setTypeOpen] = useState([]);
+
+    useEffect(() => {
+        getListContractType().then((response) => {
+            responseData(response, setListContractType)
+        })
+    }, [])
+
+    const handleDeleteContractType = () => {
+        deleteContractType(selectedId).then(response => {
+            responseDelete(response, setListContractType, selectedId)
+        });
+    }
+
+
     return (
         <>
             <div class="page-wrapper">
@@ -13,7 +36,9 @@ const SettingTypeContractComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_type_contract"
-                                    class="btn btn-primary d-flex align-items-center"><i
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    <i
                                         class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
@@ -31,9 +56,7 @@ const SettingTypeContractComponent = () => {
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
+
                                                 </th>
                                                 <th>Tên hợp đồng</th>
                                                 <th>Loại hợp đồng</th>
@@ -42,85 +65,20 @@ const SettingTypeContractComponent = () => {
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listContractType.length > 0 && listContractType.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelectedId(item.id)}>
+                                                        <td>
+                                                        </td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.type}</span></td>
+                                                        <td><span>{item.insurance ? "Có" : "Không"}</span></td>
+                                                        <td><span>{item.term} {item.unit}</span></td>
+                                                        <td><span className='badge'>{item.status}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -130,7 +88,8 @@ const SettingTypeContractComponent = () => {
                 </div>
             </div>
 
-            <TypeContractCRUDComponent />
+            <TypeContractCRUDComponent selectedId={selectedId} typeOpen={typeOpen} setListContractType={setListContractType} setTypeOpen={setTypeOpen} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_type_contract"} handleDelete={handleDeleteContractType} setTypeOpen={setTypeOpen} />
         </>
     );
 };

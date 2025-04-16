@@ -33835,6 +33835,11 @@ span.flatpickr-weekday {
   padding: 0.5rem 1.25rem 0rem !important;
 }
 
+.Toastify__toast {
+  width: 400px !important;
+  max-width: 90vw;
+}
+
 /* .setting-header {
   left: 0;
 } */

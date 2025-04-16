@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import JobPositionCRUDComponent from './crud/JobPositionCRUDComponent';
+import { getListDuty } from '../../service/DutyService';
+import { deleteJobPosition, getListJobPosition } from '../../service/JobPositionService';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingJobPositionComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listJobPostion, setListJobPostion] = useState({})
+    const [selectedId, setSelectedId] = useState("")
+    const [typeOpen, setTypeOpen] = useState([])
+
+    useEffect(() => {
+        getListJobPosition().then((response) => {
+            responseData(response, setListJobPostion)
+        })
+    }, [])
+
+    const handleDeleteJobPosition = () => {
+        deleteJobPosition(selectedId).then(response => {
+            responseDelete(response, setListJobPostion, selectedId)
+        });
+    }
+
     return (
         <>
             <div class="page-wrapper">
@@ -13,7 +36,8 @@ const SettingJobPositionComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_job_position"
-                                    class="btn btn-primary d-flex align-items-center"><i
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}><i
                                         class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
@@ -30,11 +54,7 @@ const SettingJobPositionComponent = () => {
                                     <table class="table" id='myTable'>
                                         <thead class="thead-light">
                                             <tr>
-                                                <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
-                                                </th>
+                                                <th></th>
                                                 <th>Người tạo</th>
                                                 <th>Tên vị trí</th>
                                                 <th>Nhóm quyền</th>
@@ -42,19 +62,19 @@ const SettingJobPositionComponent = () => {
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>Tổng giám đốc</span></td>
-                                                <td><span>Ban giám đốc</span></td>
-                                                <td><span>15,000,000 - 20,000,000</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listJobPostion.length > 0 && listJobPostion.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelectedId(item.id)}>
+                                                        <td><span></span></td>
+                                                        <td><span>{item.createBy}</span></td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.role}</span></td>
+                                                        <td><span>{item.salaryFrom} - {item.salaryTo}</span></td>
+                                                        <td><span className='badge'>{item.status}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -63,7 +83,9 @@ const SettingJobPositionComponent = () => {
                     </div>
                 </div>
             </div>
-            <JobPositionCRUDComponent />
+
+            <JobPositionCRUDComponent selectedId={selectedId} typeOpen={typeOpen} setListJobPostion={setListJobPostion} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_job_position"} handleDelete={handleDeleteJobPosition} setTypeOpen={setTypeOpen} />
         </>
     );
 };

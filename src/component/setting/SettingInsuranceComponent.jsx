@@ -1,9 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/setting-style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { responseData, responseUpdate } from '../../util/ResponseUtil';
+import { getInsuranceSetting, updateInsuranceSetting } from '../../service/InsuranceSettingService';
 
 const SettingInsuranceComponent = () => {
-    const navigate = useNavigate();
+    const [insuranceSetting, setInsuranceSetting] = useState({});
+    const [values, setValues] = useState({
+        id: "",
+        closingDateIncrease: "",
+        singedContract: "",
+        returnedFromMaternity: "",
+        returnedFromUnpaidLeave: "",
+        increasedContribution: "",
+        closingDateDecrease: "",
+        contractTerminated: "",
+        maternityLeave: "",
+        decreasedContribution: "",
+        unpaidLeave: "",
+        maxUnpaidLeaveDay: ""
+    })
+    useEffect(() => {
+        getInsuranceSetting().then((response) => {
+            responseData(response, setInsuranceSetting)
+            if (response.data.code === 1000) {
+                const insuranceSetting = response.data.data
+                setValues({
+                    id: insuranceSetting.id,
+                    closingDateIncrease: insuranceSetting.closingDateIncrease,
+                    singedContract: insuranceSetting.singedContract,
+                    returnedFromMaternity: insuranceSetting.returnedFromMaternity,
+                    returnedFromUnpaidLeave: insuranceSetting.returnedFromUnpaidLeave,
+                    increasedContribution: insuranceSetting.increasedContribution,
+                    closingDateDecrease: insuranceSetting.closingDateDecrease,
+                    contractTerminated: insuranceSetting.contractTerminated,
+                    maternityLeave: insuranceSetting.maternityLeave,
+                    decreasedContribution: insuranceSetting.decreasedContribution,
+                    unpaidLeave: insuranceSetting.unpaidLeave,
+                    maxUnpaidLeaveDay: insuranceSetting.maxUnpaidLeaveDay
+                })
+            }
+        })
+    }, [])
+
+    const onChangeInput = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value })
+    }
+    const onChangeSwitch = (e) => {
+        setValues({ ...values, [e.target.name]: !values[e.target.name] })
+    }
+
+    const handleUpdateInsuranceSetting = () => {
+        const hasUpdate = checkUpdate()
+        updateInsuranceSetting(values, hasUpdate).then((response) => {
+            responseUpdate(response, "Cập nhật thành công", setInsuranceSetting, getInsuranceSetting)
+        })
+    }
+
+    const checkUpdate = () => {
+        return Object.keys(insuranceSetting).some(key => {
+            if (key === "id") {
+                return
+            }
+            return insuranceSetting[key] !== values[key]
+        });
+    };
+
 
     return (
         <>
@@ -25,7 +87,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input type="email" className='form-control' />
+                                            <input min="0" style={{ direction: 'rtl' }} type="number" className='form-control' name='closingDateIncrease' value={values.closingDateIncrease} onChange={onChangeInput} />
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +97,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='singedContract' checked={values.singedContract} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +107,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='returnedFromMaternity' checked={values.returnedFromMaternity} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +117,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='returnedFromUnpaidLeave' checked={values.returnedFromUnpaidLeave} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +127,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='increasedContribution' checked={values.increasedContribution} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +151,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input type="email" className='form-control' />
+                                            <input min="0" style={{ direction: 'rtl' }} type="number" className='form-control' name='closingDateDecrease' value={values.closingDateDecrease} onChange={onChangeInput} />
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +161,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='contractTerminated' checked={values.contractTerminated} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +171,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='maternityLeave' checked={values.maternityLeave} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +181,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='decreasedContribution' checked={values.decreasedContribution} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +195,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input class="form-check-input me-2" type="checkbox" role="switch" />
+                                            <input class="form-check-input me-2" type="checkbox" role="switch" name='unpaidLeave' checked={values.unpaidLeave} onChange={onChangeSwitch} />
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +205,7 @@ const SettingInsuranceComponent = () => {
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-check form-check-md form-switch me-2">
-                                            <input type="email" className='form-control' />
+                                            <input min="0" style={{ direction: 'rtl' }} type="number" className='form-control' name='maxUnpaidLeaveDay' value={values.maxUnpaidLeaveDay} onChange={onChangeInput} />
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +225,7 @@ const SettingInsuranceComponent = () => {
                     <div class="modal-footer mt-5">
                         <button type="button" class="btn btn-outline-light border me-2"
                             data-bs-dismiss="modal">HỦY BỎ</button>
-                        <button type="submit" class="btn btn-primary">CẬP NHẬT</button>
+                        <div type="submit" class="btn btn-primary" onClick={handleUpdateInsuranceSetting}>CẬP NHẬT</div>
                     </div>
                 </div>
             </div >

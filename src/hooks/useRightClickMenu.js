@@ -5,46 +5,32 @@ export default function useRightClickMenu(tableRef, width, height) {
     const [y, setY] = useState(0)
     const [showMenu, setShowMenu] = useState(false)
 
-    // const handleContextMenu = (e) => {
-    //     e.preventDefault();
-    //     const totalWidth = document.documentElement.scrollWidth;
-    //     const totalHeight = document.documentElement.scrollHeight;
-    //     (e.pageX + 150) > totalWidth
-    //         ? setX(`${totalWidth - 180}px`)
-    //         : setX(e.pageX);
-    //     (e.pageY + 200) > totalHeight
-    //         ? setY(`${totalHeight - 230}px`)
-    //         : setY(e.pageY);
-    //     console.log(x + " " + y)
-    //     setShowMenu(true)
-    // }
     const handleContextMenu = (e) => {
-        e.preventDefault();
+        if (tableRef.current && tableRef.current.contains(e.target)) {
+            e.preventDefault();
 
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-        const scrollX = window.scrollX || document.documentElement.scrollLeft;
-        const scrollY = window.scrollY || document.documentElement.scrollTop;
+            const scrollX = window.scrollX || document.documentElement.scrollLeft;
+            const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-        const mouseX = e.pageX;
-        const mouseY = e.pageY;
+            const mouseX = e.pageX;
+            const mouseY = e.pageY;
 
-        // const menuWidth = 150;
-        // const menuHeight = 200;
+            const newX = (mouseX - scrollX + width > viewportWidth)
+                ? mouseX - width
+                : mouseX;
 
-        const newX = (mouseX - scrollX + width > viewportWidth)
-            ? mouseX - width
-            : mouseX;
+            const newY = (mouseY - scrollY + height > viewportHeight)
+                ? mouseY - height
+                : mouseY;
 
-        const newY = (mouseY - scrollY + height > viewportHeight)
-            ? mouseY - height
-            : mouseY;
+            setX(`${newX}px`);
+            setY(`${newY}px`);
 
-        setX(`${newX}px`);
-        setY(`${newY}px`);
-
-        setShowMenu(true);
+            setShowMenu(true);
+        }
     };
 
 

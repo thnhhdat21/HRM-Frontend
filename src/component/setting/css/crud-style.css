@@ -61,3 +61,174 @@ select {
     background-color: #e50012;
     color: #ffffff;
 }
+
+
+.selected-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    /* Điều chỉnh độ rộng theo nhu cầu */
+}
+
+.select-wrapper-department {
+    position: relative;
+}
+
+select {
+    width: 100%;
+    padding-right: 30px;
+    /* Chừa khoảng trống để icon không bị đè */
+    appearance: none;
+    /* Ẩn style mặc định của trình duyệt */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.x-selected {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 14px;
+    color: #888;
+}
+
+.x-selected:hover {
+    color: #333;
+}
+
+.permission-row {
+    position: relative;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.permission-row.blurred {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.error-border {
+    border: 2px solid rgb(241, 108, 108) !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.readonly-input {
+    pointer-events: none;
+    background-color: #e9ecef;
+    color: #6c757d;
+    border: 1px solid #ced4da;
+}
+
+.table-add thead th {
+    background-color: #ffffff !important;
+    border: none;
+}
+
+.table-add tbody td {
+    border: none;
+}
+
+.table-crud th,
+.table-crud td {
+    padding: 8px 10px;
+}
+
+.time-input-custom .bootstrap-datetimepicker-widget {
+    display: none !important;
+}
+
+
+
+/* optine-custom */
+.custom-select {
+    position: relative;
+}
+
+.select-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    min-height: 40px;
+    background: #fff;
+    position: relative;
+}
+
+.selected-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+.selected-item {
+    background: #e1e1e1;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.selected-item .remove-btn {
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: red;
+}
+
+.clear-all {
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 18px;
+    color: red;
+    display: none;
+}
+
+.select-options {
+    top: -200px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.select-options div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.select-options div:hover {
+    background: #f0f0f0;
+}
+
+.select-options div.hidden {
+    display: none;
+}
+
+.select-options.show {
+    display: block;
+}
+
+
+.table-leave tbody td,
+.table-leave thead th {
+    padding: 8px 5px;
+}

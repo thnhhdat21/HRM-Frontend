@@ -463,7 +463,7 @@ Template Name: Smarthr - Bootstrap Admin Template
 
 	if ($('.timepicker').length > 0) {
 		$('.timepicker').datetimepicker({
-			format: 'HH:mm A',
+			format: 'HH:mm',
 			icons: {
 				up: "fas fa-angle-up",
 				down: "fas fa-angle-down",

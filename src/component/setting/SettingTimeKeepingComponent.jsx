@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TimeKeepingCRUDComponent from './crud/timekeeping/TimeKeepingCRUDComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import ContextMenuTimeKeeping from '../../contextmenu/ContextMenuTimeKeeping';
+import { deleteWorkShift, getListWorkShift } from '../../service/WorkShiftService';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingTimeKeepingComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listWorkShift, setListWorkShift] = useState([])
+    const [selectedId, setSelectedId] = useState({})
+    const [typeOpen, setTypeOpen] = useState([])
+
+    useEffect(() => {
+        getListWorkShift().then((response) => {
+            responseData(response, setListWorkShift)
+        })
+    }, [])
+
+    const handleWorkShift = () => {
+        deleteWorkShift(selectedId).then((response) => {
+            responseDelete(response, setListWorkShift, selectedId)
+        })
+    }
+
     return (
         <>
-            <div class="page-wrapper">
+            <div class="page-wrapper" >
                 <div class="content">
                     <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                         <div class="my-auto mb-2">
@@ -13,8 +36,10 @@ const SettingTimeKeepingComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_time_keeping"
-                                    class="btn btn-primary d-flex align-items-center"><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}
+                                ><i
+                                    class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
                     </div>
@@ -31,9 +56,6 @@ const SettingTimeKeepingComponent = () => {
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
                                                 </th>
                                                 <th>Mã ca</th>
                                                 <th>Tên ca</th>
@@ -46,85 +68,24 @@ const SettingTimeKeepingComponent = () => {
                                                 <th>Tổng giờ</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr> <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Hợp đồng thử việc</span></td>
-                                                <td><span>Hợp đồng xác định thời hạn</span></td>
-                                                <td><span>có</span></td>
-                                                <td><span>2 tháng</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listWorkShift.length > 0 && listWorkShift.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelectedId(item.id)}>
+                                                        <td>
+                                                        </td>
+                                                        <td><span>{item.code}</span></td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.timeIn}</span></td>
+                                                        <td><span>{item.timeOut}</span></td>
+                                                        <td><span>{item.breakStartTime}</span></td>
+                                                        <td><span>{item.breakEndTime}</span></td>
+                                                        <td><span>{item.checkinFirst}</span></td>
+                                                        <td><span>{item.checkoutLater}</span></td>
+                                                        <td><span>{item.totalTime}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -133,8 +94,8 @@ const SettingTimeKeepingComponent = () => {
                     </div>
                 </div>
             </div>
-
-            <TimeKeepingCRUDComponent />
+            <TimeKeepingCRUDComponent selectedId={selectedId} typeOpen={typeOpen} setListWorkShift={setListWorkShift} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_time_keeping"} handleDelete={handleWorkShift} setTypeOpen={setTypeOpen} />
         </>
     );
 };

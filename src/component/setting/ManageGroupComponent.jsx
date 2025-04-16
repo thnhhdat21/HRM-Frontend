@@ -1,8 +1,36 @@
-import React from 'react';
-import GroupCRUDComponent from './crud/GroupCRUDComponent';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { deleteRole, getListRole } from '../../service/RoleService';
+import { toast } from 'react-toastify';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import ContextMenuGroup from '../../contextmenu/ContextMenuGroup';
+import EditGroupComponent from './crud/EditGroupComponent';
 
 const ManageGroupComponent = () => {
+    const [listRole, setListRole] = useState(null);
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
+    const [selectedId, setSelectedId] = useState(null);
+    useEffect(() => {
+        getListRole().then((response) => {
+            if (response.data.code === 1000) {
+                setListRole(response.data.data)
+            } else {
+                toast.error(response.data.message)
+            }
+        })
+    }, [])
+
+    const handleDeleteRole = () => {
+        deleteRole(selectedId).then(response => {
+            if (response.data.code === 1000) {
+                toast.success("Xóa thành công!");
+                setListRole(prevList => prevList.filter(item => item.id !== selectedId));
+            } else {
+                toast.error(response.data.message);
+            }
+        });
+    }
     return (
         <>
             <div class="page-wrapper">
@@ -28,11 +56,7 @@ const ManageGroupComponent = () => {
                                     <table class="table" id='myTable'>
                                         <thead class="thead-light">
                                             <tr>
-                                                <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
-                                                </th>
+                                                <th></th>
                                                 <th>Tên nhóm</th>
                                                 <th>Quản trị hệ thống</th>
                                                 <th>Nhóm mặc định</th>
@@ -41,30 +65,29 @@ const ManageGroupComponent = () => {
                                                 <th>Người sửa</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Ngày sửa</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>ENTERPRISE</span></td>
-                                                <td><span>Nhân viên</span></td>
-                                                <td><span>TDS01</span></td>
-                                                <td><span>Nguyễn Thành Đạt</span></td>
-                                                <td><span>Tích hợp hệ thống</span></td>
-                                                <td><span>16/04/2024</span></td>
-                                                <td><span>17/04/2024</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listRole && listRole.map((item, index) => (
+                                                    <tr key={item.id} onContextMenu={() => { setSelectedId(item.id) }}>
+                                                        <td></td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.accountAdmin ? "Có" : "Không"}</span></td>
+                                                        <td><span>{item.accountDefault ? "Có" : "Không"}</span></td>
+                                                        <td><span>{item.count}</span></td>
+                                                        <td><span>{item.createdBy}</span></td>
+                                                        <td><span>{item.updatedBy}</span></td>
+                                                        <td><span>{item.createdDate}</span></td>
+                                                        <td><span>{item.updatedDate}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="row pageable-center">
+                            {/* <div class="row pageable-center">
                                 <div class="col-sm-12 col-md-5">
                                     <div>Hiển thị 1 - 10 trong 10 bản ghi</div>
                                 </div>
@@ -81,11 +104,13 @@ const ManageGroupComponent = () => {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
             </div>
+            <ContextMenuGroup x={x} y={y} showMenu={showMenu} handleDeleteRole={handleDeleteRole} />
+            <EditGroupComponent id={selectedId} />
         </>
     );
 };

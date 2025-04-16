@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AllowanceCRUDComponent from './crud/AllowanceCRUDComponent';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import { deleteAllowance, getListAllownace } from '../../service/AllowanceService';
+import { responseData, responseDelete } from '../../util/ResponseUtil';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingAllowanceComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listAllowance, setListAllowance] = useState({});
+    const [selected, setSelected] = useState("");
+    const [typeOpen, setTypeOpen] = useState([]);
+
+    useEffect(() => {
+        getListAllownace().then((response) => {
+            responseData(response, setListAllowance)
+        })
+    }, [])
+
+    const handleDeleteAllowance = () => {
+        deleteAllowance(selected.id).then(response => {
+            responseDelete(response, setListAllowance, selected.id)
+        });
+    }
+
+
     return (
         <>
             <div class="page-wrapper">
@@ -13,7 +36,9 @@ const SettingAllowanceComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_allowance"
-                                    class="btn btn-primary d-flex align-items-center"><i
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    <i
                                         class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
@@ -31,26 +56,24 @@ const SettingAllowanceComponent = () => {
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
                                                 </th>
                                                 <th>Tên phụ cấp</th>
                                                 <th>Số tiền / Đơn vị </th>
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>Phụ cấp ăn trưa</span></td>
-                                                <td><span>50,000 / ngày</span></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {
+                                                listAllowance.length > 0 && listAllowance.map((item, index) => (
+                                                    <tr onContextMenu={() => setSelected(item)}>
+                                                        <td>
+                                                        </td>
+                                                        <td><span>{item.name}</span></td>
+                                                        <td><span>{item.amount} / {item.unit}</span></td>
+                                                        <td><span className='badge'>{item.status}</span></td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -60,7 +83,8 @@ const SettingAllowanceComponent = () => {
                 </div>
             </div>
 
-            <AllowanceCRUDComponent />
+            <AllowanceCRUDComponent selected={selected} typeOpen={typeOpen} setListAllowance={setListAllowance} setTypeOpen={setTypeOpen} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_allowance"} handleDelete={handleDeleteAllowance} setTypeOpen={setTypeOpen} />
         </>
     );
 };

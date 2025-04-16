@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import DutyCRUDComponent from './crud/DutyCRUDComponent';
-import RankDutyCRUDComponent from './crud/RankDutyCRUDComponent';
+import { deleteDuty, getListDuty } from '../../service/DutyService';
+import { toast } from 'react-toastify';
+import ContextMenuDuty from '../../contextmenu/ContextMenuTwoItem';
+import useRightClickMenu from '../../hooks/useRightClickMenu';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const SettingDutyComponent = () => {
+    const tableRef = useRef(null)
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
+    const [listDuty, setListDuty] = useState({});
+    const [selectedDuty, setSelectedDuty] = useState("");
+    const [typeOpen, setTypeOpen] = useState([]);
+
+    useEffect(() => {
+        getListDuty().then((response) => {
+            if (response.data.code === 1000) {
+                setListDuty(response.data.data)
+            } else if (response.data.code > 1000)
+                toast.error(response.data.message)
+            else
+                toast.error("Bảo trì hệ thống")
+        })
+    }, [])
+
+    const handleDeleteDuty = () => {
+        deleteDuty(selectedDuty.id).then(response => {
+            if (response.data.code === 1000) {
+                toast.success("Xóa thành công!");
+                setListDuty(prevList => prevList.filter(item => item.id !== selectedDuty.id));
+            } else {
+                toast.error(response.data.message);
+            }
+        });
+    }
+
     return (
         <>
             <div class="page-wrapper">
@@ -14,22 +46,23 @@ const SettingDutyComponent = () => {
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_duty"
-                                    class="btn btn-primary d-flex align-items-center"><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
-                            </div>
-                            <div class="mb-2">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#crud_rankOD"
-                                    class="btn btn-primary d-flex align-items-center"><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
+                                    class="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    <i class="ti ti-circle-plus" style={{ fontSize: "20px" }}></i>
+                                </a>
                             </div>
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex' style={{ gap: '20px', fontSize: '14px', fontWeight: "500" }}>
-                                <span className='active-category-list'>Chức vụ</span>
-                                <span>Cấp bậc</span>
+                                <ul class="nav ">
+                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
+                                        <button class="nav-link nav-link-profile active" id="info-tab"
+                                        >Chức vụ</button>
+                                    </li>
+
+                                </ul>
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -38,40 +71,23 @@ const SettingDutyComponent = () => {
                                     <table class="table" id='myTable'>
                                         <thead class="thead-light">
                                             <tr>
-                                                <th class="no-sort">
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                                    </div>
-                                                </th>
+                                                <th></th>
                                                 <th>Người tạo</th>
                                                 <th>Tên chức vụ</th>
-                                                <th></th>
                                                 <th>Trạng thái</th>
+                                                <th>Mô tả</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>Trưởng phòng</span></td>
-                                                <td></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td><span>datnt21</span></td>
-                                                <td><span>Nhân viên</span></td>
-                                                <td></td>
-                                                <td><span className='badge'>Hoạt động</span></td>
-                                            </tr>
+                                        <tbody ref={tableRef}>
+                                            {listDuty.length > 0 && listDuty.map((item, index) => (
+                                                <tr id={item.id} onContextMenu={() => setSelectedDuty(item)}>
+                                                    <td></td>
+                                                    <td>{item.createdBy}</td>
+                                                    <td>{item.name}</td>
+                                                    <td><span className='badge'>{item.status}</span></td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
@@ -79,9 +95,9 @@ const SettingDutyComponent = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <DutyCRUDComponent />
-            <RankDutyCRUDComponent />
+            </div >
+            <DutyCRUDComponent selectedDuty={selectedDuty} typeOpen={typeOpen} setListDuty={setListDuty} setTypeOpen={setTypeOpen} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_duty"} handleDelete={handleDeleteDuty} setTypeOpen={setTypeOpen} />
         </>
     );
 };

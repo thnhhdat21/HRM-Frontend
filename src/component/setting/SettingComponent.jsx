@@ -14,7 +14,7 @@ const SettingComponent = () => {
                         <div class="items mt-4">
                             <Link to="/admin/admin-account" className='item'>
                                 <div class="icon" style={{ backgroundColor: "#9783ea" }}>
-                                    <img src="/assets/my-img/setting.png" alt="" style={{ width: "20px" }} />
+                                    <i className='ti ti-settings' style={{ color: "white" }} />
                                 </div>
                                 <span>Hệ thống</span>
                             </Link>
@@ -27,38 +27,40 @@ const SettingComponent = () => {
                         <div class="items mt-5">
                             <Link to="/settings/approval" className='item'>
                                 <div class="icon" style={{ background: "#ff6c6c" }} >
-                                    <img src="/assets/my-img/document.png" alt="" style={{ width: "20px" }} />
+                                    <i className='ti ti-file-text' style={{ color: "white" }} />
                                 </div>
                                 <span>Đơn từ</span>
                             </Link >
                             <Link to="/settings/asset" className='item'>
                                 <div class="icon" style={{ background: "#76c9af" }} >
-                                    <img src="/assets/my-img/responsive.png" alt="" style={{ width: "20px" }} />
+                                    <i className='ti ti-device-desktop' style={{ color: "white" }} />
                                 </div>
                                 <span>Tài sản</span>
                             </Link >
-                            <Link to="/admin-account" className='item'>
-                                <div class="icon" style={{ background: "#0b92b5" }} >
-                                    <img src="/assets/my-img/user-plus.png" alt="" style={{ width: "20px" }} />
+                            <Link to="/settings/contract" className='item'>
+                                <div class="icon" style={{ background: "#1f8b80" }}>
+                                    <i className='ti ti-file-code' style={{ color: "white" }} />
                                 </div>
-                                <span>Tuyển dụng</span>
+                                <span>Hợp đồng</span>
                             </Link >
 
-                            <Link to="/setting/employee" className='item'>
+                            <Link to="/settings/insurance" className='item'>
                                 <div class="icon" style={{ background: "#1f8b80" }}>
-                                    <img src="/assets/my-img/group.png" alt="" style={{ width: "20px" }} />
+                                    <i className='ti ti-file-plus' style={{ color: "white" }} />
+
                                 </div>
-                                <span>Nhân sự</span>
+                                <span>Bảo hiểm</span>
                             </Link >
                             <Link to="/settings/on-leave" className='item'>
                                 <div class="icon" style={{ background: "#3fa694" }} >
-                                    <img src="/assets/my-img/checked.png" alt="" style={{ width: "20px" }} />
+                                    <i className='fe fe-check-circle' style={{ color: "white" }} />
                                 </div>
                                 <span>Chấm công</span>
                             </Link >
                             <Link to="/settings/allowance" className='item'>
                                 <div class="icon" style={{ background: "#33a17c" }} >
-                                    <img src="/assets/my-img/dollar.png" alt="" style={{ width: "20px" }} />
+
+                                    <i className='fe fe-dollar-sign' style={{ color: "white" }} />
                                 </div>
                                 <span>Bảng lương</span>
                             </Link >

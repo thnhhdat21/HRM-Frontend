@@ -10,14 +10,12 @@ const menuObjectSetting = [
         name: 'Cài đặt chung', icon: 'ti ti-settings', path: 'setting', child: [
             { name: 'Vị trí công việc', icon: '', path: '/settings/employee' },
             { name: 'Chức vụ', icon: '', path: '/settings/duty' },
-            { name: 'Nơi làm việc', icon: '', path: '/settings/workplace' },
             { name: 'Chế độ phúc lợi', icon: '', path: '/settings/reward' },
             { name: 'Phạt nội bộ', icon: '', path: '/settings/penalty' }
         ]
     },
     {
         name: 'Cài đặt đối tượng', icon: 'ti ti-adjustments', path: 'setting', child: [
-            { name: 'Hồ sơ cá nhân', icon: '', path: '' },
             { name: 'Hợp đồng lao động', icon: '', path: '/settings/contract' },
             { name: 'Bảo hiểm', icon: '', path: '/settings/insurance' },
             { name: 'Quyết định', icon: '', path: '' },

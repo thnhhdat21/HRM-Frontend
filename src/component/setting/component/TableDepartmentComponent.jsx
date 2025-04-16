@@ -1,64 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import DepartmentFolder from './DepartmentFolder';
 
-const TableDepartmentComponent = () => {
+const TableDepartmentComponent = ({ ref, setSelectedId, listDepartment }) => {
     return (
         <>
-            <table class="table" id='myTable'>
-                <thead class="thead-light">
-                    <tr>
-                        <th></th>
-                        <th>Tiêu đề</th>
-                        <th>Cấp bậc</th>
-                        <th>Khối nghiệp vụ</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td><i className='ti ti-folder-open' /> <span class="highlight">A. Công ty Cổ phần 1Office</span></td>
-                        <td>Công ty</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;1. Ban Giám đốc</td>
-                        <td>Phòng ban</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;2. Ban thư ký</td>
-                        <td>Phòng ban</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><i className='ti ti-folder-open' /> 3. Trụ sở Hà Nội</td>
-                        <td>Chi nhánh công ty</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;<i className='ti ti-folder-open' /> 3.1. Phòng Hành Chính Nhân Sự</td>
-                        <td>Phòng ban</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1.1. Nhóm Hành chính & Lễ tân</td>
-                        <td>Phòng ban</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1.2. Nhóm Tuyển dụng</td>
-                        <td>Phòng ban</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card-body p-0  tab-pane fade show active" id="department">
+                <div class="custom-datatable-filter table-responsive">
+                    <div class="table-container">
+                        <div class="grid-department header-payroll" style={{ backgroundColor: "#e5e7eb" }}>
+                            <span></span>
+                            <span>Tiêu đề</span>
+                            <span>Cấp bậc</span>
+                            <span>Khối nghiệp vụ</span>
+                        </div>
+                        <div ref={ref}>
+                            {listDepartment && listDepartment.map((item) => <DepartmentFolder explorer={item} setSelectedId={setSelectedId} />)}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };
