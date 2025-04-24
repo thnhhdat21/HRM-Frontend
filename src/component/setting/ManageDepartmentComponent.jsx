@@ -8,8 +8,12 @@ import { toast } from 'react-toastify';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuSetting from '../../contextmenu/ContextMenuSetting';
 import { deleteDepartment, getListDepartment } from '../../service/DepartmentService';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const ManageDepartmentComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Danh sách phòng ban", subTitle: "" }))
     const tableBusinessRef = useRef(null)
     const tableDepartmentRef = useRef(null)
     const [tableRef, setTableRef] = useState(tableDepartmentRef);
@@ -99,29 +103,19 @@ const ManageDepartmentComponent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-                        <div class="my-auto mb-2">
-                            <h2 class="mb-1">Danh sách phòng ban</h2>
-                        </div>
-                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                            <div class="me-2 mb-2">
-                                <div class="dropdown">
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
-                                        data-bs-toggle="dropdown">
-                                        <i class="ti ti-file-export me-1"></i>Export
-                                    </a>
-                                    <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1"><i
-                                                class="ti ti-file-type-pdf me-1"></i>Export as PDF</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1"><i
-                                                class="ti ti-file-type-xls me-1"></i>Export as Excel </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                            <div className='d-flex' style={{ gap: '20px', fontSize: '14px', fontWeight: "500" }}>
+                                <ul class="nav ">
+                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
+                                        <button class="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
+                                            data-bs-target="#department" onClick={() => setOpenBusinessBlock(false)} >Phòng ban</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button onClick={() => setOpenBusinessBlock(true)} class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
+                                            data-bs-target="#business-block" >Khối nghiệp vụ</button>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="mb-2 dropdown profile-dropdown">
                                 <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="dropdown">
@@ -139,23 +133,6 @@ const ManageDepartmentComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
-                            <div className='d-flex' style={{ gap: '20px', fontSize: '14px', fontWeight: "500" }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
-                                        <button class="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
-                                            data-bs-target="#department" onClick={() => setOpenBusinessBlock(false)} >Phòng ban</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button onClick={() => setOpenBusinessBlock(true)} class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
-                                            data-bs-target="#business-block" >Khối nghiệp vụ</button>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                         <div class="tab-content" id="myTabContent">

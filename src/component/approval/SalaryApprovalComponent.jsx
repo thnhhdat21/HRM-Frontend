@@ -712,7 +712,6 @@ const SalaryApprovalComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuContract x={x} y={y} showMenu={showMenu} />
             <CreateSalaryApprovalComponent />
         </>
     );

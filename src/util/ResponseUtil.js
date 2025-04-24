@@ -3,8 +3,22 @@ import { toast } from "react-toastify"
 export const responseData = (response, setList) => {
     if (response.data.code === 1000) {
         setList(response.data.data)
-    } else if (response.data.code > 1000)
+    } else if (response.data.code > 1000) {
+        setList([])
         toast.error(response.data.message)
+    }
+    else
+        toast.error("Bảo trì hệ thống")
+}
+
+
+export const responseData_ReturnInfo = (response, setList) => {
+    if (response.data.code === 1000) {
+        setList(response.data.data)
+    } else if (response.data.code > 1000) {
+        setList([])
+        toast.info(response.data.message)
+    }
     else
         toast.error("Bảo trì hệ thống")
 }

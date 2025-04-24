@@ -32,3 +32,42 @@ export const calculatorTime = (timeIn, timeOut, breakStartTime, breakEndTime, ne
     const totalTimeResponse = ((timeOutMinutes - timeInMinutes) - (breakEndTimeMinutes - breakStartTimeMinutes) + timeNextDay) / 60;
     return totalTimeResponse
 }
+
+export const convertDate = (dateStr) => {
+    if (!dateStr)
+        return;
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+};
+
+export function calculateWorkingTime(startDateStr) {
+    const startDate = new Date(startDateStr);
+    const currentDate = new Date();
+    let years = currentDate.getFullYear() - startDate.getFullYear();
+    let months = currentDate.getMonth() - startDate.getMonth();
+
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+    if (months === 0 && years === 0) {
+        let days = currentDate.getDate() - startDate.getDate()
+        return `${days} Ngày`
+    }
+    return `${years}/${months} (Năm/Tháng)`
+}
+
+// Hàm so sánh hai ngày
+export function compareDates(date1, date2) {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    if (isNaN(d1) || isNaN(d2)) {
+        return null; // Trả về null nếu đầu vào không hợp lệ
+    }
+
+    if (d1 > d2) return 1;     // date1 > date2
+    if (d1 < d2) return -1;    // date1 < date2
+    return 0;                  // date1 = date2
+}
+

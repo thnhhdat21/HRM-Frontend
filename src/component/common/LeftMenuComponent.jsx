@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { menuApprovalManage, menuAssetManage, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSalaryManage, menuSystemSetting, menuTimekeepingManage } from '../../util/LeftMenuUtil';
+import { mapPathId, menuApprovalManage, menuAssetManage, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSalaryManage, menuSystemSetting, menuTimekeepingManage } from '../../util/LeftMenuUtil';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { resetSearchFilter, updateStatusFilter, updateStatusFilterByContract } from '../../redux/slice/SearchFilterSlice';
 
 const LeftMenuComponnent = () => {
-
     const location = useLocation();
     const [leftMenu, setLeftMenu] = useState([])
     const [activeMenu, setActiveMenu] = useState(null);
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [selectedMenu, setSelectedMenu] = useState(null);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const LeftMenuComponnent = () => {
 
     useEffect(() => {
         setActiveMenu(location.pathname)
-        setActiveSubMenu(location.pathname)
+        setActiveSubMenu(mapPathId.get(location.pathname))
     }, [leftMenu]);
 
 
@@ -53,11 +54,13 @@ const LeftMenuComponnent = () => {
 
     const handleSubMenuClick = (item, e) => {
         e.preventDefault();
-        setActiveSubMenu(item.path);
-        navigate(item.path);
+        setActiveSubMenu(item.id);
+        dispatch(resetSearchFilter())
+        dispatch(updateStatusFilter(item.status))
+        if (!location.pathname.includes(item.path)) {
+            navigate(item.path);
+        }
     };
-
-
 
 
     return (
@@ -94,7 +97,7 @@ const LeftMenuComponnent = () => {
                                                                 {
                                                                     item.child.map((itemChild, index) => (
                                                                         <li key={itemChild.name + index} >
-                                                                            <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.path ? "active" : ""}`}>{itemChild.name}</a>
+                                                                            <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
                                                                         </li>
                                                                     ))
                                                                 }
@@ -118,4 +121,3 @@ const LeftMenuComponnent = () => {
 };
 
 export default LeftMenuComponnent;
-

@@ -740,7 +740,6 @@ const DecisionComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuContract x={x} y={y} showMenu={showMenu} />
             <RewardDecisionComponent />
             <TranferDecisionComponent />
             <SalaryDecisionComponent />

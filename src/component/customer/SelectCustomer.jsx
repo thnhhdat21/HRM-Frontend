@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedItem }) => {
+const SelectCustomer = ({ listItem, selectedItem, setSelectedItem, type, elementId }) => {
     const [mapListJob, setMapListJob] = useState(new Map())
     useEffect(() => {
         if (listItem.length > 0) {
@@ -12,7 +12,7 @@ const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedI
 
     const toggleOptions = (event) => {
         event.stopPropagation();
-        document.getElementById("options-list").classList.add('show');
+        document.getElementById(elementId).classList.add('show');
     }
 
     const handleSelected = (id, e) => {
@@ -22,7 +22,7 @@ const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedI
 
     const removeItem = (id) => {
         setSelectedItem(prevList => prevList.filter(item => item !== id))
-        const options = document.getElementById("options-list").children;
+        const options = document.getElementById(elementId).children;
         for (let opt of options) {
             if (Number(opt.id) === id) {
                 opt.classList.remove("hidden");
@@ -34,7 +34,7 @@ const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedI
     const clearAllItem = (e) => {
         e.stopPropagation();
         setSelectedItem([])
-        const options = document.getElementById("options-list").children;
+        const options = document.getElementById(elementId).children;
         for (let opt of options) {
             opt.classList.remove("hidden");
         }
@@ -42,7 +42,20 @@ const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedI
     }
 
     function closeOptions() {
-        document.getElementById("options-list").classList.remove("show");
+        document.getElementById(elementId).classList.remove("show");
+    }
+
+    const styleTop = () => {
+        return {
+            maxHeight: "200px",
+            top: listItem.length - selectedItem.length >= 5 ? "-200px" : `${-1 * (listItem.length - selectedItem.length) * 42}px`
+        }
+    }
+
+    const styleBottom = () => {
+        return {
+            maxHeight: "300px",
+        }
     }
 
     return (
@@ -58,10 +71,10 @@ const SelectCustomer = ({ listSelectedPrev, listItem, selectedItem, setSelectedI
                 </div>
                 {selectedItem.length > 0 && (<span onClick={clearAllItem}>✖</span>)}
             </div>
-            <div class="select-options" id="options-list" style={{ top: listItem.length - selectedItem.length >= 5 ? "-200px" : `${-1 * (listItem.length - selectedItem.length) * 42}px` }}>
+            <div class="select-options" id={elementId} style={type === "up" ? styleTop() : styleBottom()}>
                 {
                     listItem.length > 0 && listItem.map((item, index) => (
-                        <div id={item.id} className={`${listSelectedPrev.includes(item.id) ? "hidden" : ""}`} onClick={(e) => handleSelected(item.id, e)}>{item.name}</div>
+                        <div id={item.id} className={`${selectedItem.includes(item.id) ? "hidden" : ""}`} onClick={(e) => handleSelected(item.id, e)}>{item.name}</div>
                     ))
                 }
             </div>

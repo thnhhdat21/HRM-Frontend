@@ -43,7 +43,7 @@ const CreateNewReceiveComponent = () => {
                                 <td><input type="checkbox" /> Đánh giá thử việc</td>
                             </tr>
                             <tr>
-                                <td colspan="3"><input type="checkbox" /> Đề xuất điều chỉnh chức vụ, thu nhập</td>
+                                <td colSpan="3"><input type="checkbox" /> Đề xuất điều chỉnh chức vụ, thu nhập</td>
                             </tr>
                         </tbody>
                     </table>

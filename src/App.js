@@ -2,12 +2,13 @@ import HeaderComponnent from './component/common/HeaderComponet';
 import FooterComponent from './component/common/FooterComponent';
 import LeftMenuComponnent from './component/common/LeftMenuComponent';
 import { ToastContainer } from 'react-toastify';
+import FilterSearchComponent from './component/common/FilterSearchComponent';
 function App({ component: Component }) {
   return (
     <>
       <ToastContainer
-        position="top-center"
-        autoClose={2000}
+        position="top-right"
+        autoClose={1500}
         hideProgressBar
         newestOnTop={false}
         closeOnClick

@@ -6393,6 +6393,10 @@ fieldset:disabled .btn {
         --bs-modal-width: 1200px
     }
 
+    .modal-update-family {
+        --bs-modal-width: 1350px
+    }
+
     .modal-crud-appendix {
         --bs-modal-width: 650px
     }

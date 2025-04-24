@@ -1,104 +1,161 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getWorkProcess, getWorkProfile } from '../../../../service/ContractService';
+import { responseData, responseData_ReturnInfo } from '../../../../util/ResponseUtil';
+import { EmployeeStatus, EmployeeType, PROFILE_WORK } from '../../../../util/EmployeeUtil';
+import { calculateWorkingTime, compareDates, convertDate } from '../../../../util/TimeUtil';
+import { getOnLeaveProfile } from '../../../../service/OnLeaveService';
+import { ContractStatus } from '../../../../util/ContractUtil';
+import UpdateOnLeaveComponent from '../update/UpdateOnLeaveComponent';
 
-const EmployeeWorkComponnent = () => {
+const EmployeeWorkComponnent = ({ employeeId, navId }) => {
+    const [work, setWork] = useState({})
+    const [workHistory, setWorkHistory] = useState({})
+    const [onLeave, setOnLeave] = useState({})
+    const [hasFetched, setHasFetched] = useState(false);
+    const [openModal, setOpenModal] = useState([])
+
+    useEffect(() => {
+        if (Number(navId) === PROFILE_WORK && !hasFetched) {
+            setHasFetched(true);
+            getWorkProfile(employeeId).then((response) => {
+                responseData_ReturnInfo(response, setWork)
+            })
+
+            getOnLeaveProfile(employeeId).then((response) => {
+                responseData_ReturnInfo(response, setOnLeave)
+            })
+
+            getWorkProcess(employeeId).then((response) => {
+                responseData_ReturnInfo(response, setWorkHistory)
+            })
+        }
+    }, [navId])
+
+    const handleOpenModal = (modalId) => {
+        setOpenModal([...openModal, modalId]);
+    };
+
+    const updateOnLeave = (e) => {
+        getOnLeaveProfile(employeeId).then((response) => {
+            responseData(response, setOnLeave)
+        })
+    }
     return (
-        <div class="mt-5 tab-pane fade" id="profile-work" role="tabpanel">
-            <div class="profile-container">
-                <div class="profile-header">Công việc</div>
-                <div class="profile-info">
+        <>
+            <div class="mt-5 tab-pane fade" id="profile-work" role="tabpanel">
+                <div class="profile-container">
+                    <div class="profile-header">Thông tin công việc</div>
+                    <div class="profile-info">
+                        <table class="table borderless profile-details">
+                            <tbody>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <td><span class={`badge ${work.status ? EmployeeStatus.get(work.status).textType : ""}`}>{work.status ? EmployeeStatus.get(work.status).name : ""}</span></td>
+                                    <th>Tình trạng hồ sơ</th>
+                                    <td><span class={`badge ${work.type ? EmployeeType.get(work.type).textType : ""}`}>{work.type ? EmployeeType.get(work.type).name : ""}</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Phòng ban</th>
+                                    <td>{work.department}</td>
+                                    <th>Vị trí</th>
+                                    <td>{work.jobPosition}</td>
+                                </tr>
+                                <tr>
+                                    <th>Chức vụ</th>
+                                    <td>{work.duty}</td>
+                                    <th>Ngày vào</th>
+                                    <td>{work.dateJoin && (
+                                        <>
+                                            {convertDate(work.dateJoin)}
+                                            {compareDates(work.dateJoin, new Date().toLocaleDateString()) >= 0 && (
+                                                <> - {calculateWorkingTime(work.dateJoin)}</>
+                                            )}
+                                        </>
+                                    )}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ngày ký HĐLĐ chính thức</th>
+                                    <td>{convertDate(work.dateSign)}</td>
+                                    <th>Tên hợp đồng</th>
+                                    <td>{work.contractName}</td>
+                                </tr>
+                                <tr>
+                                    <th>Thời gian giữ vị trí hiện tại</th>
+                                    <td>{compareDates(work.dateOnBoard, new Date().toISOString().split('T')[0]) !== 1 ?
+                                        calculateWorkingTime(work.dateOnBoard) : ''}</td>
+                                    <th>Ngạch lương</th>
+                                    <td>{work.salaryGross ? Number(work.salaryGross).toLocaleString('vi-VN') + ' VNĐ' : ''}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tài khoản HR.TDSoftware</th>
+                                    <td>{work.account}</td>
+                                    <th>Nhóm người dùng</th>
+                                    <td>{work.role}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="profile-container mt-4">
+                    <div className="d-flex align-items-center justify-content-between profile-header">
+                        <div>Thông tin nghỉ phép</div>
+                        <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-onleave"
+                            onClick={() => handleOpenModal("#update-onleave")}>
+                            <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <table class="table borderless profile-details">
+                            <tbody>
+                                <tr>
+                                    <th style={{ width: "25%" }}>Số phép theo quy định</th>
+                                    <td>{onLeave.totalDay ? onLeave.totalDay.toFixed(2) : ""}</td>
+                                    <th style={{ width: "25%" }}>Phép tồn</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>Số phép đã nghỉ</th>
+                                    <td>{onLeave.usedDay ? onLeave.usedDay.toFixed(2) : ""}</td>
+                                    <th>Còn lại</th>
+                                    <td>{onLeave.totalDay > onLeave.usedDay ? (onLeave.totalDay - onLeave.usedDay).toFixed(2) : ""}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="profile-container mt-4">
+                    <div class="profile-header">Quá trình nhân sự</div>
                     <table class="table borderless profile-details">
                         <tbody>
                             <tr>
+                                <th>Từ ngày</th>
                                 <th>Trạng thái</th>
-                                <td><span class="badge">Đang làm việc</span></td>
-                                <th>Tình trạng hồ sơ</th>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <th>Phòng ban</th>
-                                <td>CÔNG TY CỔ PHẦN 1OFFICE &rsaquo; Ban Giám đốc</td>
                                 <th>Vị trí</th>
-                                <td>Giám đốc kinh doanh</td>
-                            </tr>
-                            <tr>
                                 <th>Chức vụ</th>
-                                <td>Giám đốc</td>
-                                <th>Ngày vào</th>
-                                <td>01/01/2010</td>
+                                <th>Hợp đồng đã ký</th>
+                                <th>Mã HĐ</th>
                             </tr>
-                            <tr>
-                                <th>Ngày ký HĐLĐ chính thức</th>
-                                <td>01/01/2012</td>
-                                <th>Tên hợp đồng</th>
-                                <td>Hợp đồng vô thời hạn</td>
-                            </tr>
-                            <tr>
-                                <th>Nơi làm việc</th>
-                                <td>G2, Five Star, Số 2 Kim Giang, Thanh Xuân, Hà Nội</td>
-                                <th>Ngạch lương</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Cấp bậc</th>
-                                <td>Hạng A</td>
-                                <th>Trung tâm chi phí</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Tài khoản 1Office</th>
-                                <td><a href="#">giamdoc</a></td>
-                                <th>Nhóm người dùng</th>
-                                <td>Nhóm admin (ENTERPRISE)</td>
-                            </tr>
+
+                            {workHistory.length > 0 && workHistory.map((item, index) => (
+                                <tr>
+                                    <td>{item.dateStart}</td>
+                                    <td><span class={`badge ${item.status ? ContractStatus.get(item.status).bg : ""}`}>{item.status ? ContractStatus.get(item.status).name : ""}</span></td>
+                                    <td>{item.department}</td>
+                                    <td>{item.jobPosition}</td>
+                                    <td>{item.duty}</td>
+                                    <td>{item.contractType}</td>
+                                    <td>{item.code}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            <div class="profile-container mt-4">
-                <div class="profile-header">Lịch sử công việc</div>
-                <table class="table borderless profile-details">
-                    <tbody>
-                        <tr>
-                            <th>Từ ngày</th>
-                            <th>Trạng thái</th>
-                            <th>Phòng ban</th>
-                            <th>Vị trí</th>
-                            <th>Chức vụ</th>
-                            <th>Hợp đồng hiện tại</th>
-                            <th>Mã HĐ</th>
-                        </tr>
-                        <tr>
-                            <td>01/01/2013</td>
-                            <td><span class="badge">Đang làm việc</span></td>
-                            <td>Ban Giám đốc</td>
-                            <td>Giám đốc kinh doanh</td>
-                            <td>Giám đốc</td>
-                            <td>Hợp đồng vô thời hạn</td>
-                            <td>00708-03</td>
-                        </tr>
-                        <tr>
-                            <td>02/09/2012</td>
-                            <td><span class="badge">Đang làm việc</span></td>
-                            <td>CÔNG TY CỔ PHẦN 1OFFICE</td>
-                            <td></td>
-                            <td></td>
-                            <td>Hợp đồng vô thời hạn</td>
-                            <td>00708-03</td>
-                        </tr>
-                        <tr>
-                            <td>01/03/2012</td>
-                            <td><span class="badge">Đang làm việc</span></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Hợp đồng 6 tháng lần 1</td>
-                            <td>00708-01</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </div >
+            <UpdateOnLeaveComponent employeeId={employeeId} onLeave={onLeave} openModal={openModal} updateOnLeave={updateOnLeave} />
+        </>
     );
 };
 

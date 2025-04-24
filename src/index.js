@@ -60,11 +60,13 @@ import DetailApprovalComponent from './component/approval/crud/DetailApprovalCom
 import EmployeeOTComponent from './component/employee/EmployeeOTComponent';
 import EmployeeLeaveComponent from './component/employee/EmployeeLeaveComponent';
 import SettingAssetComponent from './component/setting/asset/SettingAssetComponent';
-import explorer from './test/test';
+import { Provider } from 'react-redux';
+import store from './redux/store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />} />
@@ -158,7 +160,8 @@ root.render(
         <Route path='/test' element={< TestComponent />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

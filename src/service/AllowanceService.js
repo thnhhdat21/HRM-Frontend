@@ -27,3 +27,9 @@ export const deleteAllowance = (id) => {
     formData.append("id", id)
     return axios.post(`${REST_API_BASE_URL}/delete-allowance`, formData)
 }
+
+export const getAllowanceByContractType = (contractTypeId) => {
+    const formData = new FormData();
+    formData.append("contractTypeId", contractTypeId)
+    return axios.post(`${REST_API_BASE_URL}/get-allowance-by-contract-type`, formData)
+} 

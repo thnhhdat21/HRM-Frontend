@@ -63,35 +63,26 @@ const TimeSheetComponent = () => {
                                                 <th key={index}>{d.weekday}</th>
                                             ))}
                                             <th colSpan="2">Đi muộn</th>
-                                            <th colSpan="2">Đi muộn</th>
                                             <th colSpan="3">Nghỉ phép</th>
-                                            <th colSpan="2">Công chính</th>
+                                            <th rowSpan="2">Số <br />Công</th>
                                             <th>Làm thêm</th>
-                                            <th rowSpan="2">Công <br />chuẩn</th>
-                                            <th colSpan="2">Công tổng</th>
                                         </tr>
                                         <tr>
                                             {daysInMonth.map((d, index) => (
                                                 <th key={index}>{d.day}</th>
                                             ))}
-                                            <th>Số phút</th>
-                                            <th>Tiền phạt</th>
-                                            <th>Số phút</th>
+                                            <th>Số buổi</th>
                                             <th>Tiền phạt</th>
                                             <th>Đầu kỳ</th>
                                             <th>Đã dùng</th>
                                             <th>Phép tồn</th>
-                                            <th>Số công</th>
-                                            <th>Công lễ</th>
                                             <th>Số giờ</th>
-                                            <th>Công hành chính</th>
-                                            <th>Công làm thêm</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <span>1</span>
+                                                <span></span>
                                             </td>
                                             <td>TD021</td>
                                             <td>Trịnh Trần Phương Tuân</td>

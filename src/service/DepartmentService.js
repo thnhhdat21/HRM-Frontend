@@ -19,6 +19,10 @@ export const getListDepartment = () => {
     return axios.post(`${REST_API_BASE_URL}/get-list-department`)
 }
 
+export const getListDepartmentChild = () => {
+    return axios.post(`${REST_API_BASE_URL}/get-list-department-child`)
+}
+
 export const deleteDepartment = (id) => {
     const formData = new FormData();
     formData.append("id", id)

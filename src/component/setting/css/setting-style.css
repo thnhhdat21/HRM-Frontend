@@ -109,6 +109,7 @@
     color: #e50012;
 }
 
+
 .tab-plus {
     flex: none;
     width: 50px;
@@ -141,4 +142,36 @@
 
 .input-error {
     border: 1px solid #e50012;
+}
+
+
+.grid-list-employee {
+    display: grid;
+    grid-template-columns: 30px 70px 180px 1fr 1fr 125px 110px 100px 100px;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.grid-list-employee.child {
+    padding: 15px 10px;
+}
+
+.grid-list-employee span {
+    font-size: 14px;
+    color: black;
+}
+
+.title-employee-department {
+    margin-left: 20px;
+}
+
+.title-employee-department label {
+    margin: 0;
+    margin-top: 10px;
+}
+
+.title-employee-department i {
+    margin-right: 5px;
 }

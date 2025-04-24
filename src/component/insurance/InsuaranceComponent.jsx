@@ -704,7 +704,6 @@ const InsuaranceComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuContract x={x} y={y} showMenu={showMenu} />
         </>
     );
 };

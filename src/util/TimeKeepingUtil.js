@@ -11,7 +11,6 @@ export const checkValidatorTimeKeeping = (values, selectedItem) => {
     const totalWorkDay = values.totalWorkDay
     const checkinFirst = values.checkinFirst
     const checkoutLater = values.checkoutLater
-    console.log(nextDayEnabled)
     if (code.trim().length <= 0) {
         toast.error("Vui lòng nhập mã ca")
         return false;

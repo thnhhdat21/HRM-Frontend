@@ -1,106 +1,122 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './css/context-menu-style.css'
+import { useNavigate } from 'react-router-dom';
+import { PENALTY, REWARD } from '../util/RewardAndPenaltyUtil';
+import { updateSubTitleHeader, updateTitleHeader } from '../redux/slice/TitleHeaderSlice';
 
-const ContextMenuEmployee = ({ x, y, showMenu, id }) => {
+const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleClickUpdateEdu, hanleClickUpdateFamily, handleClickUpdateResume, handleClickUpdateAccount }) => {
+    const navigate = useNavigate();
     const style = () => {
         return {
-            width: '250px',
-            height: '550px',
             borderRadius: 10,
-            padding: 10,
-            top: y + 250,
+            top: y,
             left: x,
             position: 'absolute',
-            display: showMenu ? 'flex' : 'none'
+            display: showMenu ? 'flex' : 'none',
+            zIndex: 9999
         }
     }
-    const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
-    const [subMenuPosition, setSubMenuPosition] = useState("right"); // Vị trí mặc định là bên phải
-    const menuItemRef = useRef(null);
-    const subMenuRef = useRef(null);
+    // const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
+    // const [subMenuPosition, setSubMenuPosition] = useState("right"); // Vị trí mặc định là bên phải
+    // const menuItemRef = useRef(null);
+    // const subMenuRef = useRef(null);
 
-    useEffect(() => {
-        if (isSubMenuVisible && menuItemRef.current && subMenuRef.current) {
-            const itemRect = menuItemRef.current.getBoundingClientRect();
-            const subMenuRect = subMenuRef.current.getBoundingClientRect();
-            const screenWidth = window.innerWidth;
+    // useEffect(() => {
+    //     if (isSubMenuVisible && menuItemRef.current && subMenuRef.current) {
+    //         const itemRect = menuItemRef.current.getBoundingClientRect();
+    //         const subMenuRect = subMenuRef.current.getBoundingClientRect();
+    //         const screenWidth = window.innerWidth;
 
-            // Nếu menu con bị tràn bên phải -> đặt bên trái
-            if (itemRect.right + subMenuRect.width > screenWidth) {
-                setSubMenuPosition("left");
-            } else {
-                setSubMenuPosition("right");
-            }
-        }
-    }, [isSubMenuVisible]);
+    //         // Nếu menu con bị tràn bên phải -> đặt bên trái
+    //         if (itemRect.right + subMenuRect.width > screenWidth) {
+    //             setSubMenuPosition("left");
+    //         } else {
+    //             setSubMenuPosition("right");
+    //         }
+    //     }
+    // }, [isSubMenuVisible]);
 
-
-
+    const handleClickNavigate = (url) => {
+        navigate(url, { state: { employeeId: infoEmployee.employeeId, employeeName: infoEmployee.employeeName } });
+    }
 
     return (
         <>
-            <div class="menu" style={style()}>
+            <div class="menu main-menu" style={style()}>
                 <ul>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-refresh' />
-                        Cập nhật trạng thái hồ sơ
+                    <li onClick={() => handleClickNavigate('/profile-employee')}><i className='fe fe-eye' />
+                        Chi tiết nhân sự
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target="#update_salary"><i className='fe fe-dollar-sign' />
-                        Cập nhật lương & phụ cấp
+                    <li data-bs-toggle="modal" data-bs-target="#update-resume"
+                        onClick={() => handleClickUpdateResume()}
+                    ><i className='ti ti-refresh' />
+                        Cập nhật thông tin hồ sơ
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target="#update_job_history"><i className='ti ti-list-check' />
-                        Cập nhật công việc
+                    <li data-bs-toggle="modal" data-bs-target="#update-education"
+                        onClick={() => hanleClickUpdateEdu()}
+                    ><i className='ti ti-school' />
+                        Cập nhật quá trình học tập
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-school' />
-                        Quá trình học tập
-                    </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-user-plus' />
+                    <li data-bs-toggle="modal" data-bs-target="#update-family"
+                        onClick={() => hanleClickUpdateFamily()}
+                    ><i className='ti ti-user-plus' />
                         Cập nhật thông tin gia đình
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-list-details' />
-                        Cập nhật thông tin tiếp nhận
-                    </li>
-                    <li ref={menuItemRef}
-                        onMouseEnter={() => setIsSubMenuVisible(true)}
-                        onMouseLeave={() => setIsSubMenuVisible(false)}
+                    <li
                         className="menu-item" data-bs-toggle="modal" data-bs-target=""><i className='ti ti-file-plus' />
                         Bảo hiểm
-                        {isSubMenuVisible && (
-                            <div
-                                ref={subMenuRef}
-                                className="submenu"
-                                style={{
-                                    top: "0",
-                                    [subMenuPosition]: "100%", // Điều chỉnh vị trí
-                                }}
-                            >
-                                <ul>
-                                    <li>Thông tin bảo hiểm</li>
-                                    <li>Cập nhật bảo hiểm</li>
-                                    <li>Chi tiết quyền lợi</li>
-                                </ul>
-                            </div>
-                        )}
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target="#update_reward"><i className='fe fe-bookmark' />
+                    <li data-bs-toggle="modal" data-bs-target="#update-reward-penalty"
+                        onClick={() => setTypeOpen((prev) => [...prev, REWARD])}
+                    ><i className='fe fe-bookmark' />
                         Chế độ phúc lợi
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target="#update_penalty"><i className='ti ti-scale' />
+                    <li data-bs-toggle="modal" data-bs-target="#update-reward-penalty"
+                        onClick={() => setTypeOpen((prev) => [...prev, PENALTY])}
+                    ><i className='ti ti-scale' />
                         Kỷ luật nội bộ
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-file-plus' />
+                    <li className='has-submenu-context'><i className='ti ti-file-plus' />
                         Tạo hợp đồng
+                        <div class="submenu-context ">
+                            <ul>
+                                <li data-bs-toggle="modal" data-bs-target="#create-contract" style={{ display: infoEmployee.department ? "" : "none" }}
+                                    onClick={() => setTypeOpen((prev) => [...prev, "#create-contract-appdix"])}
+                                >
+                                    Tạo phụ lục
+                                </li>
+                                <li data-bs-toggle="modal" data-bs-target="#create-contract"
+                                    onClick={() => setTypeOpen((prev) => [...prev, "#create-contract"])}
+                                >
+                                    Tạo mới
+                                </li>
+                                <li data-bs-toggle="modal" data-bs-target="">
+                                    Thanh lý
+                                </li>
+
+                            </ul>
+                        </div>
                     </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-lock' />
+                    {infoEmployee.accountStatus === 1 && (<li
+                        onClick={handleClickUpdateAccount}
+                    ><i className='ti ti-lock'
+                        />
                         Khóa tài khoản
-                    </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-file' />
-                        Biểu mẫu
-                    </li>
-                    <li data-bs-toggle="modal" data-bs-target=""><i className='ti ti-cloud-upload' />
-                        Thêm tài liệu
-                    </li>
+                    </li>)}
+
+                    {infoEmployee.accountStatus === 2 && (<li
+                        onClick={handleClickUpdateAccount} ><i className='ti ti-circle-check' />
+                        Kích hoạt
+                    </li>)}
+
+                    {infoEmployee.accountStatus === 3 && (<li
+                        onClick={handleClickUpdateAccount}
+                    ><i className='ti ti-lock-open' />
+                        Mở khóa
+                    </li>)}
+
                 </ul>
-            </div>
+            </div >
         </>
     );
 };

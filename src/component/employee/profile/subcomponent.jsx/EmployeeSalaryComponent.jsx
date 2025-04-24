@@ -4,7 +4,7 @@ import useDoubleClickDetail from '../../../../hooks/useDoubleClickDetail';
 
 const EmployeeSalaryComponent = () => {
     const tableRef = useRef(null)
-    const { xdb, ydb, showMenudb } = useDoubleClickDetail(tableRef, 550, 220);
+    const { xdb, ydb, showMenudb } = useDoubleClickDetail(tableRef, 600, 370);
 
     return (
         <>
@@ -18,7 +18,7 @@ const EmployeeSalaryComponent = () => {
                                     <i className='fe fe-calendar icon-header-2' style={{ marginLeft: "15px", fontSize: "20px" }} />
                                 </div>
                             </div>
-                            <div class="card-body p-0">
+                            <div class="card-body p-0" ref={tableRef}>
                                 <div style={{ padding: "16px" }}>
                                     <div class="row">
                                         <div class="col-md-3 item-salary-month">

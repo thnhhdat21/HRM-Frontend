@@ -34,8 +34,9 @@
 }
 
 .profile-details td {
-    padding: 5px 10px;
+    padding: 8px 10px;
     vertical-align: top;
+    font-weight: 500;
 }
 
 .image-section {
@@ -59,7 +60,9 @@
 }
 
 .profile-details th {
-    padding: 5px 10px;
+    padding: 8px 10px;
+    color: #6b7280 !important;
+    font-weight: 500;
 }
 
 .cate-empl-list {
@@ -245,4 +248,105 @@
     background-color: inherit;
     border-bottom: 2px solid #e50012;
     border-radius: 0;
+}
+
+.department-filter:hover {
+    cursor: pointer;
+    color: #e50012;
+}
+
+.update-infomation:hover {
+    color: #e50213;
+    cursor: pointer;
+}
+
+
+
+.grid-update-resume {
+    display: grid;
+    grid-template-columns: 95px 135px 95px 135px 95px 135px;
+    gap: 10px;
+    padding: 0 10px 5px;
+    align-items: center;
+    font-weight: 500;
+}
+
+.update-resume-modal th {
+    width: 225px;
+}
+
+.update-resume-modal th,
+.update-resume-modal td {
+    border: none !important;
+}
+
+.update-resume-modal-f th,
+.update-resume-modal-f td {
+    border: none !important;
+}
+
+.update-avatar {
+    position: relative;
+    border: 1px solid #e9edf4;
+    padding: 5px;
+    border-radius: 8px;
+    min-height: 176px;
+    min-width: 135px;
+}
+
+.edit-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Lớp phủ màu đen với độ mờ */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+}
+
+.update-avatar:hover .overlay {
+    opacity: 0.5;
+}
+
+
+.update-avatar:hover .edit-text {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.contract-append tbody tr td {
+    color: #202c4b;
+}
+
+.button-header .ti-icon:hover {
+    color: #e50213 !important;
+}
+
+.button-header .btn-add:hover {
+    color: #fff !important;
+    background-color: #e50213 !important;
 }

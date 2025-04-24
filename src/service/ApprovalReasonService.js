@@ -10,7 +10,6 @@ export const getListApprovalReason = (type) => {
 }
 
 export const createApprovalReason = (list) => {
-    console.log(list)
     return axios.post(`${REST_API_BASE_URL}/create-approval-reason`, list)
 }
 
@@ -27,7 +26,6 @@ export const updateApprovalReason = (id, values) => {
         "type": values.type || null,
         "des": values.des || null
     }
-    console.log(requestBody)
     return axios.post(`${REST_API_BASE_URL}/update-approval-reason`, requestBody)
 }
 

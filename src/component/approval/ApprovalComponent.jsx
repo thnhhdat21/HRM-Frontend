@@ -739,7 +739,6 @@ const ApprovalComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuContract x={x} y={y} showMenu={showMenu} />
             <LeaveApprovalComponent />
             <CheckinApprovalComponent />
             <JobApprovalComponent />

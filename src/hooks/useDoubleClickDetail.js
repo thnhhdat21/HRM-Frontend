@@ -6,28 +6,30 @@ export default function useDoubleClickDetail(tableRef, width, height) {
     const [showMenudb, setShowMenuDB] = useState(false)
 
     const handleContextMenu = (e) => {
-        e.preventDefault();
+        if (tableRef.current && tableRef.current.contains(e.target)) {
+            e.preventDefault();
 
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-        const scrollX = window.scrollX || document.documentElement.scrollLeft;
-        const scrollY = window.scrollY || document.documentElement.scrollTop;
+            const scrollX = window.scrollX || document.documentElement.scrollLeft;
+            const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-        const mouseX = e.pageX;
-        const mouseY = e.pageY;
+            const mouseX = e.pageX;
+            const mouseY = e.pageY;
 
-        const newX = (mouseX - scrollX + width > viewportWidth)
-            ? mouseX - width
-            : mouseX;
+            const newX = (mouseX - scrollX + width > viewportWidth)
+                ? mouseX - width
+                : mouseX;
 
-        const newY = (mouseY - scrollY + height > viewportHeight)
-            ? mouseY - height
-            : mouseY;
+            const newY = (mouseY - scrollY + height > viewportHeight)
+                ? mouseY - height
+                : mouseY;
 
-        setXDB(`${newX}px`);
-        setYDB(`${newY}px`);
-        setShowMenuDB(true);
+            setXDB(`${newX}px`);
+            setYDB(`${newY}px`);
+            setShowMenuDB(true);
+        }
     };
 
 

@@ -129,7 +129,6 @@ const EmployeeLeaveComponent = () => {
                     </div>
                 </div>
             </div >
-            <ContextMenuContract x={x} y={y} showMenu={showMenu} />
             <LeaveApprovalComponent />
         </>
     );

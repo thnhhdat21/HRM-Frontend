@@ -5,8 +5,12 @@ import { toast } from 'react-toastify';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuGroup from '../../contextmenu/ContextMenuGroup';
 import EditGroupComponent from './crud/EditGroupComponent';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const ManageGroupComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Danh sách nhóm tài khoản", subTitle: "" }))
     const [listRole, setListRole] = useState(null);
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
@@ -37,7 +41,6 @@ const ManageGroupComponent = () => {
                 <div class="content">
                     <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                         <div class="my-auto mb-2">
-                            <h2 class="mb-1">Danh sách nhóm</h2>
                         </div>
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                             <div class="mb-2">

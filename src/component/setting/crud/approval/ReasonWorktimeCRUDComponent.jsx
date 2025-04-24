@@ -30,7 +30,6 @@ const ReasonWorktimeCRUDComponent = ({ selectedId, typeOpen, reasonType, handleU
         const { name, value } = event.target;
         const formatted = formatTime(value);
         const total = handleCreateTotalTime(index, value, name)
-        console.log(total)
         if (total.trim().length !== 0) {
             setRows(prevRows =>
                 prevRows.map((row, i) =>
@@ -51,9 +50,7 @@ const ReasonWorktimeCRUDComponent = ({ selectedId, typeOpen, reasonType, handleU
         const time1 = value;
         const time2 = rows.at(index)[type.replace(name, "")]
         if (time1.trim().length >= 4 && time2.trim().length >= 4) {
-            console.log("gagagaga")
             return calculatorTime(formatTime(time1), time2);
-
         }
         return ""
     }
@@ -176,8 +173,6 @@ const ReasonWorktimeCRUDComponent = ({ selectedId, typeOpen, reasonType, handleU
         }
         return true
     }
-
-    console.log(rows)
 
     return (
         <>

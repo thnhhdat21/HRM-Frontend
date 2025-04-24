@@ -48,7 +48,6 @@ const SettingOnLeaveComponent = () => {
     const handleUpdateLeaveSetting = (e) => {
         e.preventDefault()
         const hasUpdate = checkUpdate()
-        console.log(hasUpdate)
         if (hasUpdate) {
             updateLeaveSetting(values).then((response) => {
                 responseUpdate(response, "Cập nhật thành công", setLeaveSetting, getLeaveSetting)

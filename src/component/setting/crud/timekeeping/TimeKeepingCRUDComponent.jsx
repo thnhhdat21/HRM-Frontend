@@ -160,7 +160,6 @@ const TimeKeepingCRUDComponent = ({ selectedId, typeOpen, setListWorkShift }) =>
             document.querySelector('#crud_time_keeping [data-bs-dismiss="modal"]').click();
         }
     }
-    console.log(values)
     return (
         <>
             <div class="modal fade" id="crud_time_keeping" >
@@ -327,7 +326,7 @@ const TimeKeepingCRUDComponent = ({ selectedId, typeOpen, setListWorkShift }) =>
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Ví trí</label>
-                                                        <SelectCustomer listSelectedPrev={selectedPrevJP} listItem={listJobPosition} selectedItem={selectedJobPosition} setSelectedItem={setSelectedJobPosition} />
+                                                        <SelectCustomer listItem={listJobPosition} selectedItem={selectedJobPosition} setSelectedItem={setSelectedJobPosition} elementId={"options-jp-timekeeping"} />
                                                     </div>
                                                 </div>
                                             </div>

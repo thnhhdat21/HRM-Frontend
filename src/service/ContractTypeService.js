@@ -49,3 +49,19 @@ export const deleteContractType = (id) => {
     formData.append("id", id)
     return axios.post(`${REST_API_BASE_URL}/delete-contract-type`, formData)
 }
+
+
+export const getCountContractType = (values) => {
+    const requestBody = {
+        "name": values.name,
+        "type": values.type,
+        "status": values.status,
+        "pageIndex": values.pageIndex,
+        "department": values.department,
+        "jobPosition": values.jobPosition,
+        "duty": values.duty,
+        "dateJoin": values.dateJoin,
+    }
+    return axios.post(`${REST_API_BASE_URL}/get-count-contract-type`, requestBody)
+}
+
