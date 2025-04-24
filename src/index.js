@@ -26,10 +26,8 @@ import ContractCRUDComponent from './component/contract/crud/ContractCRUDCompone
 import InsuaranceComponent from './component/insurance/InsuaranceComponent';
 import InsuranceIncreaseComponent from './component/insurance/InsuaranceIncreaseComponent';
 import InsuranceDecreaseComponent from './component/insurance/InsuranceDecreaseComponent';
-import DecisionComponent from './component/decision/DecisionComponent';
 import ApprovalComponent from './component/approval/ApprovalComponent';
 import SettingApprovalComponent from './component/setting/SettingApprovalComponent';
-import SalaryApprovalComponent from './component/approval/SalaryApprovalComponent';
 import SalaryApprovalDetailComponent from './component/approval/SalaryApprovalDetailComponent';
 import SettingOnLeaveComponent from './component/setting/SettingOnLeaveComponent';
 import SettingTimeKeepingComponent from './component/setting/SettingTimeKeepingComponent';
@@ -109,7 +107,6 @@ root.render(
         <Route path='/manage-employee/insurance-increase' element={<App component={InsuranceIncreaseComponent} />} /> {/* Check */}
         <Route path='/manage-employee/insurance-decrease' element={<App component={InsuranceDecreaseComponent} />} /> {/* Check */}
         {/* Employee/* Decision */}
-        <Route path='/manage-employee/decision' element={<App component={DecisionComponent} />} />{/* Check */}
 
         <Route path='/profile-employee' element={<App component={ProfileComponnent} />} />{/* Check */}
 
@@ -123,7 +120,6 @@ root.render(
         <Route path='/manage-approval/approval' element={<App component={ApprovalComponent} />} />{/* Check */}
         <Route path='/approval/detail-approval' element={<App component={DetailApprovalComponent} />} />
         {/* Approval/Salary */}
-        <Route path='/manage-approval/approval-salary' element={<App component={SalaryApprovalComponent} />} />{/* Check */}
         <Route path='/manage-approval/detail-approval-salary' element={<App component={SalaryApprovalDetailComponent} />} />
 
         {/* timekeeping */}

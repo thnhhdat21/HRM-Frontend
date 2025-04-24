@@ -18,7 +18,6 @@ const menuObjectSetting = [
         id: 10, name: 'Cài đặt đối tượng', icon: 'ti ti-adjustments', path: 'setting', child: [
             { id: 11, name: 'Hợp đồng lao động', icon: '', path: '/settings/contract' },
             { id: 12, name: 'Bảo hiểm', icon: '', path: '/settings/insurance' },
-            { id: 13, name: 'Quyết định', icon: '', path: '' },
             { id: 14, name: 'Tài sản', icon: '', path: '/settings/asset' },
             { id: 15, name: 'Đơn từ', icon: '', path: '/settings/approval' },
             { id: 16, name: 'Chấm công', icon: '', path: '/settings/on-leave' },
@@ -70,41 +69,8 @@ const menuEmployeeManage = [
             { id: 36, name: 'Tất cả', icon: '', path: '/manage-employee/insurance' },
             { id: 37, name: 'Tăng dự kiến', icon: '', path: '/manage-employee/insurance-increase' },
             { id: 38, name: 'Giảm dự kiến', icon: '', path: '/manage-employee/insurance-decrease' },
-            { id: 39, name: 'Lịch sử đóng', icon: '', path: '' },
         ]
     },
-    {
-        id: 40, name: 'Quyết định', icon: 'ti ti-gift', path: '/manage-employee/decision', child: [
-        ]
-    },
-    {
-        id: 41, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: 'path', child: [
-        ]
-    },
-
-]
-
-const menuTimekeepingManage = [
-    {
-        id: 42, name: 'Chấm công', icon: 'ti ti-alarm-plus', path: '/manage-timekeeping', child: [
-            { id: 43, name: 'Chấm công', icon: '', path: '/manage-timekeeping' },
-            { id: 44, name: 'Phân ca làm việc', icon: '', path: '/manage-timekeeping/work-shift' },
-            { id: 45, name: 'Quản lý ngày nghỉ', icon: '', path: '/manage-timekeeping/holidays' },
-            { id: 46, name: 'Tự động chấm công', icon: '', path: '/manage-timekeeping/auto-timekeeping' }
-        ]
-    },
-    {
-        id: 47, name: 'Quản lý phép', icon: 'ti ti-server', path: '/manage-timekeeping/on-leave-manage', child: [
-        ]
-    },
-    {
-        id: 48, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: '#', child: [
-        ]
-    },
-
-]
-
-const menuApprovalManage = [
     {
         id: 49, name: 'Đơn từ', icon: 'ti ti-clipboard-text', path: '/manage-approval/approval', child: [
             { id: 50, name: 'Tất cả đơn từ', icon: '', path: '/manage-approval/approval' },
@@ -114,47 +80,20 @@ const menuApprovalManage = [
         ]
     },
     {
-        id: 54, name: 'Ứng lương', icon: 'fe fe-dollar-sign', path: '/manage-approval/approval-salary', child: [
+        id: 42, name: 'Quản lý chấm công', icon: 'ti ti-alarm-plus', path: '/manage-timekeeping', child: [
+            { id: 42, name: 'Bảng chấm công', icon: '', path: '/manage-timekeeping' },
+            { id: 47, name: 'Quản lý phép', icon: 'ti ti-server', path: '/manage-timekeeping/on-leave-manage' }
         ]
     },
-]
-
-
-const menuSalaryManage = [
     {
-        id: 55, name: 'Bảng lương', icon: 'fe fe-dollar-sign', path: '/manage-salary/payroll', child: []
-
+        id: 55, name: 'Quản lý lương', icon: 'fe fe-dollar-sign', path: '/manage-salary/payroll', child: [
+            { id: 55, name: 'Bảng lương', icon: 'fe fe-dollar-sign', path: '/manage-salary/payroll' },
+            { id: 56, name: 'Loại bảng lương', icon: 'ti ti-list-check', path: '/manage-salary/payroll-type' },
+            { id: 57, name: 'Quyết toán thuế', icon: 'ti ti-clipboard-text', path: '/manage-salary/tax', child: [] }
+        ]
     },
     {
-        id: 56, name: 'Loại bảng lương', icon: 'ti ti-list-check', path: '/manage-salary/payroll-type', child: []
-
-    },
-    {
-        id: 57, name: 'Quyết toán thuế', icon: 'ti ti-clipboard-text', path: '/manage-salary/tax', child: []
-
-    },
-    {
-        id: 58, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: 'path', child: []
-
-    },
-]
-
-const menuAssetManage = [
-    {
-        id: 59, name: 'Tài sản', icon: 'ti ti-device-laptop', path: '/manage-asset/asset', child: []
-
-    },
-    {
-        id: 60, name: 'Cấp phát', icon: 'fe fe-shopping-bag', path: '/manage-asset/list-allocation', child: []
-
-    },
-    {
-        id: 61, name: 'Thu hồi', icon: 'ti ti-arrow-back-up', path: '/manage-asset/list-recall', child: []
-
-    },
-    {
-        id: 62, name: 'Khấu hao tài sản', icon: 'ti ti-notes', path: '/manage-asset/list-depreciation', child: []
-
+        id: 41, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: 'path', child: []
     },
 ]
 
@@ -163,10 +102,6 @@ export {
     menuObjectSetting,
     menuEmployeePersonal,
     menuEmployeeManage,
-    menuTimekeepingManage,
-    menuApprovalManage,
-    menuSalaryManage,
-    menuAssetManage
 };
 
 export const mapPathId = new Map([

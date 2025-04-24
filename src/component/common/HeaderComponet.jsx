@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ModuleHRMComponent from './ModuleHRMComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateNameFilter } from '../../redux/slice/SearchFilterSlice';
 import FilterSearchComponent from './FilterSearchComponent';
@@ -81,7 +80,6 @@ const HeaderComponnent = ({ setting }) => {
                                         <i className="ti ti-settings-cog" />
                                     </Link>
                                 </div>
-                                <ModuleHRMComponent />
                                 <div className="me-1 notification_item">
                                     <a href="#" className="btn btn-menubar position-relative me-1" id="notification_popup"
                                         data-bs-toggle="dropdown">

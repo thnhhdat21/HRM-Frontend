@@ -1,5 +1,5 @@
 import React from 'react';
-import AcceptDecisionComponent from '../../decision/crud/AcceptDecisionComponent';
+// import AcceptDecisionComponent from '../../decision/crud/AcceptDecisionComponent';
 
 const DetailApprovalComponent = () => {
     return (
@@ -190,7 +190,7 @@ const DetailApprovalComponent = () => {
                 </div>
             </div >
 
-            <AcceptDecisionComponent />
+            {/* <AcceptDecisionComponent /> */}
         </>
     );
 };

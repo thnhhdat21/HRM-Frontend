@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { mapPathId, menuApprovalManage, menuAssetManage, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSalaryManage, menuSystemSetting, menuTimekeepingManage } from '../../util/LeftMenuUtil';
+import { mapPathId, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSystemSetting } from '../../util/LeftMenuUtil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetSearchFilter, updateStatusFilter, updateStatusFilterByContract } from '../../redux/slice/SearchFilterSlice';
@@ -18,14 +18,6 @@ const LeftMenuComponnent = () => {
             setLeftMenu(menuEmployeePersonal);
         } else if (location.pathname.startsWith("/manage-employee")) {
             setLeftMenu(menuEmployeeManage);
-        } else if (location.pathname.startsWith("/manage-timekeeping")) {
-            setLeftMenu(menuTimekeepingManage);
-        } else if (location.pathname.startsWith("/manage-approval")) {
-            setLeftMenu(menuApprovalManage)
-        } else if (location.pathname.startsWith("/manage-asset")) {
-            setLeftMenu(menuAssetManage)
-        } else if (location.pathname.startsWith("/manage-salary")) {
-            setLeftMenu(menuSalaryManage)
         } else if (location.pathname.startsWith("/admin")) {
             setLeftMenu(menuSystemSetting)
         } else if (location.pathname.startsWith("/settings")) {
