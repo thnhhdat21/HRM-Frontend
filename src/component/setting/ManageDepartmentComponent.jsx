@@ -117,7 +117,8 @@ const ManageDepartmentComponent = () => {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="mb-2 dropdown profile-dropdown">
+
+                            <div class="dropdown profile-dropdown">
                                 <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="dropdown">
                                     <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
                                 </a>

@@ -6,11 +6,13 @@ export const searchFilterSlice = createSlice({
         name: "",
         type: "",
         status: "",
-        pageIndex: "",
+        pageIndex: 1,
         department: [],
         jobPosition: [],
         duty: [],
-        dateJoin: ""
+        dateJoin: "",
+        yearMonth: "",
+        year: 0
     },
     reducers: {
         update: (state, action) => {
@@ -22,13 +24,19 @@ export const searchFilterSlice = createSlice({
             state.jobPosition = action.payload.jobPosition;
             state.duty = action.payload.duty;
             state.dateJoin = action.payload.dateJoin;
+            state.yearMonth = action.payload.yearMonth
+            state.year = action.payload.year
         },
         updateTypeFilter: (state, action) => {
             state.type = action.payload
         },
+        updatePageIndexFilter: (state, action) => {
+            state.pageIndex = action.payload
+        },
 
         updateDepartmentFilter: (state, action) => {
             state.department = action.payload
+            state.pageIndex = 1
         },
         updateNameFilter: (state, action) => {
             state.name = action.payload
@@ -37,6 +45,7 @@ export const searchFilterSlice = createSlice({
             state.status = action.payload;
             state.type = '';
         },
+
         updateSearchFilter: (state, action) => {
             state.name = action.payload.name
             state.dateJoin = action.payload.dateJoin
@@ -47,6 +56,14 @@ export const searchFilterSlice = createSlice({
             state.type = '';
             state.status = '';
         },
+        updateYearMonthFilter: (state, action) => {
+            state.yearMonth = action.payload;
+            state.pageIndex = 1
+        },
+        updateYearFilter: (state, action) => {
+            state.year = action.payload;
+            state.pageIndex = 1
+        },
         resetSearchFilter: (state) => {
             state.name = '';
             state.type = '';
@@ -56,10 +73,22 @@ export const searchFilterSlice = createSlice({
             state.jobPosition = [];
             state.duty = [];
             state.dateJoin = '';
+            state.yearMonth = "";
+            state.year = ""
         }
 
     }
 })
 
-export const { update, updateTypeFilter, updateStatusFilter, updateDepartmentFilter, updateNameFilter, updateSearchFilter, resetSearchFilter } = searchFilterSlice.actions;
+export const {
+    updatePageIndexFilter,
+    update,
+    updateTypeFilter,
+    updateStatusFilter,
+    updateDepartmentFilter,
+    updateNameFilter,
+    updateSearchFilter,
+    resetSearchFilter,
+    updateYearMonthFilter,
+    updateYearFilter } = searchFilterSlice.actions;
 export default searchFilterSlice.reducer;

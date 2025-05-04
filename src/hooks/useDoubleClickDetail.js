@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
-export default function useDoubleClickDetail(tableRef, width, height) {
+export default function useDoubleClickDetail(tableRef, infoWorkDay, width, height) {
     const [xdb, setXDB] = useState(0)
     const [ydb, setYDB] = useState(0)
     const [showMenudb, setShowMenuDB] = useState(false)
 
     const handleContextMenu = (e) => {
-        if (tableRef.current && tableRef.current.contains(e.target)) {
+        const targetItem = e.target.closest('.item-working');
+        if (targetItem && tableRef.current && tableRef.current.contains(targetItem)) {
             e.preventDefault();
 
             const viewportWidth = window.innerWidth;
@@ -33,8 +34,14 @@ export default function useDoubleClickDetail(tableRef, width, height) {
     };
 
 
-    const handleClick = () => {
-        showMenudb && setShowMenuDB(false)
+    const handleClick = (e) => {
+        if (
+            showMenudb &&
+            infoWorkDay.current &&
+            !infoWorkDay.current.contains(e.target)
+        ) {
+            setShowMenuDB(false);
+        }
     }
 
 

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import './css/context-menu-style.css'
 import { useNavigate } from 'react-router-dom';
-import { PENALTY, REWARD } from '../util/RewardAndPenaltyUtil';
-import { updateSubTitleHeader, updateTitleHeader } from '../redux/slice/TitleHeaderSlice';
+import { DECISION_TYPE_PENALTY, DECISION_TYPE_REWARD } from '../util/DecisionUtil';
 
 const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleClickUpdateEdu, hanleClickUpdateFamily, handleClickUpdateResume, handleClickUpdateAccount }) => {
     const navigate = useNavigate();
@@ -67,12 +66,12 @@ const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleC
                         Bảo hiểm
                     </li>
                     <li data-bs-toggle="modal" data-bs-target="#update-reward-penalty"
-                        onClick={() => setTypeOpen((prev) => [...prev, REWARD])}
+                        onClick={() => setTypeOpen((prev) => [...prev, DECISION_TYPE_REWARD])}
                     ><i className='fe fe-bookmark' />
                         Chế độ phúc lợi
                     </li>
                     <li data-bs-toggle="modal" data-bs-target="#update-reward-penalty"
-                        onClick={() => setTypeOpen((prev) => [...prev, PENALTY])}
+                        onClick={() => setTypeOpen((prev) => [...prev, DECISION_TYPE_PENALTY])}
                     ><i className='ti ti-scale' />
                         Kỷ luật nội bộ
                     </li>

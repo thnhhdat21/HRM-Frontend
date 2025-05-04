@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { mapPathId, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting, menuSystemSetting } from '../../util/LeftMenuUtil';
+import { mapPathId, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting } from '../../util/LeftMenuUtil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetSearchFilter, updateStatusFilter, updateStatusFilterByContract } from '../../redux/slice/SearchFilterSlice';
@@ -16,12 +16,10 @@ const LeftMenuComponnent = () => {
     useEffect(() => {
         if (location.pathname.startsWith("/personal")) {
             setLeftMenu(menuEmployeePersonal);
-        } else if (location.pathname.startsWith("/manage-employee")) {
-            setLeftMenu(menuEmployeeManage);
-        } else if (location.pathname.startsWith("/admin")) {
-            setLeftMenu(menuSystemSetting)
         } else if (location.pathname.startsWith("/settings")) {
             setLeftMenu(menuObjectSetting)
+        } else {
+            setLeftMenu(menuEmployeeManage);
         }
         setSelectedMenu(location.pathname)
     }, [location.pathname]);
@@ -49,15 +47,13 @@ const LeftMenuComponnent = () => {
         setActiveSubMenu(item.id);
         dispatch(resetSearchFilter())
         dispatch(updateStatusFilter(item.status))
-        if (!location.pathname.includes(item.path)) {
-            navigate(item.path);
-        }
+        navigate(item.path);
     };
 
 
     return (
         <>
-            <div className="sidebar " id="sidebar">
+            <div className="sidebar test" id="sidebar">
                 <div className="sidebar-logo">
                     <a href="index.html" className="logo logo-normal">
                         <img src="/assets/logo/logo.png" alt="Logo" style={{ width: "200px", height: "50px" }} />

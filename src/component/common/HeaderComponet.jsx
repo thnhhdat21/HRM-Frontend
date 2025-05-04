@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNameFilter } from '../../redux/slice/SearchFilterSlice';
+import { updateNameFilter, updatePageIndexFilter, updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
 import FilterSearchComponent from './FilterSearchComponent';
 
 const HeaderComponnent = ({ setting }) => {
@@ -18,6 +18,8 @@ const HeaderComponnent = ({ setting }) => {
     const handleEnterSearch = (e) => {
         if (e.key === 'Enter') {
             if (valueName.trim().length > 0) {
+                dispatch(updatePageIndexFilter(1))
+                dispatch(updateTypeFilter(''))
                 dispatch(updateNameFilter(valueName))
             }
         }
@@ -76,9 +78,15 @@ const HeaderComponnent = ({ setting }) => {
                                     </div>
                                 </div>
                                 <div className="me-1">
-                                    <Link to="/admin" className="btn btn-menubar">
+                                    <Link to="/settings/account" className="btn btn-menubar">
                                         <i className="ti ti-settings-cog" />
                                     </Link>
+                                </div>
+                                <div class="dropdown me-1" >
+                                    <Link to="/manage-employee/list-employee" className="btn btn-menubar">
+                                        <i class="ti ti-layout-grid-remove"></i>
+                                    </Link>
+
                                 </div>
                                 <div className="me-1 notification_item">
                                     <a href="#" className="btn btn-menubar position-relative me-1" id="notification_popup"

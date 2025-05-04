@@ -52,10 +52,10 @@
 }
 
 
-.sticky-table table tbody td:nth-child(-n+4),
-.sticky-table table thead tr:first-child th:nth-child(-n+4) {
+.sticky-table table tbody td:nth-child(-n+3),
+.sticky-table table thead tr:first-child th:nth-child(-n+3) {
     position: sticky;
-    /* z-index: 10; */
+    z-index: 10;
 
 }
 
@@ -66,18 +66,13 @@
 
 .sticky-table table tbody td:nth-child(2),
 .sticky-table table thead tr:first-child th:nth-child(2) {
-    left: 70px;
+    left: 100px;
 }
 
 .sticky-table table tbody td:nth-child(3),
 .sticky-table table thead tr:first-child th:nth-child(3) {
-    left: 170px;
+    left: 300px;
 
-}
-
-.sticky-table table tbody td:nth-child(4),
-.sticky-table table thead tr:first-child th:nth-child(4) {
-    left: 370px;
 }
 
 
@@ -88,13 +83,13 @@
     font-size: 12px;
 }
 
-.sticky-table td:nth-child(n+6),
+.sticky-table td:nth-child(n+4),
 .sticky-table td:first-child {
     text-align: center;
     vertical-align: middle;
 }
 
-.sticky-table th:nth-child(n+6) {
+.sticky-table th:nth-child(n+5) {
     font-size: 12px !important;
 }
 
@@ -136,4 +131,9 @@
 .table-on-leave-detail td {
     text-align: center !important;
     vertical-align: middle !important;
+}
+
+.item-working:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
 }

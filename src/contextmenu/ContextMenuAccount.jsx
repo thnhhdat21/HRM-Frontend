@@ -7,8 +7,6 @@ import { toast } from 'react-toastify';
 const ContextMenuAccount = ({ x, y, showMenu, typeAccount, setListAccount, setCountAccout, selected, setOpenModal }) => {
     const style = () => {
         return {
-            width: '220px',
-            height: '142px',
             borderRadius: 10,
             padding: 10,
             top: y,

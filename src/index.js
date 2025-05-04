@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import EmployeeComponent from './component/employee/EmployeeComponent';
 import HomeComponnent from './component/home/HomeComponent';
 import ProfileComponnent from './component/employee/profile/ProfileComponent';
-import SettingComponent from './component/setting/SettingComponent';
 import ManageAccountComponent from './component/setting/ManageAccountComponent';
 import ManageDepartmentComponent from './component/setting/ManageDepartmentComponent';
 import ManageGroupComponent from './component/setting/ManageGroupComponent';
@@ -26,11 +25,7 @@ import ContractCRUDComponent from './component/contract/crud/ContractCRUDCompone
 import InsuaranceComponent from './component/insurance/InsuaranceComponent';
 import InsuranceIncreaseComponent from './component/insurance/InsuaranceIncreaseComponent';
 import InsuranceDecreaseComponent from './component/insurance/InsuranceDecreaseComponent';
-import ApprovalComponent from './component/approval/ApprovalComponent';
-import SettingApprovalComponent from './component/setting/SettingApprovalComponent';
-import SalaryApprovalDetailComponent from './component/approval/SalaryApprovalDetailComponent';
 import SettingOnLeaveComponent from './component/setting/SettingOnLeaveComponent';
-import SettingTimeKeepingComponent from './component/setting/SettingTimeKeepingComponent';
 import TimeSheetComponent from './component/timekeeping/TimeSheetComponent';
 import HolidaysComponent from './component/timekeeping/HolidaysComponent';
 import AutoTimeKeepingComponent from './component/timekeeping/AutoTimeKeepingComponent';
@@ -39,27 +34,21 @@ import WorkShiftComponent from './component/timekeeping/WorkShiftComponent';
 import WorkShiftDetailComponent from './component/timekeeping/WorkShiftDetailComponent';
 import OnLeaveManamentComponent from './component/timekeeping/OnLeaveManamentComponent';
 import OnLeaveManageDetailComponent from './component/timekeeping/OnLeaveManageDetailComponent';
-import ListAssetComponent from './component/asset/ListAssetComponent';
-import AssetDetailComponent from './component/asset/crud/AssetDetailComponent';
-import HistoryAssetComponent from './component/asset/crud/HistoryAssetComponent';
-import ListAllocationComponent from './component/asset/ListAllocationComponent';
-import ListRecallComponent from './component/asset/ListRecallComponent';
-import DepreciationComponent from './component/asset/DepreciationComponent';
 import PayrollDetailComponent from './component/salary/crud/PayrollDetailComponent';
-import PayrollTypeComponent from './component/salary/PayrollTypeComponent';
-import CreatePayrollTypeComponent from './component/salary/crud/CreatePayrollTypeComponent';
 import PayrollEmployeeComponent from './component/salary/crud/PayrollEmployeeComponent';
-import FormulaDetailComponent from './component/salary/crud/FormulaDetailComponent';
 import PayrollComponen from './component/salary/PayrollComponen';
 import TestComponent from './test/TestComponent';
 import ListTaxComponent from './component/salary/ListTaxComponent';
 import EmployeeTimekeeping from './component/employee/EmployeeTimekeeping';
-import DetailApprovalComponent from './component/approval/crud/DetailApprovalComponent';
 import EmployeeOTComponent from './component/employee/EmployeeOTComponent';
 import EmployeeLeaveComponent from './component/employee/EmployeeLeaveComponent';
-import SettingAssetComponent from './component/setting/asset/SettingAssetComponent';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
+import DecisionComponent from './component/decision/DecisionComponent';
+import DetailDecisionComponent from './component/decision/DetailDecisionComponent';
+import LetterComponent from './component/letter/LetterComponent';
+import SettingApprovalComponent from './component/setting/SettingApprovalComponent';
+import DetailLetterComponent from './component/letter/crud/DetailLetterComponent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -77,15 +66,14 @@ root.render(
 
 
         {/* Manage */}
-        <Route path='/admin' element={<SettingComponent />} /> {/* Check */}
-        <Route path='/admin/admin-account' element={<App component={ManageAccountComponent} />} />{/* Check */}
-        <Route path='/admin/admin-group' element={<App component={ManageGroupComponent} />} />{/* Check */}
-        <Route path='/admin/admin-group/add' element={<App component={GroupCRUDComponent} />} />{/* Check */}
-        <Route path='/admin/admin-department' element={<App component={ManageDepartmentComponent} />} />{/* Check */}
+        <Route path='/settings/account' element={<App component={ManageAccountComponent} />} />{/* Check */}
+        <Route path='/settings/group' element={<App component={ManageGroupComponent} />} />{/* Check */}
+        <Route path='/settings/group/add' element={<App component={GroupCRUDComponent} />} />{/* Check */}
+        <Route path='/settings/department' element={<App component={ManageDepartmentComponent} />} />{/* Check */}
 
         {/* Setting */}
         {/* setting hồ sơ nhân sự */}
-        <Route path='/settings/employee' element={<App component={SettingJobPositionComponent} />} />{/* Check */}
+        <Route path='/settings/employee-job-position' element={<App component={SettingJobPositionComponent} />} />{/* Check */}
         <Route path='/settings/duty' element={<App component={SettingDutyComponent} />} />{/* Check */}
         <Route path='/settings/penalty' element={<App component={SettingPenaltyComponent} />} />{/* Check */}
         <Route path='/settings/reward' element={<App component={SettingRewardComponent} />} />{/* Check */}
@@ -95,8 +83,6 @@ root.render(
         <Route path='/settings/type-insurance' element={<App component={SettingTypeInsuranceComponent} />} /> {/* Check */}
         <Route path='/settings/approval' element={<App component={SettingApprovalComponent} />} />{/* Check */}
         <Route path='/settings/on-leave' element={<App component={SettingOnLeaveComponent} />} /> {/* Check */}
-        <Route path='/settings/timekeeping' element={<App component={SettingTimeKeepingComponent} />} />{/* Check */}
-        <Route path='/settings/asset' element={<App component={SettingAssetComponent} />} /> {/* Check */}
 
         {/* Employee */}
         <Route path='/manage-employee/list-employee' element={<App component={EmployeeComponent} />} />{/* Check */}
@@ -116,11 +102,15 @@ root.render(
         {/* Contract */}
         <Route path='/manage-employee/create-contract' element={<App component={ContractCRUDComponent} />} />{/* Check */}
 
-        {/* Approval */}
-        <Route path='/manage-approval/approval' element={<App component={ApprovalComponent} />} />{/* Check */}
-        <Route path='/approval/detail-approval' element={<App component={DetailApprovalComponent} />} />
-        {/* Approval/Salary */}
-        <Route path='/manage-approval/detail-approval-salary' element={<App component={SalaryApprovalDetailComponent} />} />
+
+        <Route path='/manage-employee/decision' element={<App component={DecisionComponent} />} />{/* Check */}
+        <Route path='/manage-employee/decision-detail' element={<App component={DetailDecisionComponent} />} />{/* Check */}
+
+
+        {/* letter */}
+        <Route path='/manage-letter/letter' element={<App component={LetterComponent} />} />{/* Check */}
+        <Route path='/manage-letter/letter-detail' element={<App component={DetailLetterComponent} />} />
+
 
         {/* timekeeping */}
         <Route path='/manage-timekeeping' element={<App component={TimeSheetComponent} />} />{/* Check */}
@@ -133,22 +123,11 @@ root.render(
         <Route path='/manage-timekeeping/on-leave-manage' element={<App component={OnLeaveManamentComponent} />} />{/* Check */}
         <Route path='/manage-timekeeping/on-leave-detail' element={<App component={OnLeaveManageDetailComponent} />} />{/* Check */}
 
-        {/* Asset */}
-        <Route path='/manage-asset/asset' element={<App component={ListAssetComponent} />} /> {/* Check */}
-        <Route path='/manage-asset/asset-detail' element={<App component={AssetDetailComponent} />} />
-        <Route path='/manage-asset/history-asset' element={<App component={HistoryAssetComponent} />} />
-        <Route path='/manage-asset/list-allocation' element={<App component={ListAllocationComponent} />} /> {/* Check */}
-        <Route path='/manage-asset/list-recall' element={<App component={ListRecallComponent} />} /> {/* Check */}
-        <Route path='/manage-asset/list-depreciation' element={<App component={DepreciationComponent} />} /> {/* Check */}
-
         {/* Payroll */}
         <Route path='/manage-salary/payroll' element={<App component={PayrollComponen} />} /> {/* Check */}
-        <Route path='/manage-salary/payroll-type' element={<App component={PayrollTypeComponent} />} />{/* Check */}
 
         <Route path='/manage-salary/payroll-type-detail' element={<App component={PayrollDetailComponent} />} />
-        <Route path='/manage-salary/create-payroll-type' element={<App component={CreatePayrollTypeComponent} />} />{/* Check */}
         <Route path='/manage-salary/wage-wage' element={<App component={PayrollEmployeeComponent} />} />
-        <Route path='/manage-salary/wage-wage-detail-formula' element={<App component={FormulaDetailComponent} />} />
 
         <Route path='/manage-salary/tax' element={<App component={ListTaxComponent} />} />{/* Check */}
 

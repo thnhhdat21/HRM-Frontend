@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import RewardCRUDComponent from './crud/RewardCRUDComponent';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import { deleteRewardOrPenalty, getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
-import { REWARD } from '../../util/RewardAndPenaltyUtil';
 import { responseData, responseDelete } from '../../util/ResponseUtil';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { DECISION_TYPE_REWARD } from '../../util/DecisionUtil';
 
 const SettingRewardComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Chế độ phúc lợi", subTitle: "" }))
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 100);
     const [listReward, setListReward] = useState({})
@@ -14,7 +18,7 @@ const SettingRewardComponent = () => {
     const [typeOpen, setTypeOpen] = useState([])
 
     useEffect(() => {
-        getListRewardOrPenalty(REWARD).then((response) => {
+        getListRewardOrPenalty(DECISION_TYPE_REWARD).then((response) => {
             responseData(response, setListReward)
         })
     }, [])
@@ -29,12 +33,17 @@ const SettingRewardComponent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-                        <div class="my-auto mb-2">
-                            <h2 class="mb-1">Nhân sự</h2>
-                        </div>
-                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                            <div class="mb-2">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                            <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
+                                <ul class="nav ">
+                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
+                                        <button class="nav-link nav-link-profile active" id="info-tab"
+                                        >Chế độ phúc lợi </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_reward"
                                     class="btn btn-primary d-flex align-items-center"
                                     onClick={() => setTypeOpen(prevList => [...prevList, "open"])}
@@ -42,13 +51,7 @@ const SettingRewardComponent = () => {
                                     class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
-                            <div className='d-flex' style={{ gap: '20px', fontSize: '14px', fontWeight: "500" }}>
-                                <span className='active-category-list'>Chế độ phúc lợi </span>
-                            </div>
-                        </div>
+
                         <div class="card-body p-0">
                             <div class="custom-datatable-filter table-responsive">
                                 <div class="table-container">

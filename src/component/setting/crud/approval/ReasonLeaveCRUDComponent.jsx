@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/crud-style.css'
-import { getApprovalReasonDetail } from '../../../../service/ApprovalReasonService';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import { getLetterReasonDetail } from '../../../../service/LetterReasonService';
 const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpdate, handleCreate }) => {
     const [rows, setRows] = useState([{
         id: uuidv4(),
@@ -44,7 +44,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
     const [values, setValues] = useState({})
     useEffect(() => {
         if (typeOpen.at(-1) === "edit") {
-            getApprovalReasonDetail(selectedId).then((response) => {
+            getLetterReasonDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const approvalReason = response.data.data
                     setValues({

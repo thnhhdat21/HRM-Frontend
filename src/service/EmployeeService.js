@@ -53,6 +53,9 @@ export const updateIdentityCard = (employeeId, fontIdCard, backIdCard) => {
             'Content-Type': 'multipart/form-data',
         },
     })
+}
 
 
+export const getListEmployeeSelect = () => {
+    return axios.post(`${REST_API_BASE_URL}/get-list-employee`)
 }

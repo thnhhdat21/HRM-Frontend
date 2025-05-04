@@ -6410,6 +6410,13 @@ fieldset:disabled .btn {
         --bs-modal-width: 550px
     }
 
+    .modal-400 {
+        --bs-modal-width: 400px
+    }
+
+    .modal-delete {
+        --bs-modal-width: 300px
+    }
 
 
 }

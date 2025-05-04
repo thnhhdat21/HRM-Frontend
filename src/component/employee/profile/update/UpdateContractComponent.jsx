@@ -81,7 +81,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                         contractMethod: "",
                         salaryGross: "",
                         dateStart: "",
-                        dateEnd: "",
+                        dateEnd: contractDetail.dateEnd,
                         dateSign: "",
                         parent: contractId,
                         createType: CONTRACT_CREATE_APPENDIX
@@ -111,7 +111,6 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
         }
 
     }, [openModal])
-
     const onChangeInputAmountAndUnit = (index, event) => {
         const { name, value } = event.target;
         setAllowances(prevRows =>
@@ -205,7 +204,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Cập nhật hợp đồng</h4>
+                                <h4 class="modal-title me-2"> { }Cập nhật hợp đồng</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">

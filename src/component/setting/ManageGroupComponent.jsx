@@ -39,20 +39,17 @@ const ManageGroupComponent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-                        <div class="my-auto mb-2">
-                        </div>
-                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                            <div class="mb-2">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                            <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
+                            </div>
+                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <Link to={"/admin/admin-group/add"}
                                     class="btn btn-primary d-flex align-items-center"><i
                                         class="ti ti-circle-plus " style={{ fontSize: "20px" }}></i>
                                 </Link>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card">
                         <div class="card-body p-0">
                             <div class="custom-datatable-filter table-responsive">
                                 <div class="table-container">

@@ -2,14 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ReasonLeaveCRUDComponent from './crud/approval/ReasonLeaveCRUDComponent';
 import ReasonWorktimeCRUDComponent from './crud/approval/ReasonWorktimeCRUDComponent';
-import { createApprovalReason, deleteApprovalReason, getApprovalReasonDetail, getListApprovalReason, updateApprovalReason } from '../../service/ApprovalReasonService';
 import { responseData, responseDelete, responseUpdateAndUpdateUI, responseUpdateType } from '../../util/ResponseUtil';
 import { modalCRUDReason } from '../../util/ApprovalReasonUtil';
 import ReasonGeneralCRUDComponent from './crud/approval/ReasonGeneralCRUDComponent';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { createLetterReason, deleteLetterReason, getListLetterReason, updateLetterReason } from '../../service/LetterReasonService';
 
 const SettingApprovalComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Cài đặt đơn từ", subTitle: "" }))
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
     const [typeOpen, setTypeOpen] = useState([])
@@ -19,7 +23,7 @@ const SettingApprovalComponent = () => {
     const [selectedId, setSelectedId] = useState("")
 
     useEffect(() => {
-        getListApprovalReason(reasonType).then((response) => {
+        getListLetterReason(reasonType).then((response) => {
             responseData(response, setListApprovalReason)
         })
         setModalId(modalCRUDReason.get(JSON.parse(reasonType)))
@@ -30,7 +34,7 @@ const SettingApprovalComponent = () => {
     }
 
     const handleApprovalReason = () => {
-        deleteApprovalReason(selectedId).then((response) => {
+        deleteLetterReason(selectedId).then((response) => {
             responseDelete(response, setListApprovalReason, selectedId)
         })
     }
@@ -45,8 +49,8 @@ const SettingApprovalComponent = () => {
         });
         if (isCorrect) {
             const newList = rows.map(({ id, ...rest }) => ({ ...rest }));
-            createApprovalReason(newList).then((response) => {
-                responseUpdateType(response, "Thêm mới thành công", setListApprovalReason, getListApprovalReason, reasonType)
+            createLetterReason(newList).then((response) => {
+                responseUpdateType(response, "Thêm mới thành công", setListApprovalReason, getListLetterReason, reasonType)
                 if (response.data.code === 1000) {
                     document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
                 }
@@ -58,7 +62,7 @@ const SettingApprovalComponent = () => {
         e.preventDefault()
         const isCorrect = checkValidator(values)
         if (isCorrect) {
-            updateApprovalReason(selectedId, values).then((response) => {
+            updateLetterReason(selectedId, values).then((response) => {
                 responseUpdateAndUpdateUI(response, setListApprovalReason)
                 if (response.data.code === 1000) {
                     toast.success("Cập nhật thành công!")
@@ -72,20 +76,6 @@ const SettingApprovalComponent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex align-items-center  mb-3">
-                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                            <div class="mb-2 dropdown profile-dropdown">
-                                <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target={`#${modalId}`}
-                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
-                                    <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="my-auto mb-2" style={{ marginLeft: "20px" }}>
-                            <h2 class="mb-1">Danh mục</h2>
-                        </div>
-                    </div>
-
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
@@ -115,6 +105,13 @@ const SettingApprovalComponent = () => {
                                             data-bs-target="#setting-asset-unit" value={6} onClick={onChangeNav}>Lý do thôi việc</button>
                                     </li>
                                 </ul>
+                            </div>
+
+                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                                <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target={`#${modalId}`}
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                                </a>
                             </div>
                         </div>
                         <div class="card-body p-0">

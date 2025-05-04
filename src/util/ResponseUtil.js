@@ -5,7 +5,7 @@ export const responseData = (response, setList) => {
         setList(response.data.data)
     } else if (response.data.code > 1000) {
         setList([])
-        toast.error(response.data.message)
+        toast.info(response.data.message)
     }
     else
         toast.error("Bảo trì hệ thống")

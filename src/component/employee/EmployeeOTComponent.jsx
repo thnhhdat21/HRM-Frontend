@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
-import ContextMenuContract from '../../contextmenu/ContextMenuContract';
-import OvertimeApprovalComponent from '../approval/crud/OvertimeApprovalComponent';
+import OvertimeLetterComponent from '../letter/crud/OvertimeLetterComponent';
 const EmployeeOTComponent = () => {
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
@@ -71,7 +70,7 @@ const EmployeeOTComponent = () => {
                     </div>
                 </div>
             </div>
-            <OvertimeApprovalComponent />
+            <OvertimeLetterComponent />
         </>
     );
 };

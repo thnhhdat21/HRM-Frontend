@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { createAssetGroup, getListAssetGroup, updateAssetGroup } from '../../../service/AssetGroupService';
 import { responseData, responseUpdate } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
-import { getListDepartment, getListDepartmentChild } from '../../../service/DepartmentService';
+import { getListDepartmentChild } from '../../../service/DepartmentService';
 import SelectCustomer from '../../customer/SelectCustomer';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDepartmentFilter } from '../../../redux/slice/SearchFilterSlice';
@@ -13,8 +12,10 @@ const DeparmentFilterComponent = ({ typeOpen }) => {
     const [selectedDepartment, setSelectedDepartment] = useState([])
     const dispatch = useDispatch();
     const searchFilter = useSelector((state) => state.searchFilter)
+    const [isFirst, setIsFirst] = useState(true)
     useEffect(() => {
-        if (typeOpen.at(-1) === "departmentFilter") {
+        if (typeOpen.at(-1) === "departmentFilter" && isFirst) {
+            setIsFirst(false)
             getListDepartmentChild().then((response) => {
                 responseData(response, setListDepartment)
             })

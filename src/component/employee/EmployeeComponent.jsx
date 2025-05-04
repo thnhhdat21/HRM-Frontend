@@ -6,7 +6,7 @@ import { responseData } from '../../util/ResponseUtil';
 import { getCountEmployee, getListEmployee } from '../../service/ManageEmployeeService';
 import EmployeeOfDepartment from './component/EmployeeOfDeparment';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
+import { updatePageIndexFilter, updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
 import DeparmentFilterComponent from './component/DeparmentFilterComponent';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import UpdateEducationComponent from './profile/update/UpdateEducationComponent';
@@ -17,7 +17,6 @@ import UpdateResumeComponent from './profile/update/UpdateResumeComponent';
 import { getResumeProfile } from '../../service/EmployeeService';
 import UpdateRewardAndPenaltyComponent from './crud/UpdateRewardAndPenaltyComponent';
 import CreateContractComponent from './crud/CreateContractComponent';
-import { getContractProfileByEmloyeeId } from '../../service/ContractService';
 import { activeAccount, lockAccount, unlockAccount } from '../../service/AccountService';
 import { toast } from 'react-toastify';
 
@@ -27,7 +26,7 @@ const EmployeeComponent = () => {
     const searchFilter = useSelector((state) => state.searchFilter)
     const dispatch = useDispatch();
     dispatch(updateTitleHeader({ title: "Danh sách nhân sự", subTitle: "" }))
-
+    const [totalDecision, setTotalDecision] = useState(0) // hiển thị phân trang
     const [mapCountType, setMapCountType] = useState(new Map())
     const [listEmployee, setListEmployee] = useState([])
     const [typeOpen, setTypeOpen] = useState([])
@@ -53,6 +52,8 @@ const EmployeeComponent = () => {
                 const map = new Map()
                 listItem.map((item) => map.set(item.type, item.count))
                 setMapCountType(map)
+                const totalCount = listItem.reduce((total, item) => total + Number(item.count || 0), 0);
+                setTotalDecision(totalCount)
             }
         })
     }, [
@@ -70,8 +71,10 @@ const EmployeeComponent = () => {
         })
     }, [searchFilter])
 
-    const onChangeType = (e) => {
+    const onChangeType = (e, count) => {
         dispatch(updateTypeFilter(e.target.value))
+        dispatch(updatePageIndexFilter(1))
+        setTotalDecision(count)
     }
 
     //handle click update
@@ -142,17 +145,17 @@ const EmployeeComponent = () => {
                                 <ul class="nav ">
                                     <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "10px" }}>
                                         <button class={`nav-link nav-link-profile ${searchFilter.type === '' ? "active" : ""}`}
-                                            data-bs-target="#setting-asset-group" name='type' value={null} onClick={onChangeType}>Tất cả ({(mapCountType.get(1) + mapCountType.get(2)) || 0})</button>
+                                            data-bs-target="#setting-asset-group" name='type' value={null} onClick={(e) => onChangeType(e, (mapCountType.get(1) + mapCountType.get(2)))}>Tất cả ({(mapCountType.get(1) + mapCountType.get(2)) || 0})</button>
                                     </li>
                                     {searchFilter.status !== '3' && (
                                         <>
                                             <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "10px" }}>
                                                 <button class={`nav-link nav-link-profile ${searchFilter.type === '1' ? "active" : ""}`}
-                                                    data-bs-target="#setting-asset-group" name='type' value={1} onClick={onChangeType}>Thử việc ({mapCountType.get(1) || 0})</button>
+                                                    data-bs-target="#setting-asset-group" name='type' value={1} onClick={(e) => onChangeType(e, mapCountType.get(1))}>Thử việc ({mapCountType.get(1) || 0})</button>
                                             </li>
                                             <li class="nav-item" role="presentation" style={{ marginRight: "10px" }}>
                                                 <button class={`nav-link nav-link-profile ${searchFilter.type === '2' ? "active" : ""}`}
-                                                    data-bs-target="#setting-asset-unit" name='type' value={2} onClick={onChangeType}>Chính thức ({mapCountType.get(2) || 0})</button>
+                                                    data-bs-target="#setting-asset-unit" name='type' value={2} onClick={(e) => onChangeType(e, mapCountType.get(2))}>Chính thức ({mapCountType.get(2) || 0})</button>
                                             </li>
                                         </>
                                     )}
@@ -199,10 +202,33 @@ const EmployeeComponent = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="row pageable-center">
+                                <div className="col-sm-12 col-md-5">
+                                    <div>Hiển thị {(() => {
+                                        const start = (searchFilter.pageIndex - 1) * 12 + 1;
+                                        const end = Math.min(searchFilter.pageIndex * 12, totalDecision);
+                                        return `${start} - ${end}`;
+                                    })()} trong {totalDecision} bản ghi</div>
+                                </div>
+                                <div className="col-sm-12 col-md-7">
+                                    <div className="dataTables_paginate mg-top-0">
+                                        <ul className="pagination">
+                                            <li className={`page-item previous disabled my-center ${searchFilter.pageIndex === 1 ? "hidden" : ""}`} onClick={() => { dispatch(updatePageIndexFilter(searchFilter.pageIndex - 1)) }}>
+                                                <i className="ti ti-chevron-left"></i>
+                                            </li>
+                                            <li className="page-item active "><a className="page-link">{searchFilter.pageIndex}</a></li>
+                                            <li className={`page-item next disabled my-center  ${((searchFilter.pageIndex - 1) * 12 + 12) >= totalDecision ? "hidden" : ""}`} onClick={() => { dispatch(updatePageIndexFilter(searchFilter.pageIndex + 1)) }}>
+                                                <i className="ti ti-chevron-right"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <ContextMenuEmployee x={x}
                 y={y}
                 showMenu={showMenu}
@@ -222,7 +248,8 @@ const EmployeeComponent = () => {
             <UpdateRewardAndPenaltyComponent
                 employeeId={infoEmployee.employeeId}
                 openModal={["#update-reward-penalty"]}
-                typeOpen={typeOpen} />
+                typeOpen={typeOpen}
+            />
 
             <DeparmentFilterComponent typeOpen={typeOpen} />
 

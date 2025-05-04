@@ -14,6 +14,11 @@ function closeOptions() {
     const el5 = document.getElementById("options-jp-timekeeping");
     if (el5) el5.classList.remove("show");
 
+    const el6 = document.getElementById("options-time-leave-start");
+    if (el6) el6.classList.remove("show");
+
+    const el7 = document.getElementById("options-time-leave-end");
+    if (el7) el7.classList.remove("show");
 }
 
 document.addEventListener("click", function (event) {

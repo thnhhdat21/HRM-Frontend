@@ -5,6 +5,8 @@ import { deleteJobPosition, getListJobPosition } from '../../service/JobPosition
 import { responseData, responseDelete } from '../../util/ResponseUtil';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const SettingJobPositionComponent = () => {
     const tableRef = useRef(null)
@@ -12,6 +14,8 @@ const SettingJobPositionComponent = () => {
     const [listJobPostion, setListJobPostion] = useState({})
     const [selectedId, setSelectedId] = useState("")
     const [typeOpen, setTypeOpen] = useState([])
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Vị trí công việc", subTitle: "" }))
 
     useEffect(() => {
         getListJobPosition().then((response) => {
@@ -29,23 +33,21 @@ const SettingJobPositionComponent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-                        <div class="my-auto mb-2">
-                            <h2 class="mb-1">Vị trí nhân sự</h2>
-                        </div>
-                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                            <div class="mb-2">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                            <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
+                                <ul class="nav ">
+                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
+                                        <button class="nav-link nav-link-profile active" id="info-tab"
+                                        >Vị trí công việc</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_job_position"
                                     class="btn btn-primary d-flex align-items-center"
                                     onClick={() => setTypeOpen(prevList => [...prevList, "open"])}><i
                                         class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
-                            <div className='d-flex' style={{ gap: '20px', fontSize: '14px', fontWeight: "500" }}>
-                                <span className='active-category-list'>Vị trí công việc</span>
                             </div>
                         </div>
                         <div class="card-body p-0">

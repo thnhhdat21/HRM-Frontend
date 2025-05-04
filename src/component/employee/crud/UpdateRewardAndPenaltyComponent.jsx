@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getListRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
-import { PENALTY, REWARD } from '../../../util/RewardAndPenaltyUtil';
 import { responseData } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
-import { updateDecisionRewardAndPenalty } from '../../../service/DecisionService';
+import { updateDecisionRewardAndPenaltyEmployee } from '../../../service/DecisionService';
+import { DECISION_TYPE_PENALTY, DECISION_TYPE_REWARD } from '../../../util/DecisionUtil';
 
 const UpdateRewardAndPenaltyComponent = ({ employeeId, openModal, typeOpen }) => {
     const modalId = "update-reward-penalty"
@@ -31,12 +31,12 @@ const UpdateRewardAndPenaltyComponent = ({ employeeId, openModal, typeOpen }) =>
     }, [openModal])
 
     useEffect(() => {
-        if (typeOpen.at(-1) === REWARD)
-            getListRewardOrPenalty(REWARD).then((response) => {
+        if (typeOpen.at(-1) === DECISION_TYPE_REWARD)
+            getListRewardOrPenalty(DECISION_TYPE_REWARD).then((response) => {
                 responseData(response, setListRewardOrPenalty)
             })
-        else if (typeOpen.at(-1) === PENALTY)
-            getListRewardOrPenalty(PENALTY).then((response) => {
+        else if (typeOpen.at(-1) === DECISION_TYPE_PENALTY)
+            getListRewardOrPenalty(DECISION_TYPE_PENALTY).then((response) => {
                 responseData(response, setListRewardOrPenalty)
             })
     }, [typeOpen])
@@ -97,8 +97,7 @@ const UpdateRewardAndPenaltyComponent = ({ employeeId, openModal, typeOpen }) =>
             }
         }
         if (isCorrect) {
-            console.log(rows)
-            updateDecisionRewardAndPenalty(rows).then((response) => {
+            updateDecisionRewardAndPenaltyEmployee(rows).then((response) => {
                 if (response.data.code === 1000) {
                     toast.success("Thêm phúc lợi thành công")
                     document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
@@ -135,7 +134,7 @@ const UpdateRewardAndPenaltyComponent = ({ employeeId, openModal, typeOpen }) =>
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{typeOpen.at(-1) === REWARD ? "Chế độ phúc lợi" : "Kỷ luật nội bộ"}</h4>
+                                <h4 class="modal-title me-2">{typeOpen.at(-1) === DECISION_TYPE_REWARD ? "Chế độ phúc lợi" : "Kỷ luật nội bộ"}</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -154,7 +153,7 @@ const UpdateRewardAndPenaltyComponent = ({ employeeId, openModal, typeOpen }) =>
                                                             <tr>
                                                                 <th style={{ width: "20%" }}>Số quyết định</th>
                                                                 <th style={{ width: "20%" }}>Ngày thưởng</th>
-                                                                <th style={{ width: "30%" }}>{typeOpen.at(-1) === REWARD ? "Tên phúc lợi" : "Tên kỷ luật"}</th>
+                                                                <th style={{ width: "30%" }}>{typeOpen.at(-1) === DECISION_TYPE_REWARD ? "Tên phúc lợi" : "Tên kỷ luật"}</th>
                                                                 <th>Số tiền</th>
                                                                 <th></th>
                                                             </tr>

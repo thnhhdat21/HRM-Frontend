@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuContract from '../../contextmenu/ContextMenuContract';
-import LeaveApprovalComponent from '../approval/crud/LeaveApprovalComponent';
+import LeaveApprovalComponent from '../letter/crud/LeaveLetterComponent';
 
 const EmployeeLeaveComponent = () => {
     const tableRef = useRef(null)

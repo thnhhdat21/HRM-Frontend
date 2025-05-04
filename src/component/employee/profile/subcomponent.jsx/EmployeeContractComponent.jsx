@@ -17,7 +17,6 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
     const [hasFetched, setHasFetched] = useState(false);
     const [openModal, setOpenModal] = useState([])
     const [pagePrev, setPagePrev] = useState([])
-    console.log(listContractOfEmployee)
     useEffect(() => {
         if (Number(navId) === PROFILE_CONTRACT && !hasFetched) {
             setHasFetched(true)
@@ -51,13 +50,11 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
             if (contractHistory.data.code === 1000) {
                 setContractHistory(contractHistory.data.data)
             }
-            if (openModal.at(-1) === "open") {
-                getListContractOfEmployee(employeeId).then((response) => {
-                    if (response.data.code === 1000) {
-                        setListContractOfEmployee(response.data.data)
-                    }
-                })
-            }
+            getListContractOfEmployee(employeeId).then((response) => {
+                if (response.data.code === 1000) {
+                    setListContractOfEmployee(response.data.data)
+                }
+            })
             setContract(contractProfile.data.data)
         }
     }
@@ -92,6 +89,7 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
             setContract(contractProfile.data.data)
         }
     }
+
     return (
         <>
             <div class="tab-pane fade " id="profile-contract" style={{ margin: "60px 10px 0 10px" }}>
@@ -223,7 +221,7 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
                                         <div class="col-md-12">
                                             <div class="mb-3 d-flex flex-column info-detail">
                                                 <label class="form-label">Mô tả</label>
-                                                <span>-</span>
+                                                <span>{contract.description}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -235,7 +233,7 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
                                         <div class="col-md-6">
                                             <div class="mb-3 d-flex flex-column info-detail">
                                                 <label class="form-label">Lương cở bản gross</label>
-                                                <span className='ms-3'>{Number(contract.salaryGross).toLocaleString('vi-VN') + ' VNĐ'}</span>
+                                                <span className='ms-3'>{contract.salaryGross != 0 && Number(contract.salaryGross).toLocaleString('vi-VN') + ' VNĐ'}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">

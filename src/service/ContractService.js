@@ -74,7 +74,6 @@ export const createContract = (values, allowances) => {
         createType: values.createType,
         allowances: updatedList
     }
-    console.log(responseBody)
     return axios.post(`${REST_API_BASE_URL}/create-contract`, responseBody)
 }
 

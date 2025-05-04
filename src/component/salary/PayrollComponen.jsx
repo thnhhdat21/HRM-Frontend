@@ -2,8 +2,12 @@ import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuAsset from '../../contextmenu/ContextMenuAsset';
 import './css/salary-style.css'
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const PayrollComponen = () => {
+    const dispatch = useDispatch()
+    dispatch(updateTitleHeader({ title: "Danh sách bảng lương", subTitle: "" }))
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 260);
     return (

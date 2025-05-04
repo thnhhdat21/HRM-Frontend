@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { getApprovalReasonDetail } from '../../../../service/ApprovalReasonService';
 import { toast } from 'react-toastify';
 import { type } from '@testing-library/user-event/dist/type';
+import { getLetterReasonDetail } from '../../../../service/LetterReasonService';
 
 const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpdate, handleCreate }) => {
     const [rows, setRows] = useState([{
@@ -40,7 +40,7 @@ const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUp
 
     useEffect(() => {
         if (typeOpen.at(-1) === "edit") {
-            getApprovalReasonDetail(selectedId).then((response) => {
+            getLetterReasonDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const approvalReason = response.data.data
                     setValues({

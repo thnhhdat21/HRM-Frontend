@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
 import { createRewardOrPenalty, getListRewardOrPenalty, updateRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
 import { responseUpdate, responseUpdateType } from '../../../util/ResponseUtil';
-import { REWARD } from '../../../util/RewardAndPenaltyUtil';
 import { toast } from 'react-toastify';
+import { DECISION_TYPE_REWARD } from '../../../util/DecisionUtil';
 
 
 const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
@@ -55,7 +55,7 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
         isCorrect = checkValidator(isCorrect, valuesEdit.name, valuesEdit.amount)
         if (isCorrect) {
             updateRewardOrPenalty(selected.id, valuesEdit.name, valuesEdit.amount, valuesEdit.des).then((response) => {
-                responseUpdateType(response, "Cập nhật thành công", setListReward, getListRewardOrPenalty, REWARD)
+                responseUpdateType(response, "Cập nhật thành công", setListReward, getListRewardOrPenalty, DECISION_TYPE_REWARD)
                 if (response.data.code === 1000) {
                     document.querySelector('#crud_reward [data-bs-dismiss="modal"]').click();
                 }
@@ -71,8 +71,8 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
                 return
         });
         if (isCorrect) {
-            createRewardOrPenalty(rows, REWARD).then((response) => {
-                responseUpdateType(response, "Thêm mới thành công", setListReward, getListRewardOrPenalty, REWARD)
+            createRewardOrPenalty(rows, DECISION_TYPE_REWARD).then((response) => {
+                responseUpdateType(response, "Thêm mới thành công", setListReward, getListRewardOrPenalty, DECISION_TYPE_REWARD)
                 if (response.data.code === 1000) {
                     document.querySelector('#crud_reward [data-bs-dismiss="modal"]').click();
                 }

@@ -3,8 +3,12 @@ import './css/setting-style.css';
 import { Link } from 'react-router-dom';
 import { getLeaveSetting, updateLeaveSetting } from '../../service/LeaveSettingservice';
 import { responseData, responseUpdate } from '../../util/ResponseUtil';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { useDispatch } from 'react-redux';
 
 const SettingOnLeaveComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Cài đặt nghỉ phép", subTitle: "" }))
     const [leaveSetting, setLeaveSetting] = useState({})
     const [values, setValues] = useState({
         id: "",
@@ -173,13 +177,13 @@ const SettingOnLeaveComponent = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-4">
+                    {/* <div class="card mt-4">
                         <Link to={"/settings/timekeeping"} class="d-flex justify-content-between align-items-center p-3">
                             <h5>CÀI ĐẶT CA LÀM VIỆC</h5>
                             <i style={{ fontSize: "25px" }} className='ti ti-external-link' />
                         </Link>
 
-                    </div>
+                    </div> */}
 
 
                     <div class="modal-footer mt-2">

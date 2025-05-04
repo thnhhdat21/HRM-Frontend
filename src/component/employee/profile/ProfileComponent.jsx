@@ -5,7 +5,6 @@ import EmployeeWorkComponnent from './subcomponent.jsx/EmployeeWorkComponent';
 import EmployeeInsuranceComponnent from './subcomponent.jsx/EmployeeInsuranceComponent';
 import EmployeeContractComponent from './subcomponent.jsx/EmployeeContractComponent';
 import EmployeeSalaryComponent from './subcomponent.jsx/EmployeeSalaryComponent';
-import EmployeeAssetComponent from './subcomponent.jsx/EmployeeAssetComponent';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getFile } from '../../../service/MinIOService';
 import { PROFILE_ASSET, PROFILE_ATTACK, PROFILE_CONTRACT, PROFILE_END_JOD, PROFILE_INSURANCE, PROFILE_RECEIVE, PROFILE_RESUME, PROFILE_SALARY, PROFILE_WORK } from '../../../util/EmployeeUtil';
@@ -77,10 +76,6 @@ const ProfileComponnent = () => {
                                         <button className="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
                                             data-bs-target="#profile-salary" value={PROFILE_SALARY} onClick={handleClickNav}>Lương & Phụ cấp</button>
                                     </li>
-                                    <li className="nav-item" role="presentation">
-                                        <button className="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
-                                            data-bs-target="#profile-asset" value={PROFILE_ASSET} onClick={handleClickNav} >Tài sản</button>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -91,7 +86,6 @@ const ProfileComponnent = () => {
                     <EmployeeWorkComponnent employeeId={employeeId} navId={navId} />
                     <EmployeeInsuranceComponnent />
                     <EmployeeContractComponent employeeId={employeeId} navId={navId} />
-                    <EmployeeAssetComponent />
                     <EmployeeSalaryComponent />
                 </div>
             </div >

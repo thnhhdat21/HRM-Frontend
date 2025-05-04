@@ -30,9 +30,6 @@ const TypeContractComponent = () => {
         contractState: "",
         contractDateLiquid: "",
     })
-
-    console.log(infoEmployee)
-
     useEffect(() => {
         const fetchAll = async () => {
             const response = await getCountContractType(searchFilter)
@@ -160,9 +157,6 @@ const TypeContractComponent = () => {
 
                                     </li>
                                 </ul>
-
-
-
                             </div>
 
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">

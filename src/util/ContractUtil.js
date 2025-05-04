@@ -4,7 +4,8 @@ import { compareDates } from "./TimeUtil";
 export const ContractStatus = new Map([
     [1, { name: "Đang hiệu lực", bg: "badge-success" }],
     [2, { name: "Chưa hiệu lực", bg: "badge-warning" }],
-    [3, { name: "Đã thanh lý", bg: "badge-danger" }],
+    [3, { name: "Hết hiệu lực", bg: "badge-dark" }],
+    [4, { name: "Đã thanh lý", bg: "badge-danger" }],
 ]);
 
 export const ContractState = new Map([
@@ -26,10 +27,10 @@ export const checkValidatorContract = (contractDetail) => {
     if (contractDetail.contractType === 0 || contractDetail.contractType === "") {
         toast.error("Yêu cầu chọn thông tin loại hợp đồng!")
         return false;
-    } else if (contractDetail.department === 0 || contractDetail.department === "") {
+    } else if ((contractDetail.department === 0 || contractDetail.department === "")) {
         toast.error("Yêu cầu chọn thông tin phòng ban!")
         return false;
-    } else if (contractDetail.jobPosition === 0 || contractDetail.jobPosition === "") {
+    } else if (contractDetail.parent === 0 && (contractDetail.jobPosition === 0 || contractDetail.jobPosition === "")) {
         toast.error("Yêu cầu chọn thông tin vị trí!")
         return false;
     } else if (contractDetail.dateStart === "") {
@@ -50,23 +51,26 @@ export const checkValidatorContract = (contractDetail) => {
         toast.error("Ngày ký không hợp lệ!")
         return false;
     }
-    else if (contractDetail.salaryGross === 0 || contractDetail.salaryGross === "") {
+    else if (contractDetail.parent === 0 && (contractDetail.salaryGross === 0 || contractDetail.salaryGross === "")) {
         toast.error("Yêu cầu nhập thông tin tiền lương!")
         return false;
     }
     return true
 }
 
-export const checkValidatorAllowanceContract = (value) => {
-    if (value.allowanceId === "") {
-        toast.error("Yêu cầu nhập số tiền phụ cấp!")
-        return false;
-    } else if (value.amount === 0 || value.amount === "") {
-        toast.error("Yêu cầu nhập số tiền phụ cấp!")
-        return false;
-    } else if (value.amount === "") {
-        toast.error("Yêu cầu nhập số tiền phụ cấp!")
-        return false;
+export const checkValidatorAllowanceContract = (value, parent) => {
+    if (parent === 0) {
+        if (value.allowanceId === "") {
+            toast.error("Yêu cầu nhập số tiền phụ cấp!")
+            return false;
+        } else if (value.amount === 0 || value.amount === "") {
+            toast.error("Yêu cầu nhập số tiền phụ cấp!")
+            return false;
+        } else if (value.amount === "") {
+            toast.error("Yêu cầu nhập số tiền phụ cấp!")
+            return false;
+        }
+        return true;
     }
     return true;
 }

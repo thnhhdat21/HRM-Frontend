@@ -1,14 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { updateHoliday } from '../../../service/HolidayService';
+import { responseDataUpdateUI } from '../../../util/ResponseUtil';
+import { toast } from 'react-toastify';
 
-const HolidaysCRUDComponent = () => {
+const HolidaysCRUDComponent = ({ selected, openModal, handleUpdateHoliday }) => {
+    const MODAL_CREATE = "create"
+    const MODAL_EDIT = "edit"
+    const [values, setValues] = useState({
+        id: "",
+        reason: "",
+        type: "",
+        date: "",
+        description: ""
+    })
+    console.log(selected)
+    useEffect(() => {
+        if (openModal.at(-1) === MODAL_CREATE) {
+            setValues({
+                id: "",
+                reason: "",
+                type: "",
+                date: "",
+                description: ""
+            })
+        } else if (openModal.at(-1) === MODAL_EDIT) {
+            setValues({
+                id: selected.id,
+                reason: selected.reason,
+                type: selected.type,
+                date: selected.date,
+                description: selected.description
+            })
+        }
+    }, [openModal])
+
+    const onChangeInput = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value })
+    }
+
+    const handleClickUpdate = (e) => {
+        e.preventDefault()
+        var isCorrect = false;
+        isCorrect = validator(values)
+
+        if (isCorrect) {
+            handleUpdateHoliday(values)
+        }
+    }
+
+
+    const validator = (values) => {
+        if (values.reason === "") {
+            toast.error("Yêu cầu nhập đầy đủ lý do!")
+            return false;
+        } else if (values.type === 0 || values.type === "") {
+            toast.error("Yêu cầu chọn loại nghỉ!")
+            return false
+        } else if (values.date === "") {
+            toast.error("Yêu cầu chọn ngày nghỉ!")
+            return false
+        }
+        return true
+    }
+
     return (
         <>
             <div class="modal fade" id="crud_holiday">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-edit-account">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-crud-appendix">
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Tạo mới ngày nghỉ</h4>
+                                <h4 class="modal-title me-2">{openModal.at(-1) === MODAL_CREATE ? "Tạo mới " : "Cập nhật"}  ngày nghỉ</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -18,90 +80,42 @@ const HolidaysCRUDComponent = () => {
 
                         <div class="modal-body overflow-modal-crud">
                             <div class="row ">
-                                <div class="col-md-12">
-                                    <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger">Thông tin chung</label>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Lý do </label>
-                                        <input type="email" class="form-control" placeholder='Lý do nghỉ' />
+                                        <input type="email" class="form-control" placeholder='Lý do nghỉ' name='reason' value={values.reason} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row mt-2">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Loại nghỉ </label>
-                                        <input type="date" class="form-control" placeholder='Mã hợp đồng' />
+                                        <select className='form-label' value={values.type} name='type' onChange={onChangeInput}>
+                                            <option value={0} hidden>Chọn loại nghỉ</option>
+                                            <option value={1}>Nghỉ lễ</option>
+                                            <option value={2}>Nghỉ bù</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger">Danh sách ngày nghỉ</label>
-                            </div>
-                            <div className='row' style={{ marginLeft: "10px" }}>
+                            <div className='row'>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ngày nghỉ </label>
+                                        <input type="date" class="form-control" name='date' value={values.date} onChange={onChangeInput} />
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <table class="table borderless table-create-profile">
-                                            <tr>
-                                                <th>Ngày nghỉ</th>
-                                                <th>Mô tả</th>
-                                                <th>Tính công</th>
-                                                <th>Phòng ban</th>
-                                                <th>Vị trí</th>
-                                                <th style={{ width: "5%" }}></th>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="date" className="form-control" placeholder="Nhập lương" /></td>
-                                                <td><input type="text" className="form-control" placeholder="Nhập lương" /></td>
-                                                <td>
-                                                    <select className="form-control">
-                                                        <option value="Cha">Có</option>
-                                                        <option value="Mẹ">Không</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select className="form-control">
-                                                        <option value="" selected hidden>Chọn</option>
-                                                        <option value="Cha">Tất cả</option>
-                                                        <option value="Mẹ">Tích hợp hệ thống</option>
-                                                        <option value="Anh trai">Dịch vụ trực tuyến</option>
-                                                        <option value="Chị gái">Chị gái</option>
-                                                        <option value="Con">Con</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select className="form-control">
-                                                        <option value="" selected hidden>Chọn</option>
-                                                        <option value="Cha">Tất cả</option>
-                                                        <option value="Mẹ">Tích hợp hệ thống</option>
-                                                        <option value="Anh trai">Dịch vụ trực tuyến</option>
-                                                        <option value="Chị gái">Chị gái</option>
-                                                        <option value="Con">Con</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <div class="col-md-1 d-flex align-items-center">
-                                                        <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div class="col-md-1 mt-2" style={{ marginLeft: "10px" }}>
-                                            <div class="mb-2 circle">
-                                                <i className='ti ti-plus' />
-                                            </div>
-                                        </div>
+                                        <label class="form-label">Mô tả </label>
+                                        <textarea type="text" class="form-control" name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary">CẬP NHẬT </button>
+                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

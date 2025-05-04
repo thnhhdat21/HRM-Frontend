@@ -88,7 +88,7 @@ const EndContractComponent = ({ contractId, typeOpen, updateListContract }) => {
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Mã hợp đồng </label>
-                                        <input type="text" class="form-control readonly-input" value={contract.contractCode} />
+                                        <input type="text" class="form-control readonly-input" value={contract.contractCode} onChange={onChangeInput} />
                                     </div>
                                 </div>
                                 <div class="col-md-6">

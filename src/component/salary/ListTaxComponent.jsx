@@ -1,8 +1,12 @@
 import React, { useRef } from 'react';
 import './css/tax-style.css'
 import useDoubleClickDetail from '../../hooks/useDoubleClickDetail';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const ListTaxComponent = () => {
+    const dispatch = useDispatch()
+    dispatch(updateTitleHeader({ title: "Bảng thuế", subTitle: "" }))
     const tableRef = useRef(null)
     const { xdb, ydb, showMenudb } = useDoubleClickDetail(tableRef, 550, 220);
 

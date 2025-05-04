@@ -55,8 +55,6 @@ const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) =>
     }
     useEffect(() => {
         if (typeOpen.at(-1) === TYPE_CREATE_APPDIX) {
-            console.log("Vào 1")
-            console.log(employeeId)
             const fetchAll = async () => {
                 const response = await getContractProfileByEmloyeeId(employeeId)
                 if (response.data.code === 1000) {
@@ -86,7 +84,6 @@ const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) =>
             }
             fetchAll()
         } else if (typeOpen.at(-1) === TYPE_CREATE_NEW) {
-            console.log("Vào 2")
             const fetchAll = async () => {
                 const response = await getResumeProfile(employeeId)
                 if (response.data.code === 1000) {
@@ -113,7 +110,6 @@ const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) =>
         }
 
         if (!hasFetched && (typeOpen.at(-1) === TYPE_CREATE_NEW || typeOpen.at(-1) === TYPE_CREATE_APPDIX)) {
-            console.log("Đã vào đâyy")
             setHasFetched(true)
             getListDepartmentChild().then((response) => {
                 responseData(response, setListDepartment)
@@ -242,13 +238,13 @@ const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) =>
                                             <div class="col-md-7">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nhân sự </label>
-                                                    <input type="text" class="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName) || ""} />
+                                                    <input type="text" class="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName) || ""} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="mb-3">
                                                     <label class="form-label">Mã hợp đồng </label>
-                                                    <input type="email" class={`form-control  ${typeOpen.at(-1) === TYPE_CREATE_NEW ? "" : "readonly-input"}`} name='contractCode' value={contractDetail.contractCode || ""} onChange={onChangeInput} />
+                                                    <input type="text" class={`form-control  ${typeOpen.at(-1) === TYPE_CREATE_NEW ? "" : "readonly-input"}`} name='contractCode' value={contractDetail.contractCode || ""} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                         </div>

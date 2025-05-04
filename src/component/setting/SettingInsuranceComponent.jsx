@@ -3,8 +3,12 @@ import './css/setting-style.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { responseData, responseUpdate } from '../../util/ResponseUtil';
 import { getInsuranceSetting, updateInsuranceSetting } from '../../service/InsuranceSettingService';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 
 const SettingInsuranceComponent = () => {
+    const dispatch = useDispatch();
+    dispatch(updateTitleHeader({ title: "Cài đặt bảo hiểm", subTitle: "" }))
     const [insuranceSetting, setInsuranceSetting] = useState({});
     const [values, setValues] = useState({
         id: "",
