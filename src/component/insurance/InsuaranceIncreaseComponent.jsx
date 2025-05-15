@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuInsurance from '../../contextmenu/ContextMenuInsurance';
-import BrowseInsuranceComponent from './crud/BrowseInsuranceComponent';
-import UpdateTypeInsurance from './crud/UpdateTypeInsurance';
 
 const InsuranceIncreaseComponent = () => {
     const tableRef = useRef(null)
@@ -704,8 +702,6 @@ const InsuranceIncreaseComponent = () => {
                 </div>
             </div>
             <ContextMenuInsurance x={x} y={y} showMenu={showMenu} />
-            <BrowseInsuranceComponent />
-            <UpdateTypeInsurance />
         </>
     );
 };

@@ -6,10 +6,13 @@ import TableBusinessBlockComponent from './component/TableBusinessBlockComponent
 import { deleteBusinessBlock, getBusinessBlock } from '../../service/BusinessBlockService';
 import { toast } from 'react-toastify';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
-import ContextMenuSetting from '../../contextmenu/ContextMenuSetting';
-import { deleteDepartment, getListDepartment } from '../../service/DepartmentService';
+import { deleteDepartment, getListDepartment } from '../../service/Manage/ManageDepartmentService';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { responseData } from '../../util/ResponseUtil';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 
 const ManageDepartmentComponent = () => {
     const dispatch = useDispatch();
@@ -22,7 +25,7 @@ const ManageDepartmentComponent = () => {
     const [modalId, setModalId] = useState(null)
     const [handleDelete, setHandleDelete] = useState(null)
     const [selectedId, setSelectedId] = useState("")
-    const [typeOpenModal, setTypeOpenModal] = useState("")
+    const [typeOpenModal, setTypeOpenModal] = useState([])
 
     const [openBusinessBlock, setOpenBusinessBlock] = useState(false)
 
@@ -33,44 +36,32 @@ const ManageDepartmentComponent = () => {
 
     useEffect(() => {
         getListDepartment().then((response) => {
-            if (response.data.code === 1000) {
-                setListDepartment(response.data.data)
-            } else {
-                toast.error(response.data.message)
-            }
+            responseData(response, setListDepartment)
         })
     }, [])
 
-    const handleDeleteBusinessBlock = (id, setList) => {
-        deleteBusinessBlock(id).then((response) => {
+    const handleDeleteBusinessBlock = () => {
+        deleteBusinessBlock(selectedId).then((response) => {
             if (response.data.code === 1000) {
                 toast.success("Xóa khối nghiệp vụ thành công")
-                setList(prevList => prevList.filter(item => item.id !== id));
+                getBusinessBlock().then((response) => {
+                    responseData(response, setListBusinessBlock)
+                })
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
             } else {
                 toast.success(response.data.message)
             }
         })
     }
 
-    const removeDepartmentById = (department, id) => {
-        if (!department.children) return department.id !== id ? department : null;
-
-        const newChildren = department.children
-            .map(child => removeDepartmentById(child, id))
-            .filter(child => child !== null);
-
-        return department.id !== id
-            ? { ...department, children: newChildren }
-            : null;
-    };
-
-
-
-    const handleDeleteDepartment = (id, setList) => {
-        deleteDepartment(id).then((response) => {
+    const handleDeleteDepartment = () => {
+        deleteDepartment(selectedId).then((response) => {
             if (response.data.code === 1000) {
-                toast.success("Xóa khối phòng ban thành công")
-                setList(prevList => removeDepartmentById(prevList, id));
+                toast.success("Xóa phòng ban thành công")
+                getListDepartment().then((response) => {
+                    responseData(response, setListDepartment)
+                })
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
             } else {
                 toast.success(response.data.message)
             }
@@ -79,23 +70,17 @@ const ManageDepartmentComponent = () => {
 
     useEffect(() => {
         getBusinessBlock().then((response) => {
-            if (response.data.code === 1000) {
-                setListBusinessBlock(response.data.data)
-            } else {
-                toast.error(response.data.message)
-            }
+            responseData(response, setListBusinessBlock)
         })
     }, [])
 
     useEffect(() => {
         if (openBusinessBlock) {
-            setHandleDelete(() => handleDeleteBusinessBlock)
             setModalId("crud_business_block")
             setTableRef(tableBusinessRef)
         } else {
             setTableRef(tableDepartmentRef)
             setModalId("crud_department")
-            setHandleDelete(() => handleDeleteDepartment)
         }
     }, [openBusinessBlock])
 
@@ -125,10 +110,10 @@ const ManageDepartmentComponent = () => {
                                 <div class="dropdown-menu shadow-none">
                                     <div class="card mb-0">
                                         <div class="card-body crud-depart">
-                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" data-bs-toggle="modal" data-bs-target="#crud_department" onClick={() => { setTypeOpenModal("create") }}>
+                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" data-bs-toggle="modal" data-bs-target="#crud_department" onClick={() => { setTypeOpenModal((prev) => [...prev, "crud_department-create"]) }}>
                                                 Phòng ban,chi nhánh
                                             </a>
-                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" data-bs-toggle="modal" data-bs-target="#crud_business_block" onClick={() => setTypeOpenModal("create")}>
+                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" data-bs-toggle="modal" data-bs-target="#crud_business_block" onClick={() => { setTypeOpenModal((prev) => [...prev, "crud_business_block-create"]) }}>
                                                 Khối nghiệp vụ
                                             </a>
                                         </div>
@@ -143,9 +128,15 @@ const ManageDepartmentComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuSetting x={x} y={y} showMenu={showMenu} modalId={modalId} handleDelete={handleDelete} selectedId={selectedId} setlist={openBusinessBlock ? setListBusinessBlock : setListDepartment} setTypeOpenModal={setTypeOpenModal} />
-            <DepartmentCRUDComponent setListDepartment={setListDepartment} typeOpen={typeOpenModal} setTypeOpen={setTypeOpenModal} listDepartment={listDepartment} listBusinessBlock={listBusinessBlock} selectedId={selectedId} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={modalId} setTypeOpen={setTypeOpenModal} />
+            <DepartmentCRUDComponent setListDepartment={setListDepartment} typeOpen={typeOpenModal} listDepartment={listDepartment} listBusinessBlock={listBusinessBlock} selectedId={selectedId} />
             <BusinessBlockCRUDComponent setListBusinessBlock={setListBusinessBlock} typeOpen={typeOpenModal} businessBlock={businessBlockDetail} />
+
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={openBusinessBlock ? handleDeleteBusinessBlock : handleDeleteDepartment}
+            />
+
         </>
     );
 };

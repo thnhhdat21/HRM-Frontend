@@ -1,12 +1,11 @@
-import axios from "axios";
-import { API_URL_PREFIX } from "./constant/URLConstant";
+import axiosClient from "./config/AxiosClient";
 
-const REST_API_BASE_URL = API_URL_PREFIX + "/file";
+const REST_API_BASE_URL = "/file";
 
 export const getFile = (fileName) => {
     const formData = new FormData();
     formData.append("fileName", fileName)
-    return axios.post(`${REST_API_BASE_URL}/get-file`, formData, {
+    return axiosClient.post(`${REST_API_BASE_URL}/get-file`, formData, {
         responseType: 'blob'
     })
 }

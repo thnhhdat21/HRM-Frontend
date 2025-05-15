@@ -9,13 +9,16 @@ import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
-import { createLetterReason, deleteLetterReason, getListLetterReason, updateLetterReason } from '../../service/LetterReasonService';
+import { createLetterReason, deleteLetterReason, updateLetterReason } from '../../service/Manage/ManageLetterReasonService';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import { getListLetterReason } from '../../service/LetterReasonService';
 
 const SettingApprovalComponent = () => {
     const dispatch = useDispatch();
     dispatch(updateTitleHeader({ title: "Cài đặt đơn từ", subTitle: "" }))
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 200, 82);
     const [typeOpen, setTypeOpen] = useState([])
     const [reasonType, setReasonType] = useState(1)
     const [listApprovalReason, setListApprovalReason] = useState([])
@@ -36,6 +39,9 @@ const SettingApprovalComponent = () => {
     const handleApprovalReason = () => {
         deleteLetterReason(selectedId).then((response) => {
             responseDelete(response, setListApprovalReason, selectedId)
+            if (response.data.code === 1000) {
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
         })
     }
 
@@ -74,53 +80,49 @@ const SettingApprovalComponent = () => {
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile'>
-                                        <button class="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation" >
+                                        <button className="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
                                             data-bs-target="#setting-asset-group" value={1} onClick={onChangeNav}>Lý do nghỉ</button>
                                     </li>
-                                    <li class="nav-item" role="presentation" className='nav-profile'>
-                                        <button class="nav-link nav-link-profile" id="info-tab" data-bs-toggle="tab"
+                                    <li className="nav-item nav-profile" role="presentation" >
+                                        <button className="nav-link nav-link-profile" id="info-tab" data-bs-toggle="tab"
                                             data-bs-target="#setting-asset-group" value={2} onClick={onChangeNav}>Lý do OT</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
                                             data-bs-target="#setting-asset-unit" value={3} onClick={onChangeNav}>Lý do làm theo chế độ</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
                                             data-bs-target="#setting-asset-unit" value={4} onClick={onChangeNav}>Lý do checkin/out</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
-                                            data-bs-target="#setting-asset-unit" value={5} onClick={onChangeNav}>Lý do công tác</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
                                             data-bs-target="#setting-asset-unit" value={6} onClick={onChangeNav}>Lý do thôi việc</button>
                                     </li>
                                 </ul>
                             </div>
 
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-                                <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target={`#${modalId}`}
-                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
-                                    <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                                <a href="#" className="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target={`#${modalId}`}
+                                    onClick={() => setTypeOpen(prevList => [...prevList, modalId + "-create"])}>
+                                    <i className="ti ti-circle-plus" style={{ fontSize: "20px" }} />
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive">
-                                <div class="table-container">
-                                    <table class="table" id='myTable'>
-                                        <thead class="thead-light">
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive">
+                                <div className="table-container">
+                                    <table className="table" id='myTable'>
+                                        <thead className="thead-light">
                                             <tr>
-                                                <th class="no-sort">
+                                                <th className="no-sort">
                                                 </th>
                                                 <th>Lý do</th>
                                                 <th>Tối đa</th>
@@ -132,7 +134,7 @@ const SettingApprovalComponent = () => {
                                         </thead>
                                         <tbody ref={tableRef}>
                                             {listApprovalReason.length > 0 && listApprovalReason.map((item, index) => (
-                                                <tr onContextMenu={() => setSelectedId(item.id)}>
+                                                <tr key={index} onContextMenu={() => setSelectedId(item.id)}>
                                                     <td></td>
                                                     <td>{item.reason}</td>
                                                     <td>{item.maximum}</td>
@@ -150,7 +152,13 @@ const SettingApprovalComponent = () => {
                     </div>
                 </div>
             </div >
-            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} handleDelete={handleApprovalReason} modalId={modalId} setTypeOpen={setTypeOpen} />
+
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleApprovalReason}
+            />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={modalId} setTypeOpen={setTypeOpen} />
+
             <ReasonLeaveCRUDComponent typeOpen={typeOpen} selectedId={selectedId} reasonType={reasonType} handleCreate={handleCreate} handleUpdate={handleUpdate} />
             <ReasonWorktimeCRUDComponent typeOpen={typeOpen} selectedId={selectedId} reasonType={reasonType} handleCreate={handleCreate} handleUpdate={handleUpdate} />
             <ReasonGeneralCRUDComponent typeOpen={typeOpen} selectedId={selectedId} reasonType={reasonType} handleCreate={handleCreate} handleUpdate={handleUpdate} />

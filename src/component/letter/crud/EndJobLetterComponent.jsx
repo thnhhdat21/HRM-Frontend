@@ -15,7 +15,8 @@ const EndJobLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
         dateRegis: new Date().toISOString().split('T')[0],
         employeeId: "",
         letterReasonId: "",
-        description: ""
+        description: "",
+        type: LETTER_TYPE_END_WORK
     })
 
     useEffect(() => {
@@ -32,7 +33,8 @@ const EndJobLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                 dateRegis: new Date().toISOString().split('T')[0],
                 employeeId: "",
                 letterReasonId: "",
-                description: ''
+                description: '',
+                type: LETTER_TYPE_END_WORK
             })
         } else if (typeOpen.at(-1) === editModal) {
             getLetter(letterId).then((response) => {
@@ -43,7 +45,8 @@ const EndJobLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                         dateRegis: letter.dateRegis,
                         employeeId: letter.employeeId,
                         letterReasonId: letter.letterReasonId,
-                        description: letter.description
+                        description: letter.description,
+                        type: LETTER_TYPE_END_WORK
                     })
                 }
             })

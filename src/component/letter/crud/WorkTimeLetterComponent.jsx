@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { compareDates } from '../../../util/TimeUtil';
 import { LETTER_TYPE_WORKTIME } from '../../../util/LetterUtil';
 import { responseData } from '../../../util/ResponseUtil';
-import { getLetterReasonDetail, getListLetterReason } from '../../../service/LetterReasonService';
+import { getListLetterReason } from '../../../service/LetterReasonService';
 import { getLetter, updateWorkTimeLetter } from '../../../service/LetterService';
 import { toast } from 'react-toastify';
+import { getLetterReasonDetail } from '../../../service/Manage/ManageLetterReasonService';
 
 const WorkTimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
     const createModal = "create_worktime_letter-create"

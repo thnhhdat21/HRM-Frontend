@@ -5,7 +5,7 @@ const HomeComponnent = () => {
         <>
             <div class="page-wrapper">
                 <div class="content">
-                    <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+                    {/* <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                         <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                             <div class="mb-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#add_ticket"
@@ -13,7 +13,7 @@ const HomeComponnent = () => {
                                         class="ti ti-circle-plus me-2"></i>Thêm bài viết</a>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div class="row">
                         <div class="col-xl-9 col-md-8">
@@ -21,30 +21,9 @@ const HomeComponnent = () => {
                                 <div
                                     class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
                                     <h5 class="text-info fw-medium">Tin tức nội bộ</h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-danger me-3"><i
-                                            class="ti ti-circle-filled fs-5 me-1"></i>High</span>
-                                        <div class="dropdown">
-                                            <a href="javascript:void(0);"
-                                                class="dropdown-toggle px-2 py-1 btn btn-white d-inline-flex align-items-center"
-                                                data-bs-toggle="dropdown">
-                                                Mark as Private
-                                            </a>
-                                            <ul class="dropdown-menu  dropdown-menu-end p-2">
-                                                <li>
-                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Mark as
-                                                        Private</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Mark as
-                                                        Public </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
-                                    <div
+                                    {/* <div
                                         class="d-flex align-items-center justify-content-between flex-wrap mb-3">
                                         <div class="d-flex align-items-center flex-wrap">
                                             <div class="mb-3">
@@ -91,7 +70,7 @@ const HomeComponnent = () => {
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

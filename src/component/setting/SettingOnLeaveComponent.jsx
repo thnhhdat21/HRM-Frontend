@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './css/setting-style.css';
-import { Link } from 'react-router-dom';
-import { getLeaveSetting, updateLeaveSetting } from '../../service/LeaveSettingservice';
+import { getLeaveSetting, updateLeaveSetting } from '../../service/Manage/LeaveSettingservice';
 import { responseData, responseUpdate } from '../../util/ResponseUtil';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { useDispatch } from 'react-redux';
@@ -13,11 +12,6 @@ const SettingOnLeaveComponent = () => {
     const [values, setValues] = useState({
         id: "",
         annualLeaveDays: "",
-        leaveCycleStart: "",
-        leaveCycleEnd: "",
-        leaveCycleUnit: "",
-        accrualMethod: "",
-        receiveNewLeaveDate: "",
         seniorLeaveEnabled: false,
         seniorYears: ""
     })
@@ -30,11 +24,6 @@ const SettingOnLeaveComponent = () => {
                 setValues({
                     id: leaveSetting.id || "",
                     annualLeaveDays: leaveSetting.annualLeaveDays || "",
-                    leaveCycleStart: leaveSetting.leaveCycleStart || "",
-                    leaveCycleEnd: leaveSetting.leaveCycleEnd || "",
-                    leaveCycleUnit: leaveSetting.leaveCycleUnit || "",
-                    accrualMethod: leaveSetting.accrualMethod || "",
-                    receiveNewLeaveDate: leaveSetting.receiveNewLeaveDate || "",
                     seniorLeaveEnabled: leaveSetting.seniorLeaveEnabled || false,
                     seniorYears: leaveSetting.seniorYears || ""
                 })
@@ -91,7 +80,7 @@ const SettingOnLeaveComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
+                                {/* <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
                                     <div class="mb-3">
                                         <h5 class="fw-medium mb-1">Chu kỳ tính phép</h5>
                                         <div className='date-increase'>
@@ -121,8 +110,8 @@ const SettingOnLeaveComponent = () => {
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
+                                </div> */}
+                                {/* <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
                                     <div class="mb-3">
                                         <h5 class="fw-medium mb-1">Cài đặt số phép được hưởng</h5>
                                     </div>
@@ -140,8 +129,8 @@ const SettingOnLeaveComponent = () => {
                                             <span>Nhận hết phép năm trong tháng đầu tiên của năm</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
+                                </div> */}
+                                {/* <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom mb-4">
                                     <div class="mb-3">
                                         <h5 class="fw-medium mb-1">Ngày được thêm phép mới</h5>
                                     </div>
@@ -150,7 +139,7 @@ const SettingOnLeaveComponent = () => {
                                             <input type="text" className='form-control' name='receiveNewLeaveDate' value={values.receiveNewLeaveDate} onChange={onChangeInput} />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                                     <div class="mb-3">
                                         <h5 class="fw-medium mb-1">Cho phép hưởng phép thâm niên</h5>

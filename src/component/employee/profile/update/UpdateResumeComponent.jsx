@@ -4,7 +4,7 @@ import { getFile } from '../../../../service/MinIOService';
 import { toast } from 'react-toastify';
 import { convertDate } from '../../../../util/TimeUtil';
 
-const UpdateResumeComponent = ({ resume, openModal, updateListEmplyee }) => {
+const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
     const modalId = "update-resume";
     const [avatarPrev, setAvatarPrev] = useState(null);
     const [values, setValues] = useState({
@@ -83,7 +83,7 @@ const UpdateResumeComponent = ({ resume, openModal, updateListEmplyee }) => {
             updateResumeProfile(values, isUpdateAvatar).then((response) => {
                 if (response.data.code === 1000) {
                     toast.success("Cập nhật thành công")
-                    updateListEmplyee()
+                    updateResume()
                     document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
                 }
             })

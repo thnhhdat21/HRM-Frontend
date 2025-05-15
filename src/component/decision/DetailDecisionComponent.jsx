@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import AcceptDecisionComponent from './crud/AcceptDecisionComponent';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteDecision, getDecision, noApprovalDecision } from '../../service/DecisionService';
 import { responseData } from '../../util/ResponseUtil';
 import { convertDate } from '../../util/TimeUtil';
 import { getListEmployeeSelect, getResumeProfile } from '../../service/EmployeeService';
-import { DECISION_STATE_CHECKED, DECISION_STATE_NO_CHECKED, DECISION_STATE_WATTING, DECISION_TYPE_APPOINT, DECISION_TYPE_PENALTY, DECISION_TYPE_REWARD, DECISION_TYPE_SALARY, DECISION_TYPE_TERMINATION, DECISION_TYPE_TRANSFER, DecisiontState, DecisionType } from '../../util/DecisionUtil';
-import { getListAccount } from '../../service/AccountService';
-import { getListAllownace } from '../../service/AllowanceService';
+import { DECISION_STATE_CHECKED, DECISION_STATE_WATTING, DECISION_TYPE_APPOINT, DECISION_TYPE_PENALTY, DECISION_TYPE_REWARD, DECISION_TYPE_SALARY, DECISION_TYPE_TERMINATION, DECISION_TYPE_TRANSFER, DecisiontState, DecisionType } from '../../util/DecisionUtil';
 import { getListDepartmentChild } from '../../service/DepartmentService';
 import { getListJobPosition } from '../../service/JobPositionService';
 import { getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
@@ -20,6 +17,7 @@ import RewardAndPenaltyDecisionComponent from './crud/RewardAndPenaltyDecisionCo
 import { toast } from 'react-toastify';
 import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
 import { APPROVE, DELETE, NO_APPROVE } from '../../util/ApproveOrDeleteUtil';
+import { getListAllownace } from '../../service/AllowanceService';
 
 const DetailDecisionComponent = () => {
     const location = useLocation();

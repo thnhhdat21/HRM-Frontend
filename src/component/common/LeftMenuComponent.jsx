@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { mapPathId, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting } from '../../util/LeftMenuUtil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetSearchFilter, updateStatusFilter, updateStatusFilterByContract } from '../../redux/slice/SearchFilterSlice';
+import { resetSearchFilter, updateStatusFilter } from '../../redux/slice/SearchFilterSlice';
+import Cookies from 'js-cookie';
 
 const LeftMenuComponnent = () => {
     const location = useLocation();
@@ -12,6 +13,14 @@ const LeftMenuComponnent = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const roleString = Cookies.get('permissions');
+    let roles = new Set();
+
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+    }
 
     useEffect(() => {
         if (location.pathname.startsWith("/personal")) {
@@ -25,7 +34,6 @@ const LeftMenuComponnent = () => {
     }, [location.pathname]);
 
     useEffect(() => {
-        setActiveMenu(location.pathname)
         setActiveSubMenu(mapPathId.get(location.pathname))
     }, [leftMenu]);
 
@@ -34,10 +42,10 @@ const LeftMenuComponnent = () => {
         e.preventDefault();
         if (item.child && item.child.length > 0) {
             e.preventDefault();
-            setActiveMenu((prev) => (prev === item.path ? null : item.path));
+            setActiveMenu((prev) => (prev === item.id ? null : item.id));
         } else {
             setActiveSubMenu(null)
-            setActiveMenu(item.path);
+            setActiveMenu(item.id);
             navigate(item.path);
         }
     }
@@ -50,10 +58,9 @@ const LeftMenuComponnent = () => {
         navigate(item.path);
     };
 
-
     return (
         <>
-            <div className="sidebar test" id="sidebar">
+            <div className="sidebar" id="sidebar">
                 <div className="sidebar-logo">
                     <a href="index.html" className="logo logo-normal">
                         <img src="/assets/logo/logo.png" alt="Logo" style={{ width: "200px", height: "50px" }} />
@@ -68,33 +75,64 @@ const LeftMenuComponnent = () => {
                             <li>
                                 <ul>
                                     {
-                                        leftMenu.length > 0 && leftMenu.map((item, index) => {
-                                            return (
-                                                < li key={index + item.name} className='submenu'>
-                                                    <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
-                                                        className={`${activeMenu === item.path || item.path === "setting" ? "active" : ""}  ${selectedMenu === item.path ? "active" : ""} 
-                                                                ${activeMenu === item.path || item.path === "setting" ? "subdrop" : ""}`} >
+                                        (location.pathname.startsWith("/settings")) ? (
+                                            leftMenu.length > 0 && leftMenu.map((item, index) => {
+                                                return (
+                                                    < li key={index + item.name} className='submenu'>
+                                                        <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
+                                                            className="active subdrop" >
 
-                                                        <i className={item.icon}></i>
-                                                        <span>{item.name}</span>
-                                                        <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
-                                                    </a>
-                                                    {
-                                                        item.child && item.child.length > 0 && (
-                                                            <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
-                                                                {
-                                                                    item.child.map((itemChild, index) => (
-                                                                        <li key={itemChild.name + index} >
-                                                                            <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
-                                                                        </li>
-                                                                    ))
-                                                                }
-                                                            </ul>
-                                                        )
-                                                    }
-                                                </li>
-                                            )
-                                        }
+                                                            <i className={item.icon}></i>
+                                                            <span>{item.name}</span>
+                                                            <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
+                                                        </a>
+                                                        {
+                                                            item.child && item.child.length > 0 && (
+                                                                <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
+                                                                    {
+                                                                        item.child.map((itemChild, index) => (
+                                                                            <li key={itemChild.name + index} >
+                                                                                <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
+                                                                            </li>
+                                                                        ))
+                                                                    }
+                                                                </ul>
+                                                            )
+                                                        }
+                                                    </li>
+                                                )
+                                            })
+                                        ) : (
+                                            leftMenu.length > 0 && leftMenu.map((item, index) => {
+                                                const hasPermission = item.permissions && item.permissions.some(role => roles.has(role))
+                                                if (hasPermission) {
+                                                    return (
+                                                        < li key={index + item.name} className='submenu'>
+                                                            <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
+                                                                className={`${activeMenu === item.id ? "active" : ""}  ${selectedMenu === item.path ? "active subdrop" : ""} 
+                                                                ${activeMenu === item.id ? "subdrop" : ""}`} >
+
+                                                                <i className={item.icon}></i>
+                                                                <span>{item.name}</span>
+                                                                <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
+                                                            </a>
+                                                            {
+                                                                item.child && item.child.length > 0 && (
+                                                                    <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
+                                                                        {
+                                                                            item.child.map((itemChild, index) => (
+                                                                                <li key={itemChild.name + index} >
+                                                                                    <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
+                                                                                </li>
+                                                                            ))
+                                                                        }
+                                                                    </ul>
+                                                                )
+                                                            }
+                                                        </li>
+                                                    )
+                                                }
+                                            })
                                         )
                                     }
                                 </ul>

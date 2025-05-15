@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/timekeeping-style.css'
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
-import { updatePageIndexFilter, updateYearFilter, updateYearMonthFilter } from '../../redux/slice/SearchFilterSlice';
-import { getCountTimeKeeping } from '../../service/TimeKeepingSerivce';
+import { updatePageIndexFilter, updateYearFilter } from '../../redux/slice/SearchFilterSlice';
 import { responseData } from '../../util/ResponseUtil';
-import { getCountEmployeeOnLeave, getListOnleave } from '../../service/OnLeaveService';
+import { getCountEmployeeOnLeave, getListOnleave } from '../../service/Manage/ManageOnLeaveService';
 
 
 const OnLeaveManamentComponent = () => {
@@ -61,17 +60,17 @@ const OnLeaveManamentComponent = () => {
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="card">
+                    <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                         <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                            <ul class="nav ">
-                                <li class="nav-item" role="presentation" className='nav-profile' style={{}}>
-                                    <button class="nav-link nav-link-profile active" id="info-tab"
+                            <ul className="nav ">
+                                <li className="nav-item nav-profile" role="presentation" >
+                                    <button className="nav-link nav-link-profile active" id="info-tab"
                                     >Bảng phép năm {onLeaveFilter.year}</button>
                                 </li>
                             </ul>
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 icon-header-2">
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 icon-header-2">
                                 <div className="d-flex flex-column align-items-center icon-header-2" style={{ fontSize: "12px", position: "relative" }}
                                     onClick={handleIconClick} >
                                     <i className='fe fe-calendar' style={{ fontSize: "20px", cursor: "pointer" }} />
@@ -90,11 +89,11 @@ const OnLeaveManamentComponent = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="custom-datatable-filter table-responsive height-my-table">
-                            <div class="table-container sticky-table">
-                                <table class="table table-bordered" id='myTable'>
-                                    <thead class="thead-light">
+                    <div className="card-body p-0">
+                        <div className="custom-datatable-filter table-responsive height-my-table">
+                            <div className="table-container sticky-table">
+                                <table className="table table-bordered" id='myTable'>
+                                    <thead className="thead-light">
                                         <tr>
                                             <th rowSpan="2" className='table-manv'>Mã NV</th>
                                             <th rowSpan="2" className='table-hovaten'>Họ và tên</th>

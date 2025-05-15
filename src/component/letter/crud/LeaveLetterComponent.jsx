@@ -30,6 +30,8 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
             })
     }, [type])
 
+    console.log(listReason)
+
     useEffect(() => {
         if (typeOpen.at(-1) === createModal) {
             setValues({
@@ -67,7 +69,7 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
         const id = e.target.value;
         const selectedOption = e.target.selectedOptions[0];
         const isWorkDay = selectedOption.getAttribute("data-isWorkDay");
-        setValues({ ...values, ["letterReasonId"]: id, ["isWorkDay"]: isWorkDay ? "Có" : "Không" })
+        setValues({ ...values, ["letterReasonId"]: id, ["isWorkDay"]: isWorkDay === 'true' ? "Có" : "Không" })
     }
 
     const handleClear = () => {
@@ -75,25 +77,25 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
     }
 
     const checkValidator = (value) => {
-        if (value.letterReasonId === "") {
-            toast.error("Yêu cầu chọn lý do nghỉ!")
-            return false;
-        } else if (value.dateStart === '') {
-            toast.error("Yêu cầu chọn ngày bắt đầu")
-            return false;
-        } else if (compareDates(value.dateStart.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
-            toast.error("Ngày bắt đầu không hợp lệ!")
-            return false;
-        } else if (value.dateEnd === '') {
-            toast.error("Yêu cầu chọn ngày kết thúc!")
-            return false;
-        } else if (compareDates(value.dateEnd.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
-            toast.error("Ngày kết thúc không hợp lệ!")
-            return false;
-        } else if (compareDates(value.dateStart.split(' ')[0], value.dateEnd.split(' ')[0]) === 1) {
-            toast.error("Thời gian không hợp lệ!")
-            return false;
-        }
+        // if (value.letterReasonId === "") {
+        //     toast.error("Yêu cầu chọn lý do nghỉ!")
+        //     return false;
+        // } else if (value.dateStart === '') {
+        //     toast.error("Yêu cầu chọn ngày bắt đầu")
+        //     return false;
+        // } else if (compareDates(value.dateStart.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
+        //     toast.error("Ngày bắt đầu không hợp lệ!")
+        //     return false;
+        // } else if (value.dateEnd === '') {
+        //     toast.error("Yêu cầu chọn ngày kết thúc!")
+        //     return false;
+        // } else if (compareDates(value.dateEnd.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
+        //     toast.error("Ngày kết thúc không hợp lệ!")
+        //     return false;
+        // } else if (compareDates(value.dateStart.split(' ')[0], value.dateEnd.split(' ')[0]) === 1) {
+        //     toast.error("Thời gian không hợp lệ!")
+        //     return false;
+        // }
         return true
     }
 

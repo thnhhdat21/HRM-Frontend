@@ -165,8 +165,11 @@
     color: #0e70c0;
 }
 
+.weekend {
+    background-color: #e50012 !important;
+}
+
 .weekend span {
-    background-color: #e50012;
     color: #fff !important;
 }
 
@@ -193,15 +196,16 @@
     margin: 0 5px;
 }
 
+
 .go-late {
-    display: flex;
-    text-align: center;
-    justify-content: center;
+    display: inline-flex;
+    align-items: center;
     background-color: #ffc107;
-    width: 120px;
     margin: 5px;
     border-radius: 5px;
+    white-space: nowrap;
 }
+
 
 .go-late span {
     color: #fff;
@@ -227,7 +231,7 @@
 }
 
 .table-timekeeping-employee tbody tr:nth-child(even) td {
-    background-color: #f8f9fa !important;
+    background-color: #f8f9fa;
 }
 
 .table-timekeeping-employee tbody tr:nth-child(odd) td {

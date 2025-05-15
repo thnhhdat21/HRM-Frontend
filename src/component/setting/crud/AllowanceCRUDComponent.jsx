@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
-import { createAllowance, getListAllownace, updateAllowance } from '../../../service/AllowanceService';
+import { createAllowance, updateAllowance } from '../../../service/Manage/ManageAllowanceService';
 import { toast } from 'react-toastify';
 import { responseUpdate } from '../../../util/ResponseUtil';
+import { getListAllownace } from '../../../service/AllowanceService';
 
 
 const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
+    const modalEdit = "crud_allowance-edit"
+    const modalCreate = "crud_allowance-create"
     const [valuesEdit, setValuesEdit] = useState({
         name: "",
         amount: "",
@@ -14,16 +17,16 @@ const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
     const [rows, setRows] = useState([{ id: Date.now(), name: "", amount: "", unit: "" }]);
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit" && selected) {
+        if (typeOpen.at(-1) === modalEdit && selected) {
             setValuesEdit({
                 name: selected.name || "",
                 amount: selected.amount || "",
                 unit: selected.unit || "",
             });
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{ id: Date.now(), name: "", amount: "", unit: "" }])
         }
-    }, [typeOpen, selected]);
+    }, [typeOpen]);
 
     const onChangeInputEdit = (e) => {
         setValuesEdit({ ...valuesEdit, [e.target.name]: e.target.value })
@@ -101,7 +104,7 @@ const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{typeOpen.at(-1) === "edit" ? "Cập nhật" : "Tạo mới"} loại phụ cấp</h4>
+                                <h4 class="modal-title me-2">{typeOpen.at(-1) === modalEdit ? "Cập nhật" : "Tạo mới"} loại phụ cấp</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -113,7 +116,7 @@ const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
                                         {
-                                            typeOpen.at(-1) === "edit" ? (
+                                            typeOpen.at(-1) === modalEdit ? (
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="mb-3">
@@ -139,7 +142,7 @@ const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="mb-3">
-                                                                <table class="table table-add">
+                                                                <table class="table table-add table-leave">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Tên phụ cấp</th>
@@ -178,7 +181,7 @@ const AllowanceCRUDComponent = ({ selected, setListAllowance, typeOpen }) => {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "edit" ? handleUpdateAllowance : handleCreateAllowance}>{typeOpen.at(-1) === "edit" ? "CẬP NHẬT" : "TẠO MỚI"} </div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalEdit ? handleUpdateAllowance : handleCreateAllowance}>{typeOpen.at(-1) === modalEdit ? "CẬP NHẬT" : "TẠO MỚI"} </div>
                                     </div>
                                 </div>
                             </div>

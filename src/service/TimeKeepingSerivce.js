@@ -1,7 +1,6 @@
 import axios from "axios";
-import { API_URL_PREFIX } from "./constant/URLConstant";
 
-const REST_API_BASE_URL = API_URL_PREFIX + "/time-keeping";
+const REST_API_BASE_URL = "/time-keeping";
 
 export const getListTimeKeeping = (values) => {
     const requestBody = {

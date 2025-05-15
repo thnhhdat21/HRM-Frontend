@@ -1,12 +1,11 @@
-import axios from "axios";
-import { API_URL_PREFIX } from "./constant/URLConstant";
+import axiosClient from "./config/AxiosClient";
 
-const REST_API_BASE_URL = API_URL_PREFIX + "/education";
+const REST_API_BASE_URL = "/education";
 
 export const getEducationProfile = (employeeId) => {
     const formData = new FormData();
     formData.append("employeeId", employeeId)
-    return axios.post(`${REST_API_BASE_URL}/get-education-profile-employee`, formData)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-education-profile-employee`, formData)
 }
 
 export const updateEducationProfile = (list) => {
@@ -16,5 +15,5 @@ export const updateEducationProfile = (list) => {
         toMonth: item.toMonth + "-01",
         fromMonth: item.fromMonth + "-01",
     }));
-    return axios.post(`${REST_API_BASE_URL}/update-education-profile-employee`, updatedList)
+    return axiosClient.post(`${REST_API_BASE_URL}/update-education-profile-employee`, updatedList)
 }

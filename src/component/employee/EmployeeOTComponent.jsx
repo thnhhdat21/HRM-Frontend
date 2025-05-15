@@ -1,9 +1,51 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import OvertimeLetterComponent from '../letter/crud/OvertimeLetterComponent';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { getListOverTimeLetter } from '../../service/EmployeeService';
+import { responseData } from '../../util/ResponseUtil';
+import { deleteLetter } from '../../service/LetterService';
+import { convertDate, getDayOnWeek } from '../../util/TimeUtil';
+import { LETTER_TYPE_OVERTIME, LetterState } from '../../util/LetterUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import ContextMenuEmployeeTwoItem from '../../contextmenu/ContextMenuEmployeeTwoItem';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
 const EmployeeOTComponent = () => {
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 200, 82);
+    const [listOvertime, setListOvertime] = useState([])
+    const [typeOpen, setTypeOpen] = useState([])
+    const [selected, setSelected] = useState("")
+    const dispatch = useDispatch()
+    dispatch(updateTitleHeader({ title: "Danh sách tăng ca", subTitle: "" }))
+
+    useEffect(() => {
+        getListOverTimeLetter().then((response) => {
+            responseData(response, setListOvertime)
+        })
+    }, [])
+
+    const handleClickDropMenu = (id) => {
+        setTypeOpen(prevList => [...prevList, id + "-create"])
+    }
+
+    const update = (e) => {
+        getListOverTimeLetter().then((response) => {
+            responseData(response, setListOvertime)
+        })
+    }
+
+    const hanleClickDelete = () => {
+        deleteLetter(selected.letterId).then((response) => {
+            if (response.data.code === 1000) {
+                update()
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
+        })
+    }
+
+
     return (
         <>
             <div class="page-wrapper">
@@ -11,7 +53,11 @@ const EmployeeOTComponent = () => {
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div style={{ marginBottom: "10px" }} className='d-flex align-items-center justify-content-center'>
-                                <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#create_overtime_approval">
+                                <a href="#" class="btn btn-danger d-flex align-items-center"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#create_overtime_letter"
+                                    onClick={() => handleClickDropMenu("create_overtime_letter")}
+                                >
                                     <i class="ti ti-clock" style={{ fontSize: "20px", marginRight: "5px" }} />
                                     Đăng ký OT
                                 </a>
@@ -26,51 +72,73 @@ const EmployeeOTComponent = () => {
                                         <th>Người duyệt (Chờ)</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="timekeeping-items">
-                                                <span>Thứ Hai</span>
-                                                <span>03/02</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className='work-time'>
-                                                <span className='strong-timekeeping'>Ngày đăng ký: 22/01/2025</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Từ thời gian:</span>
-                                                <span className='strong-timekeeping'>19:00:00</span>
-                                                <span>- Tới thời gian:</span>
-                                                <span className='strong-timekeeping'>7:00:00</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Lý do tăng ca: </span>
-                                                <span className='strong-timekeeping'>Làm thêm tại đối tác, khách hàng/Làm thêm tại nhà</span>
-                                                <span>HT_OS xử lý sự cố hệ thống Smartbanking BIDV</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span className='badge text-white'>Đã duyệt</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* <div className='time-checked'>
-                                                <span>08:13:17</span>
-                                                <span className='strong'>15:58:17</span>
-                                            </div>
-                                            <div className='registered-time'>
-                                                <span>Đăng ký: |</span>
-                                                <span><strong>X</strong></span>
-                                            </div> */}
-                                        </td>
-                                    </tr>
+                                <tbody ref={tableRef}>
+                                    {listOvertime.length > 0 && listOvertime.map((item, index) => (
+                                        <tr key={index} onContextMenu={() => setSelected(item)}>
+                                            <td>
+                                                <div class="timekeeping-items">
+                                                    <span>{getDayOnWeek(item.dateRegis)}</span>
+                                                    <span>{convertDate(item.dateRegis)}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className='work-time'>
+                                                    <span className='strong-timekeeping'>Ngày đăng ký: {convertDate(item.dateRegis)}</span>
+                                                </div>
+                                                <div className='work-time'>
+                                                    <span>Từ thời gian:</span>
+                                                    <span className='strong-timekeeping'>{item.timeStart}</span>
+                                                    <span>- Tới thời gian:</span>
+                                                    <span className='strong-timekeeping'>{item.timeEnd}</span>
+                                                </div>
+                                                <div className='work-time'>
+                                                    <span>Lý do tăng ca: </span>
+                                                    <span className='strong-timekeeping'>{item.letterReason}</span>
+                                                    <span>{item.description}</span>
+                                                </div>
+                                                <div className='work-time'>
+                                                    <span className={`badge text-white ${item.letterState ? LetterState.get(Number(item.letterState)).bg : ""}`}>{item.letterState ? LetterState.get(Number(item.letterState)).name : ""}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {/* <div className='time-checked'>
+                                                    <span>08:13:17</span>
+                                                    <span className='strong'>15:58:17</span>
+                                                </div>
+                                                <div className='registered-time'>
+                                                    <span>Đăng ký: |</span>
+                                                    <span><strong>X</strong></span>
+                                                </div> */}
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <OvertimeLetterComponent />
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={hanleClickDelete}
+            />
+
+            <ContextMenuEmployeeTwoItem
+                x={x}
+                y={y}
+                showMenu={showMenu}
+                modalId={"create_overtime_letter"}
+                setTypeOpen={setTypeOpen}
+                state={selected.letterState}
+            />
+
+
+            <OvertimeLetterComponent
+                letterId={selected.letterId}
+                typeOpen={typeOpen}
+                type={LETTER_TYPE_OVERTIME}
+                updateLetter={update}
+            />
         </>
     );
 };

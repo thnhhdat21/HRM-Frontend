@@ -1,7 +1,6 @@
 import axios from "axios";
-import { API_URL_PREFIX } from "./constant/URLConstant";
 
-const REST_API_BASE_URL = API_URL_PREFIX + "/decision";
+const REST_API_BASE_URL = "/decision";
 
 export const getListDecision = (values) => {
     const requestBody = {
@@ -114,7 +113,6 @@ export const approvalDecision = (decisionId) => {
     formData.append("decisionId", decisionId)
     return axios.post(`${REST_API_BASE_URL}/approve-decision`, formData)
 }
-
 
 
 export const updateDecisionRewardAndPenaltyEmployee = (list) => {

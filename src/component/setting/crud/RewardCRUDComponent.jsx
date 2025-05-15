@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
-import { createRewardOrPenalty, getListRewardOrPenalty, updateRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
-import { responseUpdate, responseUpdateType } from '../../../util/ResponseUtil';
+import { createRewardOrPenalty, updateRewardOrPenalty } from '../../../service/Manage/ManageRewardAndPenaltyService';
+import { responseUpdateType } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
 import { DECISION_TYPE_REWARD } from '../../../util/DecisionUtil';
+import { getListRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
 
 
 const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
-
+    const modalEdit = "crud_reward-edit"
+    const modalCreate = "crud_reward-create"
     const [valuesEdit, setValuesEdit] = useState({
         name: "",
         amount: "",
@@ -17,16 +19,16 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
     const [rows, setRows] = useState([{ id: Date.now(), name: "", amount: "", des: "" }]);
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit" && selected) {
+        if (typeOpen.at(-1) === modalEdit && selected) {
             setValuesEdit({
                 name: selected.name || "",
                 amount: selected.amount || "",
                 des: selected.description || ""
             });
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{ id: Date.now(), name: "", amount: "", des: "" }])
         }
-    }, [typeOpen, selected]);
+    }, [typeOpen]);
 
     const onChangeInputEdit = (e) => {
         setValuesEdit({ ...valuesEdit, [e.target.name]: e.target.value })
@@ -101,7 +103,7 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{typeOpen.at(-1) === "edit" ? "Chỉnh sửa" : "Tạo mới"} chế độ phúc lợi</h4>
+                                <h4 class="modal-title me-2">{typeOpen.at(-1) === modalEdit ? "Chỉnh sửa" : "Tạo mới"} chế độ phúc lợi</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -112,7 +114,7 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
-                                        {typeOpen.at(-1) === "edit" ? (
+                                        {typeOpen.at(-1) === modalEdit ? (
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
@@ -139,7 +141,7 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="mb-3">
-                                                            <table class="table table-add">
+                                                            <table class="table table-add table-leave">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Tên Phúc lợi</th>
@@ -177,7 +179,7 @@ const RewardCRUDComponent = ({ selected, typeOpen, setListReward }) => {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "edit" ? handleUpdateReward : handleCreateReward} > {typeOpen.at(-1) === "edit" ? "CẬP NHẬT" : "THÊM MỚI"}</div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalEdit ? handleUpdateReward : handleCreateReward} > {typeOpen.at(-1) === modalEdit ? "CẬP NHẬT" : "THÊM MỚI"}</div>
                                     </div>
                                 </div>
                             </div>

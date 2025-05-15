@@ -2,11 +2,10 @@ import React, { use, useEffect, useState } from 'react';
 import '../css/crud-style.css';
 import { generateSecureRandomPassword } from '../../../util/AccountUtil';
 import { toast } from 'react-toastify';
-import { activeAccount, getCountAccount } from '../../../service/AccountService';
+import { activeAccount, getCountAccount } from '../../../service/Manage/ManageAccountService';
 
 
-const ActiveAccountComponent = ({ selected, setCountAccout, setListAccount, listGroup }) => {
-    const [selectedRole, setSelectedRole] = useState("");
+const ActiveAccountComponent = ({ selected, setCountAccout, setListAccount }) => {
     const [passRandom, setPassRandom] = useState(true);
 
     const [values, setValues] = useState({
@@ -35,7 +34,7 @@ const ActiveAccountComponent = ({ selected, setCountAccout, setListAccount, list
             }
             passwordActive = values.password
         }
-        activeAccount(selected.employeeCode, passwordActive, selectedRole).then((response) => {
+        activeAccount(selected.employeeCode, passwordActive).then((response) => {
             if (response.data.code === 1000) {
                 toast.success(response.data.message)
                 getCountAccount().then((response) => {

@@ -135,6 +135,7 @@
 
 .my-footer {
     min-height: 0 !important;
+    padding: 0 !important;
 }
 
 
@@ -183,3 +184,13 @@
     background-color: #e50012 !important;
     color: white !important;
 }
+
+
+.table-detail-salary td,
+.table-detail-salary th {
+    width: 25%;
+}
+
+
+
+/* error-403 */

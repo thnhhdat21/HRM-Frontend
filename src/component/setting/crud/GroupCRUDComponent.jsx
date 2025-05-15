@@ -90,6 +90,7 @@ const GroupCRUDComponent = () => {
             .then((response) => {
                 if (response.data.code === 1000) {
                     toast.success("Tạo nhóm mới thành công")
+
                 } else {
                     toast.error(response.data.message)
                 }

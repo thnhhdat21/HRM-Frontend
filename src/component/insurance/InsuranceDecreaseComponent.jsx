@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuInsurance from '../../contextmenu/ContextMenuInsurance';
-import BrowseInsuranceComponent from './crud/BrowseInsuranceComponent';
 
 const InsuranceDecreaseComponent = () => {
     const tableRef = useRef(null)
@@ -703,7 +702,6 @@ const InsuranceDecreaseComponent = () => {
                 </div>
             </div>
             <ContextMenuInsurance x={x} y={y} showMenu={showMenu} />
-            <BrowseInsuranceComponent />
         </>
     );
 };

@@ -115,6 +115,7 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
             })
         }
     }
+
     return (
         <>
             <div class="modal fade" id={modalId}>

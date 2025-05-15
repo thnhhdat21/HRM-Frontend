@@ -3,7 +3,9 @@ import FooterComponent from './component/common/FooterComponent';
 import LeftMenuComponnent from './component/common/LeftMenuComponent';
 import { ToastContainer } from 'react-toastify';
 import FilterSearchComponent from './component/common/FilterSearchComponent';
-function App({ component: Component }) {
+import { Outlet } from 'react-router-dom';
+import PrivateRoutes from './routes/PrivateRoutes';
+function App() {
   return (
     <>
       <ToastContainer
@@ -19,12 +21,14 @@ function App({ component: Component }) {
         theme="colored"
         className="toast-login"
       />
-      <div className="App">
-        <HeaderComponnent />
-        <LeftMenuComponnent />
-        {Component && <Component />}
-        <FooterComponent />
-      </div>
+      <PrivateRoutes >
+        <div className="App">
+          <HeaderComponnent />
+          <LeftMenuComponnent />
+          <Outlet />
+          <FooterComponent />
+        </div>
+      </PrivateRoutes>
     </>
   );
 }

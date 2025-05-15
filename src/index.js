@@ -18,26 +18,14 @@ import SettingRewardComponent from './component/setting/SettingRewardComponent';
 import SettingTypeContractComponent from './component/setting/SettingTypeContractComponent';
 import SettingAllowanceComponent from './component/setting/SettingAllowanceComponent';
 import SettingInsuranceComponent from './component/setting/SettingInsuranceComponent';
-import SettingTypeInsuranceComponent from './component/setting/SettingTypeInsuranceComponent';
 import CreateNewEmployeeComponent from './component/employee/crud/CreateNewEmployeeComponent';
-import TypeContractComponent from './component/contract/TypeContractComponent';
 import ContractCRUDComponent from './component/contract/crud/ContractCRUDComponent';
 import InsuaranceComponent from './component/insurance/InsuaranceComponent';
-import InsuranceIncreaseComponent from './component/insurance/InsuaranceIncreaseComponent';
-import InsuranceDecreaseComponent from './component/insurance/InsuranceDecreaseComponent';
 import SettingOnLeaveComponent from './component/setting/SettingOnLeaveComponent';
 import TimeSheetComponent from './component/timekeeping/TimeSheetComponent';
 import HolidaysComponent from './component/timekeeping/HolidaysComponent';
-import AutoTimeKeepingComponent from './component/timekeeping/AutoTimeKeepingComponent';
-import CreateShiftComponent from './component/timekeeping/crud/CreateShiftComponent';
-import WorkShiftComponent from './component/timekeeping/WorkShiftComponent';
-import WorkShiftDetailComponent from './component/timekeeping/WorkShiftDetailComponent';
 import OnLeaveManamentComponent from './component/timekeeping/OnLeaveManamentComponent';
-import OnLeaveManageDetailComponent from './component/timekeeping/OnLeaveManageDetailComponent';
-import PayrollDetailComponent from './component/salary/crud/PayrollDetailComponent';
-import PayrollEmployeeComponent from './component/salary/crud/PayrollEmployeeComponent';
 import PayrollComponen from './component/salary/PayrollComponen';
-import TestComponent from './test/TestComponent';
 import ListTaxComponent from './component/salary/ListTaxComponent';
 import EmployeeTimekeeping from './component/employee/EmployeeTimekeeping';
 import EmployeeOTComponent from './component/employee/EmployeeOTComponent';
@@ -49,94 +37,92 @@ import DetailDecisionComponent from './component/decision/DetailDecisionComponen
 import LetterComponent from './component/letter/LetterComponent';
 import SettingApprovalComponent from './component/setting/SettingApprovalComponent';
 import DetailLetterComponent from './component/letter/crud/DetailLetterComponent';
+import PayrollEmployeeComponent from './component/salary/PayrollEmployeeComponent';
+import LoginComponent from './component/authentication/LoginComponent';
+import ManageRoutes from './routes/ManageRoutes';
+import NoAuthozComponent from './component/common/NoAuthozComponent';
+import { PerWatchAdmin, PerWatchContract, PerWatchDecision, PerWatchEmployee, PerWatchInsurance, PerWatchLetter, PerWatchSalary, PerWatchTimeSheet } from './util/PermissionUtil';
+import ManageContractComponent from './component/contract/ManageContractComponent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<App />} />
+        <Route path='/' element={<LoginComponent />} />
+        <Route path='/no-authorization' element={<NoAuthozComponent />} />
 
         {/* Personal */}
-        <Route path='/personal/home' element={<App component={HomeComponnent} />} /> {/* Check */}
-        <Route path='/personal/timekeeping' element={<App component={EmployeeTimekeeping} />} />{/* Check */}
-        <Route path='/personal/list-overtime' element={<App component={EmployeeOTComponent} />} />{/* Check */}
-        <Route path='/personal/list-leave' element={<App component={EmployeeLeaveComponent} />} />{/* Check */}
+        <Route path="/" element={<App />}>
+          <Route path='personal/home' element={<HomeComponnent />} />
+          <Route path='personal/timekeeping' element={<EmployeeTimekeeping />} />
+          <Route path='personal/list-overtime' element={<EmployeeOTComponent />} />
+          <Route path='personal/list-leave' element={<EmployeeLeaveComponent />} />
+          <Route path='/profile-employee' element={<ProfileComponnent />} />
 
+          <Route element={<ManageRoutes allowedRoles={PerWatchAdmin} />}>
+            <Route path="/settings/account" element={<ManageAccountComponent />} />
+            <Route path="/settings/group" element={<ManageGroupComponent />} />
+            <Route path="/settings/group/add" element={<GroupCRUDComponent />} />
+            <Route path="/settings/department" element={<ManageDepartmentComponent />} />
+            <Route path="/settings/employee-job-position" element={<SettingJobPositionComponent />} />
+            <Route path="/settings/duty" element={<SettingDutyComponent />} />
+            <Route path="/settings/penalty" element={<SettingPenaltyComponent />} />
+            <Route path="/settings/reward" element={<SettingRewardComponent />} />
+            <Route path="/settings/contract" element={<SettingTypeContractComponent />} />
+            <Route path="/settings/allowance" element={<SettingAllowanceComponent />} />
+            <Route path="/settings/insurance" element={<SettingInsuranceComponent />} />
+            <Route path="/settings/approval" element={<SettingApprovalComponent />} />
+            <Route path="/settings/on-leave" element={<SettingOnLeaveComponent />} />
+          </Route>
 
-        {/* Manage */}
-        <Route path='/settings/account' element={<App component={ManageAccountComponent} />} />{/* Check */}
-        <Route path='/settings/group' element={<App component={ManageGroupComponent} />} />{/* Check */}
-        <Route path='/settings/group/add' element={<App component={GroupCRUDComponent} />} />{/* Check */}
-        <Route path='/settings/department' element={<App component={ManageDepartmentComponent} />} />{/* Check */}
+          {/* Employee */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchEmployee} />}>
+            <Route path='/manage-employee/list-employee' element={<EmployeeComponent />} />
+            <Route path='/manage-employee/create-employee' element={<CreateNewEmployeeComponent />} />
+          </Route>
 
-        {/* Setting */}
-        {/* setting hồ sơ nhân sự */}
-        <Route path='/settings/employee-job-position' element={<App component={SettingJobPositionComponent} />} />{/* Check */}
-        <Route path='/settings/duty' element={<App component={SettingDutyComponent} />} />{/* Check */}
-        <Route path='/settings/penalty' element={<App component={SettingPenaltyComponent} />} />{/* Check */}
-        <Route path='/settings/reward' element={<App component={SettingRewardComponent} />} />{/* Check */}
-        <Route path='/settings/contract' element={<App component={SettingTypeContractComponent} />} />{/* Check */}
-        <Route path='/settings/allowance' element={<App component={SettingAllowanceComponent} />} /> {/* Check */}
-        <Route path='/settings/insurance' element={<App component={SettingInsuranceComponent} />} /> {/* Check */}
-        <Route path='/settings/type-insurance' element={<App component={SettingTypeInsuranceComponent} />} /> {/* Check */}
-        <Route path='/settings/approval' element={<App component={SettingApprovalComponent} />} />{/* Check */}
-        <Route path='/settings/on-leave' element={<App component={SettingOnLeaveComponent} />} /> {/* Check */}
+          {/* Contract */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchContract} />}>
+            <Route path='/manage-contract/type-contract' element={<ManageContractComponent />} />
+            <Route path='/manage-contract/create-contract' element={<ContractCRUDComponent />} />
+          </Route>
 
-        {/* Employee */}
-        <Route path='/manage-employee/list-employee' element={<App component={EmployeeComponent} />} />{/* Check */}
-        {/* Employee/contract */}
-        <Route path='/manage-employee/type-contract' element={<App component={TypeContractComponent} />} /> {/* Check */}
-        {/* Employee/insurance*/}
-        <Route path='/manage-employee/insurance' element={<App component={InsuaranceComponent} />} /> {/* Check */}
-        <Route path='/manage-employee/insurance-increase' element={<App component={InsuranceIncreaseComponent} />} /> {/* Check */}
-        <Route path='/manage-employee/insurance-decrease' element={<App component={InsuranceDecreaseComponent} />} /> {/* Check */}
-        {/* Employee/* Decision */}
+          {/* Insurance*/}
+          <Route element={<ManageRoutes allowedRoles={PerWatchInsurance} />}>
+            <Route path='/manage-insurance/insurance' element={<InsuaranceComponent />} />
+          </Route>
 
-        <Route path='/profile-employee' element={<App component={ProfileComponnent} />} />{/* Check */}
+          {/*Decision */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchDecision} />}>
+            <Route path='/manage-decision/decision' element={<DecisionComponent />} />
+            <Route path='/manage-decision/decision-detail' element={<DetailDecisionComponent />} />
+          </Route>
 
-        {/* Create employee */}
-        <Route path='/manage-employee/create-employee' element={<App component={CreateNewEmployeeComponent} />} />{/* Check */}
+          {/* letter */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchLetter} />}>
+            <Route path='/manage-letter/letter' element={<LetterComponent />} />
+            <Route path='/manage-letter/letter-detail' element={<DetailLetterComponent />} />
+          </Route>
 
-        {/* Contract */}
-        <Route path='/manage-employee/create-contract' element={<App component={ContractCRUDComponent} />} />{/* Check */}
+          {/* timekeeping */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchTimeSheet} />}>
+            <Route path='/manage-timekeeping' element={<TimeSheetComponent />} />
+            <Route path='/manage-timekeeping/holidays' element={<HolidaysComponent />} />
+            <Route path='/manage-timekeeping/on-leave-manage' element={<OnLeaveManamentComponent />} />
+          </Route>
 
+          {/* Salary */}
+          <Route element={<ManageRoutes allowedRoles={PerWatchSalary} />}>
+            <Route path='/manage-salary/payroll' element={<PayrollComponen />} />
+            <Route path='/manage-salary/table-salary-detail' element={<PayrollEmployeeComponent />} />
+            <Route path='/manage-salary/tax' element={<ListTaxComponent />} />
+          </Route>
 
-        <Route path='/manage-employee/decision' element={<App component={DecisionComponent} />} />{/* Check */}
-        <Route path='/manage-employee/decision-detail' element={<App component={DetailDecisionComponent} />} />{/* Check */}
-
-
-        {/* letter */}
-        <Route path='/manage-letter/letter' element={<App component={LetterComponent} />} />{/* Check */}
-        <Route path='/manage-letter/letter-detail' element={<App component={DetailLetterComponent} />} />
-
-
-        {/* timekeeping */}
-        <Route path='/manage-timekeeping' element={<App component={TimeSheetComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/holidays' element={<App component={HolidaysComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/auto-timekeeping' element={<App component={AutoTimeKeepingComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/work-shift' element={<App component={WorkShiftComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/create-work-shift' element={<App component={CreateShiftComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/work-shift-detail' element={<App component={WorkShiftDetailComponent} />} />{/* Check */}
-
-        <Route path='/manage-timekeeping/on-leave-manage' element={<App component={OnLeaveManamentComponent} />} />{/* Check */}
-        <Route path='/manage-timekeeping/on-leave-detail' element={<App component={OnLeaveManageDetailComponent} />} />{/* Check */}
-
-        {/* Payroll */}
-        <Route path='/manage-salary/payroll' element={<App component={PayrollComponen} />} /> {/* Check */}
-
-        <Route path='/manage-salary/payroll-type-detail' element={<App component={PayrollDetailComponent} />} />
-        <Route path='/manage-salary/wage-wage' element={<App component={PayrollEmployeeComponent} />} />
-
-        <Route path='/manage-salary/tax' element={<App component={ListTaxComponent} />} />{/* Check */}
-
-        {/* Test */}
-        <Route path='/test' element={< TestComponent />} />
+        </Route>
       </Routes>
     </BrowserRouter>
-  </Provider>
-  // </React.StrictMode>
+  </Provider >
 );
 
 // If you want to start measuring performance in your app, pass a function

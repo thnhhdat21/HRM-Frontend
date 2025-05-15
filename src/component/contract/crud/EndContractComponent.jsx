@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/contract-style.css'
-import { endContract, getContractDetail, getContractProfileByContractId } from '../../../service/ContractService';
+import { endContract, getContractDetail } from '../../../service/Manage/ManageContractService';
 import { responseData } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
 import { compareDates } from '../../../util/TimeUtil';
@@ -56,7 +56,8 @@ const EndContractComponent = ({ contractId, typeOpen, updateListContract }) => {
         if (isCorrect) {
             endContract(values).then((response) => {
                 if (response.data.code === 1000) {
-                    updateListContract()
+                    if (typeof updateListContract === 'function')
+                        updateListContract()
                     toast.success("Thanh lý thành công hợp đồng")
                     document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
                 } else if (response.data.code > 1000) {

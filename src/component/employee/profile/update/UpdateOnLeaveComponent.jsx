@@ -5,7 +5,8 @@ const UpdateOnLeaveComponent = ({ employeeId, onLeave, openModal, updateOnLeave 
     const modalId = "update-onleave"
     const [values, setValues] = useState({
         employeeId: employeeId,
-        totalDay: "",
+        seniorDay: "",
+        regulaDay: "",
         usedDay: ""
     })
 
@@ -17,7 +18,8 @@ const UpdateOnLeaveComponent = ({ employeeId, onLeave, openModal, updateOnLeave 
         if (openModal.at(-1) === `#${modalId}`)
             setValues({
                 employeeId: employeeId,
-                totalDay: onLeave.totalDay,
+                regulaDay: onLeave.regulaDay,
+                seniorDay: onLeave.seniorDay,
                 usedDay: onLeave.usedDay
             })
     }, [openModal])
@@ -41,10 +43,10 @@ const UpdateOnLeaveComponent = ({ employeeId, onLeave, openModal, updateOnLeave 
         if (values.usedDay < 0) {
             toast.error("Yêu cầu nhập số phép theo quy định!")
             return false;
-        } else if (values.usedDay < 0) {
+        } else if (values.regulaDay < 0) {
             toast.error("Yêu cầu nhập số phép đã nghỉ!")
             return false;
-        } else if (values.usedDay > values.totalDay) {
+        } else if (values.usedDay > values.regulaDay) {
             toast.error("Số ngày nhập không hợp lệ!")
             return false;
         }
@@ -74,7 +76,7 @@ const UpdateOnLeaveComponent = ({ employeeId, onLeave, openModal, updateOnLeave 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Số phép theo quy định</label>
-                                                    <input type="number" className="form-control" name='totalDay' value={values.totalDay} onChange={onChangeInput} />
+                                                    <input type="number" className="form-control" name='regulaDay' value={values.regulaDay} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

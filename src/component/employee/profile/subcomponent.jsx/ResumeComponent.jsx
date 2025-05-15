@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getResumeProfile, updateIdentityCard } from '../../../../service/EmployeeService';
+import { getInsuranceNumber, getResumeProfile, updateIdentityCard } from '../../../../service/EmployeeService';
 import { responseData, responseData_ReturnInfo } from '../../../../util/ResponseUtil';
 import { getFamilyOfEmployee } from '../../../../service/FamilyService';
 import { getEducationProfile } from '../../../../service/EducationService';
@@ -9,10 +9,27 @@ import UpdateFamilyComponent from '../update/UpdateFamilyComponent';
 import { convertDate } from '../../../../util/TimeUtil';
 import UpdateEducationComponent from '../update/UpdateEducationComponent';
 import { PROFILE_RESUME } from '../../../../util/EmployeeUtil';
+import UpdateNumberInsuranceComponent from '../../crud/UpdateNumberInsuranceComponent';
+import Cookies from 'js-cookie';
+import { PerManageEmployee } from '../../../../util/PermissionUtil';
 const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
+    //Lấy role 
+    const roleString = Cookies.get('permissions');
+    const currentAccountLogin = Cookies.get('employeeId');
+    let roles = new Set();
+
+    let isUpdateInfo = false;
+
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+        isUpdateInfo = PerManageEmployee.some(role => roles.has(role)) || currentAccountLogin === employeeId
+    }
+
     const [resume, setResume] = useState({})
     const [family, setFamily] = useState([])
     const [education, setEducation] = useState([])
+    const [insurance, setInsurance] = useState({})
     const [hasFetched, setHasFetched] = useState(false);
     const [openModal, setOpenModal] = useState([])
     const [isUpdateIdentiry, setIsUpdateIdentiry] = useState(false);
@@ -51,6 +68,9 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
 
                 const eduRes = await getEducationProfile(employeeId);
                 responseData_ReturnInfo(eduRes, setEducation);
+
+                const insuRes = await getInsuranceNumber(employeeId);
+                responseData(insuRes, setInsurance);
             };
             fetchAll();
         }
@@ -79,6 +99,12 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
     const updateEducation = () => {
         getEducationProfile(employeeId).then((response) => {
             responseData(response, setEducation);
+        })
+    }
+
+    const updateInsurance = () => {
+        getInsuranceNumber(employeeId).then((response) => {
+            responseData(response, setInsurance);
         })
     }
 
@@ -114,10 +140,14 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                 <div className="profile-container">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Sơ yếu lý lịch</div>
-                        <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-resume"
-                            onClick={() => handleOpenModal("#update-resume")}>
-                            <i className='ti ti-edit' style={{ fontSize: "25px" }} />
-                        </div>
+                        {
+                            isUpdateInfo && (
+                                <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-resume"
+                                    onClick={() => handleOpenModal("#update-resume")}>
+                                    <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                                </div>
+                            )
+                        }
                     </div>
                     <div className="profile-info">
                         <img
@@ -155,7 +185,6 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                         </table>
                     </div>
                     <div className=" mt-4">
-                        <div className="profile-header">Thông tin khác</div>
                         <table className="table borderless profile-details">
                             <tbody>
                                 <tr>
@@ -197,10 +226,15 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                 <div className="profile-container mt-4">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Thông tin gia đình & người phụ thuộc</div>
-                        <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-family"
-                            onClick={() => handleOpenModal("#update-family")}>
-                            <i className='ti ti-edit' style={{ fontSize: "25px" }} />
-                        </div>
+                        {
+                            isUpdateInfo && (
+                                <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-family"
+                                    onClick={() => handleOpenModal("#update-family")}>
+                                    <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                                </div>
+                            )
+                        }
+
                     </div>
                     <table className="table borderless profile-details">
                         <tbody>
@@ -236,10 +270,15 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                 <div className="profile-container mt-4">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Trình độ học vấn</div>
-                        <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-education"
-                            onClick={() => handleOpenModal("#update-education")}>
-                            <i className='ti ti-edit' style={{ fontSize: "25px" }} />
-                        </div>
+                        {
+                            isUpdateInfo && (
+                                <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-education"
+                                    onClick={() => handleOpenModal("#update-education")}>
+                                    <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                                </div>
+                            )
+                        }
+
                     </div>
                     <table className="table borderless profile-details">
                         <tbody>
@@ -264,14 +303,37 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                         </tbody>
                     </table>
                 </div>
+                <div className="profile-container mt-4">
+                    <div className="d-flex align-items-center justify-content-between profile-header">
+                        <div>Thông tin khác</div>
+                        {
+                            isUpdateInfo && (
+                                <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-number-insurance"
+                                    onClick={() => handleOpenModal("update-number-insurance")}>
+                                    <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                                </div>
+                            )
+                        }
 
+                    </div>
+                    <table className="table borderless profile-details">
+                        <tbody>
+                            <tr>
+                                <th style={{ width: "25%" }}>Số sổ bảo hiểm</th>
+                                <td style={{ width: "25%" }}>{insurance.insuranceNumber || ""}</td>
+                                <th style={{ width: "25%" }}>Số thẻ BHYT</th>
+                                <td style={{ width: "25%" }}>{insurance.insuranceCard || ""}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div className="profile-container mt-4">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Ảnh chứng minh thư nhân dân</div>
                         <div className='update-infomation' style={{ marginRight: "10px" }}>
                             {
-                                !isUpdateIdentiry ? <i className='ti ti-edit' style={{ fontSize: "25px" }} onClick={() => setIsUpdateIdentiry(true)} /> :
+                                !isUpdateIdentiry && isUpdateInfo ? <i className='ti ti-edit' style={{ fontSize: "25px" }} onClick={() => setIsUpdateIdentiry(true)} /> :
                                     (
                                         <>
                                             <button type="button" className="btn btn-outline-light border me-2" onClick={() => setIsUpdateIdentiry(false)}>HỦY BỎ</button>
@@ -335,9 +397,11 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                     </div>
                 </div>
             </div >
+
             <UpdateResumeComponent resume={resume} openModal={openModal} updateResume={updateResume} />
             <UpdateFamilyComponent employeeId={employeeId} family={family} openModal={openModal} updateFamily={updateFamily} />
             <UpdateEducationComponent employeeId={employeeId} education={education} openModal={openModal} updateEducation={updateEducation} />
+            <UpdateNumberInsuranceComponent employeeId={employeeId} typeOpen={openModal} updateInsurace={updateInsurance} />
         </>
     );
 };

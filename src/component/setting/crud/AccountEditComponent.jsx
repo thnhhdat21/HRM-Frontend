@@ -96,86 +96,8 @@ const AccountEditComponent = ({ selected, listGroup, setUpdate, openModal, setOp
         });
     };
 
-    // const handleSubmitClick = async () => {
-    //     if (checkChangePass) {
-    //         if (values.password.trim().length === 0) {
-    //             return toast.error("Mật khẩu chưa nhập")
-    //         } else if (values.rePassword.trim().length === 0) {
-    //             return toast.error("Nhập lại mật khẩu chưa nhập")
-    //         }
-    //         else if (values.rePassword.trim() !== values.password.trim()) {
-    //             return toast.error("Mật khẩu không trùng khớp")
-    //         }
-    //         try {
-    //             const response = await changePassword(accountDetail.id, values.password); // Dùng await để đợi
-    //             if (response.data.code === 1000) {
-    //             }
-    //             if (response.data.code > 1000) {
-    //                 toast.error(response.data.message);
-    //                 return;
-    //             }
-    //             if (response.data.code !== 1000) {
-    //                 toast.error("Bảo trì hệ thống");
-    //                 return;
-    //             }
-    //         } catch (error) {
-    //             toast.error("Lỗi hệ thống, thử lại sau!");
-    //         }
-    //     }
-    //     if (selectedRole !== accountDetail.roleId) {
-    //         updateRoleAccount(accountDetail.id, selectedRole).then((response) => {
-    //             if (response.data.code === 1000) {
-    //             }
-    //             else if (response.data.code > 1000)
-    //                 return toast.error(response.data.message)
-    //             else if (response.data.code !== 1000)
-    //                 return toast.error("Bảo trì hệ thống")
-    //         })
-    //     }
-
-    //     if (checkChangePermission) {
-    //         var listPermission = ""
-    //         if (Object.values(isChecked).some(value => value === true)) {
-    //             var perrmissionCorrect = true;
-    //             for (const [manage, watch, create] of permissions) {
-    //                 if (isChecked[manage]) {
-    //                     if (PermissionType(selectedValue[manage]) > PermissionType(selectedValue[watch])) {
-    //                         setPermissionError((prev) => ({ ...prev, [manage.split("-")[1]]: true }))
-    //                     }
-    //                     if (selectedValue[create] === 'true') {
-    //                         listPermission += selectedValue[manage] + "," + selectedValue[watch] + "," + permissionCreate[selectedValue[watch]] + ","
-    //                     } else {
-    //                         listPermission += selectedValue[manage] + "," + selectedValue[watch] + ","
-    //                     }
-    //                 }
-    //             }
-    //             if (!perrmissionCorrect) {
-    //                 return
-    //             }
-    //             listPermission = listPermission
-    //                 .split(",")
-    //                 .filter(item => item && item !== "undefined")
-    //                 .join(",");
-    //         }
-    //         const isSamePermissions = JSON.stringify(listPermission.split(",").map(Number)) === JSON.stringify(prevPermission.split(",").map(Number));
-    //         const isSamePermissions2 = permissionInRole ? JSON.stringify(listPermission.split(",").map(Number)) === JSON.stringify(permissionInRole.split(",").map(Number)) : false;
-    //         if (!isSamePermissions && !isSamePermissions2) {
-    //             updatePermissionAccount(accountDetail.id, listPermission).then((response) => {
-    //                 if (response.data.code === 1000) {
-    //                 }
-    //                 else if (response.data.code > 1000) {
-    //                     toast.error(response.data.message)
-    //                 }
-    //             })
-    //         }
-    //     }
-    //     toast.success("Cập nhật thành công")
-    //     document.querySelector('#edit_account [data-bs-dismiss="modal"]').click();
-    // }
-
     const handleSubmitClick = async () => {
         let hasUpdate = false;
-
         if (checkChangePass) {
             if (values.password.trim().length === 0) {
                 return toast.error("Mật khẩu chưa nhập");

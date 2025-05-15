@@ -5,17 +5,18 @@ import { getListLetterReason } from '../../../service/LetterReasonService';
 import { toast } from 'react-toastify';
 import { getLetter, updateInOutAndEndWorkLetter } from '../../../service/LetterService';
 
-const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
+const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRegis }) => {
     const createModal = "create_checkin_letter-create"
     const editModal = "create_checkin_letter-edit"
     const [listReason, setListReason] = useState([])
 
     const [values, setValues] = useState({
         letterId: "",
-        dateRegis: new Date().toISOString().split('T')[0],
+        dateRegis: dateRegis,
         employeeId: "",
         letterReasonId: "",
-        description: ""
+        description: "",
+        type: LETTER_TYPE_INOUT
     })
 
     useEffect(() => {
@@ -29,10 +30,11 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
         if (typeOpen.at(-1) === createModal) {
             setValues({
                 letterId: "",
-                dateRegis: new Date().toISOString().split('T')[0],
+                dateRegis: dateRegis,
                 employeeId: "",
                 letterReasonId: "",
-                description: ''
+                description: '',
+                type: LETTER_TYPE_INOUT
             })
         } else if (typeOpen.at(-1) === editModal) {
             getLetter(letterId).then((response) => {
@@ -43,7 +45,8 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                         dateRegis: letter.dateRegis,
                         employeeId: letter.employeeId,
                         letterReasonId: letter.letterReasonId,
-                        description: letter.description
+                        description: letter.description,
+                        type: LETTER_TYPE_INOUT
                     })
                 }
             })
@@ -137,7 +140,6 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                                 data-bs-dismiss="modal">HỦY BỎ</button>
                             <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
-
                     </div>
                 </div>
             </div>

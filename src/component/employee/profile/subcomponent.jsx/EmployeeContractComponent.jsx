@@ -17,6 +17,7 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
     const [hasFetched, setHasFetched] = useState(false);
     const [openModal, setOpenModal] = useState([])
     const [pagePrev, setPagePrev] = useState([])
+
     useEffect(() => {
         if (Number(navId) === PROFILE_CONTRACT && !hasFetched) {
             setHasFetched(true)
@@ -321,7 +322,6 @@ const EmployeeContractComponent = ({ employeeId, navId }) => {
 
                 </div>
             </div>
-
             <UpdateContractComponent
                 employeeId={employeeId}
                 contractId={contract.contractId}

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
 import { getListDuty } from '../../../service/DutyService';
-import { responseData, responseMessage, responseUpdate } from '../../../util/ResponseUtil';
+import { responseData, responseUpdate } from '../../../util/ResponseUtil';
 import { getListRole } from '../../../service/RoleService';
-import { createJobPosition, getJobPositionDetail, getListJobPosition, updateJobPosition } from '../../../service/JobPositionService';
+import { createJobPosition, getJobPositionDetail, updateJobPosition } from '../../../service/Manage/ManageJobPositionService';
 import { toast } from 'react-toastify';
+import { getListJobPosition } from '../../../service/JobPositionService';
 
 
 const JobPositionCRUDComponent = ({ selectedId, typeOpen, setListJobPostion }) => {
+    const modalIdEdit = "crud_job_position-edit";
+    const modalIdCreate = "crud_job_position-create";
     const [listDuty, setListDuty] = useState({})
     const [listRole, setListRole] = useState({})
     const [values, setValues] = useState({
@@ -20,7 +23,7 @@ const JobPositionCRUDComponent = ({ selectedId, typeOpen, setListJobPostion }) =
     })
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "open") {
+        if (typeOpen.at(-1) === modalIdCreate) {
             setValues({
                 name: "",
                 salaryFrom: "",
@@ -29,7 +32,7 @@ const JobPositionCRUDComponent = ({ selectedId, typeOpen, setListJobPostion }) =
                 dutyId: "",
                 roleId: "",
             })
-        } else if (typeOpen.at(-1) === "edit") {
+        } else if (typeOpen.at(-1) === modalIdEdit) {
             getJobPositionDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const jobDetail = response.data.data
@@ -189,19 +192,18 @@ const JobPositionCRUDComponent = ({ selectedId, typeOpen, setListJobPostion }) =
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <input type="text" class="form-control" name='salaryFrom' value={values.salaryFrom || ""} onChange={handleChange} />
+                                                    <input type="number" class="form-control" name='salaryFrom' value={values.salaryFrom || ""} onChange={handleChange} />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <input type="text" class="form-control" name='salaryTo' value={values.salaryTo || ""} onChange={handleChange} />
+                                                    <input type="number" class="form-control" name='salaryTo' value={values.salaryTo || ""} onChange={handleChange} />
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="mb-3">
-                                                    <label class="form-label">mô tả <span class="text-danger">
-                                                        *</span></label>
+                                                    <label class="form-label">mô tả </label>
                                                     <textarea type="text" class="form-control" name='des' value={values.des || ""} onChange={handleChange} />
                                                 </div>
                                             </div>
@@ -211,7 +213,7 @@ const JobPositionCRUDComponent = ({ selectedId, typeOpen, setListJobPostion }) =
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "open" ? handleCreateJobPosition : hanldeUpdateJobPosition}>{typeOpen.at(-1) === "open" ? "THÊM MỚI" : "CẬP NHẬT"} </div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalIdCreate ? handleCreateJobPosition : hanldeUpdateJobPosition}>{typeOpen.at(-1) === modalIdCreate ? "THÊM MỚI" : "CẬP NHẬT"} </div>
                                     </div>
                                 </div>
                             </div>

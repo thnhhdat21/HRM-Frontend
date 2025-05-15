@@ -3,7 +3,7 @@ import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuEmployee from '../../contextmenu/ContextMenuEmployee';
 import { Link } from 'react-router-dom';
 import { responseData } from '../../util/ResponseUtil';
-import { getCountEmployee, getListEmployee } from '../../service/ManageEmployeeService';
+import { getCountEmployee, getListEmployee } from '../../service/Manage/ManageEmployeeService';
 import EmployeeOfDepartment from './component/EmployeeOfDeparment';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageIndexFilter, updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
@@ -17,12 +17,25 @@ import UpdateResumeComponent from './profile/update/UpdateResumeComponent';
 import { getResumeProfile } from '../../service/EmployeeService';
 import UpdateRewardAndPenaltyComponent from './crud/UpdateRewardAndPenaltyComponent';
 import CreateContractComponent from './crud/CreateContractComponent';
-import { activeAccount, lockAccount, unlockAccount } from '../../service/AccountService';
+import { activeAccount, lockAccount, unlockAccount } from '../../service/Manage/ManageAccountService';
 import { toast } from 'react-toastify';
+import UpdateNumberInsuranceComponent from './crud/UpdateNumberInsuranceComponent';
+import EndContractComponent from '../contract/crud/EndContractComponent';
+import Cookies from 'js-cookie';
+import { PerManageEmployee } from '../../util/PermissionUtil';
 
 const EmployeeComponent = () => {
+    //lay role
+    const roleString = Cookies.get('permissions');
+    let roles = new Set();
+
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+    }
+
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 215, 360);
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 330);
     const searchFilter = useSelector((state) => state.searchFilter)
     const dispatch = useDispatch();
     dispatch(updateTitleHeader({ title: "Danh sách nhân sự", subTitle: "" }))
@@ -36,7 +49,8 @@ const EmployeeComponent = () => {
         employeeName: "",
         department: "",
         accountStatus: 0,
-        accountId: 0
+        accountId: 0,
+        contractId: 0
     })
 
     //update
@@ -170,11 +184,15 @@ const EmployeeComponent = () => {
                                     <i className='fe fe-layers' />
                                     <span>Phòng ban</span>
                                 </div>
-                                <div class="mb-2 dropdown profile-dropdown" style={{ marginLeft: "20px" }}>
-                                    <Link to={"/manage-employee/create-employee"} class="btn btn-danger d-flex align-items-center" >
-                                        <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
-                                    </Link>
-                                </div>
+                                {
+                                    PerManageEmployee.some((role) => roles.has(role)) && (
+                                        <div class="mb-2 dropdown profile-dropdown" style={{ marginLeft: "20px" }}>
+                                            <Link to={"/manage-employee/create-employee"} class="btn btn-danger d-flex align-items-center" >
+                                                <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                                            </Link>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -238,6 +256,7 @@ const EmployeeComponent = () => {
                 hanleClickUpdateFamily={hanleClickUpdateFamily}
                 handleClickUpdateResume={handleClickUpdateResume}
                 handleClickUpdateAccount={handleClickUpdateAccount}
+                roles={roles}
             />
 
             <CreateContractComponent
@@ -265,12 +284,22 @@ const EmployeeComponent = () => {
                 openModal={["#update-family"]}
                 updateFamily={null} />
 
-
             <UpdateEducationComponent
                 employeeId={infoEmployee.employeeId}
                 education={education}
                 openModal={["#update-education"]}
                 updateEducation={null} />
+
+            <UpdateNumberInsuranceComponent
+                employeeId={infoEmployee.employeeId}
+                typeOpen={typeOpen}
+            />
+
+            <EndContractComponent
+                contractId={infoEmployee.contractId}
+                typeOpen={typeOpen}
+            />
+
         </>
     );
 };

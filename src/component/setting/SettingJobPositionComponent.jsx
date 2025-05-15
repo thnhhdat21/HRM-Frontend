@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import JobPositionCRUDComponent from './crud/JobPositionCRUDComponent';
-import { getListDuty } from '../../service/DutyService';
-import { deleteJobPosition, getListJobPosition } from '../../service/JobPositionService';
+import { getListJobPosition } from '../../service/JobPositionService';
 import { responseData, responseDelete } from '../../util/ResponseUtil';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { deleteJobPosition } from '../../service/Manage/ManageJobPositionService';
 
 const SettingJobPositionComponent = () => {
     const tableRef = useRef(null)
@@ -26,35 +28,38 @@ const SettingJobPositionComponent = () => {
     const handleDeleteJobPosition = () => {
         deleteJobPosition(selectedId).then(response => {
             responseDelete(response, setListJobPostion, selectedId)
+            if (response.data.code === 1000) {
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
         });
     }
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
-                                        <button class="nav-link nav-link-profile active" id="info-tab"
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation" style={{ marginRight: "15px" }}>
+                                        <button className="nav-link nav-link-profile active" id="info-tab"
                                         >Vị trí công việc</button>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_job_position"
-                                    class="btn btn-primary d-flex align-items-center"
-                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}><i
-                                        class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
+                                    className="btn btn-primary d-flex align-items-center"
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "crud_job_position-create"])}><i
+                                        className="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive">
-                                <div class="table-container">
-                                    <table class="table" id='myTable'>
-                                        <thead class="thead-light">
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive">
+                                <div className="table-container">
+                                    <table className="table" id='myTable'>
+                                        <thead className="thead-light">
                                             <tr>
                                                 <th></th>
                                                 <th>Người tạo</th>
@@ -85,6 +90,10 @@ const SettingJobPositionComponent = () => {
                     </div>
                 </div>
             </div>
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleDeleteJobPosition}
+            />
 
             <JobPositionCRUDComponent selectedId={selectedId} typeOpen={typeOpen} setListJobPostion={setListJobPostion} />
             <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_job_position"} handleDelete={handleDeleteJobPosition} setTypeOpen={setTypeOpen} />

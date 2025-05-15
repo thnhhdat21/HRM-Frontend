@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PenaltyCRUDComponent from './crud/PenaltyCRUDComponent';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
-import { deleteRewardOrPenalty, getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
+import { getListRewardOrPenalty } from '../../service/RewardAndPenaltyService';
 import { responseData, responseDelete } from '../../util/ResponseUtil';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { DECISION_TYPE_PENALTY } from '../../util/DecisionUtil';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { deleteRewardOrPenalty } from '../../service/Manage/ManageRewardAndPenaltyService';
 
 const SettingPenaltyComponent = () => {
     const dispatch = useDispatch();
@@ -26,37 +29,40 @@ const SettingPenaltyComponent = () => {
     const handleDeletePanalty = () => {
         deleteRewardOrPenalty(selected.id).then((response) => {
             responseDelete(response, setListPenalty, selected.id)
+            if (response.data.code === 1000) {
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
         })
     }
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "15px" }}>
-                                        <button class="nav-link nav-link-profile active" id="info-tab"
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation" style={{ marginRight: "15px" }}>
+                                        <button className="nav-link nav-link-profile active" id="info-tab"
                                         >Phạt nội bộ </button>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_penalty"
-                                    class="btn btn-primary d-flex align-items-center"
+                                    className="btn btn-primary d-flex align-items-center"
                                     onClick={() => setTypeOpen(prevList => [...prevList, "open"])}
                                 ><i
-                                    class="ti ti-circle-plus" style={{ fontSize: "20px" }}
+                                    className="ti ti-circle-plus" style={{ fontSize: "20px" }}
                                 ></i></a>
                             </div>
                         </div>
 
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive">
-                                <div class="table-container">
-                                    <table class="table" id='myTable'>
-                                        <thead class="thead-light">
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive">
+                                <div className="table-container">
+                                    <table className="table" id='myTable'>
+                                        <thead className="thead-light">
                                             <tr>
                                                 <th>
                                                 </th>
@@ -87,8 +93,13 @@ const SettingPenaltyComponent = () => {
                     </div>
                 </div>
             </div>
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleDeletePanalty}
+            />
+
             <PenaltyCRUDComponent selected={selected} typeOpen={typeOpen} setListPenalty={setListPenalty} />
-            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_penalty"} handleDelete={handleDeletePanalty} setTypeOpen={setTypeOpen} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_penalty"} setTypeOpen={setTypeOpen} />
         </>
     );
 };

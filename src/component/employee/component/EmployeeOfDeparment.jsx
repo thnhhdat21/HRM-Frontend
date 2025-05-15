@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { convertDate } from '../../../util/TimeUtil';
 
 const EmployeeOfDepartment = ({ explorer, setInfoEmployee }) => {
     const [expand, setExpand] = useState(true);
@@ -10,7 +11,8 @@ const EmployeeOfDepartment = ({ explorer, setInfoEmployee }) => {
                 employeeName: list.at(0).fullName,
                 accountStatus: list.at(0).accountStatus,
                 accountId: list.at(0).accountId,
-                department: list.at(0).department
+                department: list.at(0).department,
+                contractId: list.at(0).contractId
             })
         }
     }
@@ -21,7 +23,8 @@ const EmployeeOfDepartment = ({ explorer, setInfoEmployee }) => {
             employeeName: item.fullName,
             accountStatus: item.accountStatus,
             accountId: item.accountId,
-            department: item.department
+            department: item.department,
+            contractId: item.contractId
         })
     }
 
@@ -44,8 +47,8 @@ const EmployeeOfDepartment = ({ explorer, setInfoEmployee }) => {
                         <span>{item.department}</span>
                         <span>{item.jobPosition}</span>
                         <span>{item.duty}</span>
-                        <span>{item.dateJoin}</span>
-                        <span>{item.dateOfBirth}</span>
+                        <span>{convertDate(item.dateJoin)}</span>
+                        <span>{convertDate(item.dateOfBirth)}</span>
                         <span>{item.gender}</span>
                     </div>
                 ))}

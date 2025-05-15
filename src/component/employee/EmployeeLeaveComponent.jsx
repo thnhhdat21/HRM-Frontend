@@ -1,11 +1,62 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuContract from '../../contextmenu/ContextMenuContract';
 import LeaveApprovalComponent from '../letter/crud/LeaveLetterComponent';
+import { useDispatch } from 'react-redux';
+import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { getOnLeaveProfile } from '../../service/OnLeaveService';
+import { responseData } from '../../util/ResponseUtil';
+import { getListLeaveLetter } from '../../service/EmployeeService';
+import { convertDate, convertLeaveDayToText, formatDateTime } from '../../util/TimeUtil';
+import { LETTER_TYPE_LEAVE, LetterState } from '../../util/LetterUtil';
+import LeaveLetterComponent from '../letter/crud/LeaveLetterComponent';
+import ContextMenuEmployeeTwoItem from '../../contextmenu/ContextMenuEmployeeTwoItem';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import { deleteLetter } from '../../service/LetterService';
 
 const EmployeeLeaveComponent = () => {
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 200, 82);
+    const [onLeave, setOnLeave] = useState({})
+    const [listLeave, setListLeave] = useState([])
+    const [typeOpen, setTypeOpen] = useState([])
+    const [selected, setSelected] = useState("")
+    const dispatch = useDispatch()
+    dispatch(updateTitleHeader({ title: "Danh sách nghỉ", subTitle: "" }))
+
+    useEffect(() => {
+        getOnLeaveProfile("442").then((response) => {
+            responseData(response, setOnLeave)
+        })
+        getListLeaveLetter().then((response) => {
+            responseData(response, setListLeave)
+        })
+    }, [])
+
+    const handleClickDropMenu = (id) => {
+        setTypeOpen(prevList => [...prevList, id + "-create"])
+    }
+
+    const update = (e) => {
+        getOnLeaveProfile("442").then((response) => {
+            responseData(response, setOnLeave)
+        })
+
+        getListLeaveLetter().then((response) => {
+            responseData(response, setListLeave)
+        })
+    }
+
+    const hanleClickDelete = () => {
+        deleteLetter(selected.letterId).then((response) => {
+            if (response.data.code === 1000) {
+                update()
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
+        })
+    }
+
     return (
         <>
             <div class="page-wrapper">
@@ -18,15 +69,15 @@ const EmployeeLeaveComponent = () => {
                                     <tbody>
                                         <tr >
                                             <td>Phép năm:</td>
-                                            <td>13.0</td>
-                                            <td>Tồn năm trước:</td>
-                                            <td></td>
+                                            <td>{onLeave.regulaDay}</td>
+                                            <td>Phép thâm niên:</td>
+                                            <td>{onLeave.seniorDay}</td>
                                         </tr>
                                         <tr>
                                             <td>Đã sử dụng</td>
-                                            <td>1.0</td>
+                                            <td>{onLeave.usedDay}</td>
                                             <td className='strong-timekeeping text-black'>Phép còn lại:</td>
-                                            <td className='strong-timekeeping text-black'>12.0</td>
+                                            <td className='strong-timekeeping text-black'>{(onLeave.usedDay != 0 ? ((onLeave.reguladay + onLeave.seniorDay) - onLeave.usedDay) : 0)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -34,7 +85,11 @@ const EmployeeLeaveComponent = () => {
                         </div>
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div style={{ marginBottom: "10px" }} className='d-flex align-items-center justify-content-center'>
-                                <a href="#" class="btn btn-danger d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#create_leave_approval">
+                                <a href="#" class="btn btn-danger d-flex align-items-center"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#create_leave_letter"
+                                    onClick={() => handleClickDropMenu("create_leave_letter")}
+                                >
                                     Đăng ký nghỉ
                                 </a>
                             </div>
@@ -43,93 +98,80 @@ const EmployeeLeaveComponent = () => {
                             <table class="table borderless table-timekeeping-employee">
                                 <thead>
                                     <tr>
-                                        <th style={{ width: "15%" }}>Ngày / Lý do</th>
+                                        <th style={{ width: "15%" }}>Ngày đăng ký / Lý do</th>
                                         <th>Thông tin chi tiết</th>
                                         <th>Người duyệt (Chờ)</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="align-top text-center">
-                                            <div class="timekeeping-items d-flex flex-column">
-                                                <span style={{ padding: 0 }} className='reason-leave'>Nghỉ phép cả ngày</span>
-                                                <span style={{ color: "#787676  ", fontWeight: 400, padding: 0 }}>14/01/2025</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className='work-time'>
-                                                <span className='strong-timekeeping'>Ngày đăng ký: 22/01/2025</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Từ thời gian:</span>
-                                                <span className='strong-timekeeping'>19:00:00</span>
-                                                <span>- Tới thời gian:</span>
-                                                <span className='strong-timekeeping'>7:00:00</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Lý do tăng ca: </span>
-                                                <span className='strong-timekeeping'>Làm thêm tại đối tác, khách hàng/Làm thêm tại nhà</span>
-                                                <span>HT_OS xử lý sự cố hệ thống Smartbanking BIDV</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span className='badge text-white'>Đã duyệt</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* <div className='time-checked'>
-                                                <span>08:13:17</span>
-                                                <span className='strong'>15:58:17</span>
-                                            </div>
-                                            <div className='registered-time'>
-                                                <span>Đăng ký: |</span>
-                                                <span><strong>X</strong></span>
-                                            </div> */}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="align-top text-center">
-                                            <div class="timekeeping-items d-flex flex-column">
-                                                <span style={{ padding: 0 }} className='reason-leave'>Nghỉ phép cả ngày</span>
-                                                <span style={{ color: "#787676  ", fontWeight: 400, padding: 0 }}>14/01/2025</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className='work-time'>
-                                                <span className='strong-timekeeping'>Ngày đăng ký: 22/01/2025</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Từ thời gian:</span>
-                                                <span className='strong-timekeeping'>19:00:00</span>
-                                                <span>- Tới thời gian:</span>
-                                                <span className='strong-timekeeping'>7:00:00</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span>Lý do tăng ca: </span>
-                                                <span className='strong-timekeeping'>Làm thêm tại đối tác, khách hàng/Làm thêm tại nhà</span>
-                                                <span>HT_OS xử lý sự cố hệ thống Smartbanking BIDV</span>
-                                            </div>
-                                            <div className='work-time'>
-                                                <span className='badge text-white'>Đã duyệt</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* <div className='time-checked'>
-                                                <span>08:13:17</span>
-                                                <span className='strong'>15:58:17</span>
-                                            </div>
-                                            <div className='registered-time'>
-                                                <span>Đăng ký: |</span>
-                                                <span><strong>X</strong></span>
-                                            </div> */}
-                                        </td>
-                                    </tr>
+                                <tbody ref={tableRef}>
+                                    {listLeave.length > 0 && listLeave.map((item, index) => (
+                                        <tr key={index} onContextMenu={() => setSelected(item)}>
+                                            <td className="align-top text-center" style={{ padding: "10px" }}>
+                                                <div class="timekeeping-items d-flex flex-column">
+                                                    <span style={{ padding: 0 }} className='reason-leave'>{item.workdayEnabled === true ? "Nghỉ phép " + convertLeaveDayToText(item.total) : "Nghỉ không lương"}</span>
+                                                    <span style={{ color: "#787676  ", fontWeight: 400, padding: 0 }}>{convertDate(item.dateRegis)}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className='work-time' style={{ paddingTop: "5px" }}>
+                                                    <span>Từ ngày:</span>
+                                                    <span className='strong-timekeeping'>{formatDateTime(item.dateStart)}</span>
+                                                    <span>- Tới ngày:</span>
+                                                    <span className='strong-timekeeping'>{formatDateTime(item.dateEnd)}</span>
+                                                </div>
+                                                <div className='work-time'>
+                                                    <span>Số ngày nghỉ:</span>
+                                                    <span >{item.total && item.total.toFixed(2)}</span>
+                                                </div>
+                                                <div className='work-time'>
+                                                    <span>Lý do nghỉ: </span>
+                                                    <span className='strong-timekeeping'>{item.letterReason}</span>
+                                                    <span>{item.description}</span>
+                                                </div>
+                                                <div className='work-time' style={{ paddingBottom: "5px" }}>
+                                                    <span className={`text-white badge ${item.letterState ? LetterState.get(Number(item.letterState)).bg : ""}`}>{item.letterState ? LetterState.get(Number(item.letterState)).name : ""}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {/* <div className='time-checked'>
+                                                    <span>08:13:17</span>
+                                                    <span className='strong'>15:58:17</span>
+                                                </div>
+                                                <div className='registered-time'>
+                                                    <span>Đăng ký: |</span>
+                                                    <span><strong>X</strong></span>
+                                                </div> */}
+                                            </td>
+                                        </tr>
+
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div >
-            <LeaveApprovalComponent />
+
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={hanleClickDelete}
+            />
+
+            <ContextMenuEmployeeTwoItem
+                x={x}
+                y={y}
+                showMenu={showMenu}
+                modalId={"create_leave_letter"}
+                setTypeOpen={setTypeOpen}
+                state={selected.letterState}
+            />
+
+            <LeaveLetterComponent
+                letterId={selected.letterId}
+                typeOpen={typeOpen}
+                type={LETTER_TYPE_LEAVE}
+                updateLetter={update}
+            />
         </>
     );
 };

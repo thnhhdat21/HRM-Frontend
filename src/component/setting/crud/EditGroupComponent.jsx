@@ -37,6 +37,7 @@ const EditGroupComponent = ({ id }) => {
                     toast.error(response.data.message)
                 }
             })
+            setPermissionError({})
         }
     }, [id])
 
@@ -139,7 +140,7 @@ const EditGroupComponent = ({ id }) => {
             .then((response) => {
                 if (response.data.code === 1000) {
                     toast.success("Cập nhật thành công");
-                    document.querySelector('[data-bs-dismiss="modal"]').click();
+                    document.querySelector('#edit-group [data-bs-dismiss="modal"]').click();
                 } else {
                     toast.error(response.data.message);
                 }

@@ -1,15 +1,16 @@
 import React, { use, useEffect, useRef, useState } from 'react';
-import AccountEditComponent from './crud/AccountEditComponent';
 import ActiveAccountComponent from './crud/ActiveAccountComponent';
 import { ACCOUNT_ACTIVED, ACCOUNT_LOCKED, ACCOUNT_NOT_ACTIVE } from '../../util/AccountUtil';
 import TableAccountComponent from './component/TableAccountComponent';
-import { getCountAccount, getListAccount, lockAccount } from '../../service/AccountService';
+import { deleteAccount, getCountAccount, getListAccount, lockAccount } from '../../service/Manage/ManageAccountService';
 import { toast } from 'react-toastify';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuAccount from '../../contextmenu/ContextMenuAccount';
 import { getListRole } from '../../service/RoleService';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
 
 const ManageAccountComponent = () => {
     const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const ManageAccountComponent = () => {
     useEffect(() => {
         getListAccount(typeAccount).then((response) => {
             if (response.data.code === 1000) {
+                console.log(response.data.data)
                 setListAccount(response.data.data)
                 if (typeAccount === ACCOUNT_ACTIVED) {
                     setTableRef(tableActive)
@@ -84,7 +86,20 @@ const ManageAccountComponent = () => {
         })
     }, [update])
 
-
+    const handleOnClickDelete = () => {
+        deleteAccount(selected.id).then((response) => {
+            if (response.data.code === 1000) {
+                setListAccount(prevList => prevList.filter(item => item.id !== selected.id));
+                getCountAccount().then((response) => {
+                    if (response.data.code === 1000) {
+                        setCountAccount(response.data.data)
+                    }
+                })
+                toast.success("Xóa tài khoản thành công")
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
+        })
+    }
     return (
         <>
             <div class="page-wrapper">
@@ -124,12 +139,14 @@ const ManageAccountComponent = () => {
                     </div>
                 </div>
             </div >
-            <AccountEditComponent openModal={openModal} setOpenModal={setOpenModal} setUpdate={setUpdate} setListAccount={setListAccount} typeAccount={typeAccount} listGroup={listGroup} selected={selected} setSelected={setSelected} />
-            <ActiveAccountComponent listGroup={listGroup} typeAccount={typeAccount} selected={selected} setCountAccout={setCountAccount} setListAccount={setListAccount} />
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleOnClickDelete}
+            />
+            <ActiveAccountComponent typeAccount={typeAccount} selected={selected} setCountAccout={setCountAccount} setListAccount={setListAccount} />
             <ContextMenuAccount x={x} y={y} showMenu={showMenu} typeAccount={typeAccount} setListAccount={setListAccount} selected={selected} setCountAccout={setCountAccount} setOpenModal={setOpenModal} />
         </>
     );
 };
 
 export default ManageAccountComponent;
-

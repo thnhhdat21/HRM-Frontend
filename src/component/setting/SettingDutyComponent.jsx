@@ -1,12 +1,14 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DutyCRUDComponent from './crud/DutyCRUDComponent';
-import { deleteDuty, getListDuty } from '../../service/DutyService';
+import { deleteDuty } from '../../service/Manage/ManageDutyService';
 import { toast } from 'react-toastify';
-import ContextMenuDuty from '../../contextmenu/ContextMenuTwoItem';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { getListDuty } from '../../service/DutyService';
 
 const SettingDutyComponent = () => {
     const dispatch = useDispatch();
@@ -34,6 +36,7 @@ const SettingDutyComponent = () => {
             if (response.data.code === 1000) {
                 toast.success("Xóa thành công!");
                 setListDuty(prevList => prevList.filter(item => item.id !== selectedDuty.id));
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
             } else {
                 toast.error(response.data.message);
             }
@@ -57,7 +60,7 @@ const SettingDutyComponent = () => {
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_duty"
                                     class="btn btn-primary d-flex align-items-center"
-                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "crud_duty-create"])}>
                                     <i class="ti ti-circle-plus" style={{ fontSize: "20px" }}></i>
                                 </a>
                             </div>
@@ -93,8 +96,13 @@ const SettingDutyComponent = () => {
                     </div>
                 </div>
             </div >
-            <DutyCRUDComponent selectedDuty={selectedDuty} typeOpen={typeOpen} setListDuty={setListDuty} setTypeOpen={setTypeOpen} />
-            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_duty"} handleDelete={handleDeleteDuty} setTypeOpen={setTypeOpen} />
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleDeleteDuty}
+            />
+
+            <DutyCRUDComponent selectedDuty={selectedDuty} typeOpen={typeOpen} setListDuty={setListDuty} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_duty"} setTypeOpen={setTypeOpen} />
         </>
     );
 };

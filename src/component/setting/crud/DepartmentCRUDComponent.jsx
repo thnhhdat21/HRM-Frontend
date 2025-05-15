@@ -1,24 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../css/crud-style.css';
 import OptionDeparmentParent from '../component/OptionDeparmentParent';
-import { createDepartment, getDepartmentDetail, getListDepartment, updateDepartment } from '../../../service/DepartmentService';
+import { createDepartment, getDepartmentDetail, getListDepartment, updateDepartment } from '../../../service/Manage/ManageDepartmentService';
 import { toast } from 'react-toastify';
+import { responseData } from '../../../util/ResponseUtil';
 
 
-const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, listDepartment, listBusinessBlock, selectedId }) => {
+const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, listDepartment, listBusinessBlock, selectedId }) => {
+    const modalEdit = "crud_department-edit"
+    const modalCreate = "crud_department-create"
     const [selectedValue, setSelectedValue] = useState("Chọn phòng ban");
-    const [selectedParentId, setSelectedParentId] = useState("");
-    const [selectedBusinessId, setSlectedBusinessId] = useState("");
-    const [departmentLevel, setDepartmentLevel] = useState("");
-
     const modalRef = useRef(null);
-
     const [values, setValues] = useState({
         name: "",
         code: "",
+        level: "",
+        businessBlockId: "",
+        parentId: "",
     })
+    console.log(typeOpen)
     useEffect(() => {
-        if (typeOpen === "edit-crud_department") {
+        if (typeOpen.at(-1) === modalEdit) {
             getDepartmentDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const department = response.data.data;
@@ -26,10 +28,10 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
                         id: department.id || "",
                         name: department.name || "",
                         code: department.code || "",
+                        level: department.departmentLevel || "",
+                        businessBlockId: department.businessBlockId || "",
+                        parentId: department.parentId || ""
                     });
-                    setDepartmentLevel(department.departmentLevel || "");
-                    setSlectedBusinessId(department.businessBlockId || "");
-                    setSelectedParentId(department.parentId || "");
                     if (department.parentId) {
                         infoEditParentId(department.parentId);
                     } else {
@@ -39,18 +41,17 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
                     toast.error(response.data.message)
                 }
             })
-        } else if (typeOpen === "create") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setValues({
                 id: "",
                 name: "",
                 code: "",
+                level: "",
+                businessBlockId: "",
+                parentId: "",
             });
-            setDepartmentLevel("")
-            setSlectedBusinessId("")
-            setSelectedParentId("")
             setSelectedValue("Chọn phòng ban")
         }
-        setTypeOpen("")
     }, [typeOpen])
 
     const onChangeInput = (e) => {
@@ -61,7 +62,7 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
         const select = document.getElementById("selected-deparment-parent");
         const selectedOption = select.options[select.selectedIndex];
         setSelectedValue(selectedOption.textContent.replace(/^-+/g, "").trim())
-        setSelectedParentId(e.target.value)
+        setValues({ ...values, ["parentId"]: e.target.value })
     };
 
     const infoEditParentId = (parentId) => {
@@ -70,22 +71,14 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
         setSelectedValue(selectedOption.textContent.replace(/^-+/g, "").trim())
     }
 
-    const handleClear = (state, type) => {
+    const handleClear = (name, type) => {
         if ("parent".includes(type)) {
             setSelectedValue("Chọn phòng ban");
-            setSelectedParentId(null);
+            setValues({ ...values, ["parentId"]: "" })
         } else {
-            state("");
+            setValues({ ...values, [name]: "" })
         }
     };
-    const handleChangeBusiness = (e) => {
-        setSlectedBusinessId(e.target.value)
-    };
-
-    const handleChangeLvel = (e) => {
-        setDepartmentLevel(e.target.value)
-    };
-
 
     const handleSubmitUpdate = () => {
         if (values.name.trim().length === 0 || values.code.trim().length === 0) {
@@ -93,7 +86,7 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
             return;
         }
 
-        updateDepartment(values.id, values.name, values.code, departmentLevel, selectedParentId, selectedBusinessId).then((response) => {
+        updateDepartment(values.id, values.name, values.code, values.level, values.parentId, values.businessBlockId).then((response) => {
             if (response.data.code === 1000) {
                 toast.success("Cập nhật thành công")
                 getListDepartment().then((response) => {
@@ -114,23 +107,16 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
             toast.error("Chưa nhập tên hoặc mã nhóm")
             return;
         }
-
-        createDepartment(values.name, values.code, departmentLevel, selectedParentId, selectedBusinessId).then((response) => {
+        createDepartment(values.name, values.code, values.level, values.parentId, values.businessBlockId).then((response) => {
             if (response.data.code === 1000) {
-                toast.success("Tạo mới thành công")
+                toast.success("Thêm mới phòng ban thành công")
                 getListDepartment().then((response) => {
-                    if (response.data.code === 1000) {
-                        setListDepartment(response.data.data)
-                    } else
-                        toast.error(response.data.message);
+                    responseData(response, setListDepartment)
                 })
                 document.querySelector('#crud_department [data-bs-dismiss="modal"]')?.click();
-            } else {
-                toast.error(response.data.message);
             }
         })
     }
-
 
     return (
         <>
@@ -155,14 +141,15 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
                                                 <div class="mb-3">
                                                     <label class="form-label">Cấu trúc</label>
                                                     <div className="select-wrapper-department">
-                                                        <select class="select-crud" value={departmentLevel} onChange={handleChangeLvel}>
+                                                        <select class="select-crud" value={values.level} name='level' onChange={onChangeInput}>
                                                             <option value={""} hidden>Chọn cấu trúc</option>
-                                                            <option value={"Công ty"}>Công ty</option>
-                                                            <option value={"Khối nghiệp vụ"}>Khối nghiệp vụ</option>
-                                                            <option value={"Phòng ban"}>Phòng ban</option>
+                                                            <option value={1}>Công ty</option>
+                                                            <option value={2}>Ban giám đốc</option>
+                                                            <option value={3}>Khối nghiệp vụ</option>
+                                                            <option value={4}>Phòng ban</option>
                                                         </select>
-                                                        {departmentLevel && (
-                                                            <div className="x-selected" onClick={() => handleClear(setDepartmentLevel)}>
+                                                        {values.level && (
+                                                            <div className="x-selected" onClick={() => handleClear("level")}>
                                                                 <i className="ti ti-x"></i>
                                                             </div>
                                                         )}
@@ -189,7 +176,7 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
                                                             <option value={99999} hidden>{selectedValue}</option>
                                                             {listDepartment && listDepartment.map((item) => <OptionDeparmentParent explorer={item} />)}
                                                         </select>
-                                                        {selectedParentId && (
+                                                        {values.parentId && (
                                                             <div className="x-selected" onClick={() => handleClear(setSelectedValue, "parent")}>
                                                                 <i className="ti ti-x"></i>
                                                             </div>
@@ -202,14 +189,14 @@ const DepartmentCRUDComponent = ({ setListDepartment, typeOpen, setTypeOpen, lis
                                                 <div class="mb-3">
                                                     <label class="form-label">Khối nghiệp vụ</label>
                                                     <div className="select-wrapper-department">
-                                                        <select class="select-crud" value={selectedBusinessId} onChange={handleChangeBusiness}>
+                                                        <select class="select-crud" value={values.businessBlockId} name='businessBlockId' onChange={onChangeInput}>
                                                             <option value="" hidden>Chọn khối nghiệp vụ</option>
                                                             {listBusinessBlock && listBusinessBlock.map((item, index) => (
                                                                 <option value={item.id}>{item.name}</option>
                                                             ))}
                                                         </select>
-                                                        {selectedBusinessId && (
-                                                            <div className="x-selected" onClick={() => handleClear(setSlectedBusinessId)}>
+                                                        {values.businessBlockId && (
+                                                            <div className="x-selected" onClick={() => handleClear("businessBlockId")}>
                                                                 <i className="ti ti-x"></i>
                                                             </div>
                                                         )}

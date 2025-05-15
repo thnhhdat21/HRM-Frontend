@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
-import { createRewardOrPenalty, getListRewardOrPenalty, updateRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
+import { createRewardOrPenalty, updateRewardOrPenalty } from '../../../service/Manage/ManageRewardAndPenaltyService';
 import { responseUpdateType } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
 import { DECISION_TYPE_PENALTY } from '../../../util/DecisionUtil';
+import { getListRewardOrPenalty } from '../../../service/RewardAndPenaltyService';
 
 
 const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
+    const modalCreate = "crud_penalty-create"
+    const modalEdit = "crud_penalty-edit"
     const [valuesEdit, setValuesEdit] = useState({
         name: "",
         amount: "",
@@ -16,16 +19,16 @@ const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
     const [rows, setRows] = useState([{ id: Date.now(), name: "", amount: "", des: "" }]);
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit" && selected) {
+        if (typeOpen.at(-1) === modalEdit && selected) {
             setValuesEdit({
                 name: selected.name || "",
                 amount: selected.amount || "",
                 des: selected.description || ""
             });
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{ id: Date.now(), name: "", amount: "", des: "" }])
         }
-    }, [typeOpen, selected]);
+    }, [typeOpen]);
 
     const onChangeInputEdit = (e) => {
         setValuesEdit({ ...valuesEdit, [e.target.name]: e.target.value })
@@ -99,7 +102,7 @@ const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{typeOpen.at(-1) === "edit" ? "Chỉnh sửa" : "Tạo mới"} hình phạt</h4>
+                                <h4 class="modal-title me-2">{typeOpen.at(-1) === modalEdit ? "Chỉnh sửa" : "Tạo mới"} hình phạt</h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -111,7 +114,7 @@ const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
                                         {
-                                            typeOpen.at(-1) === "edit" ? (
+                                            typeOpen.at(-1) === modalEdit ? (
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="mb-3">
@@ -138,7 +141,7 @@ const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="mb-3">
-                                                                <table class="table table-add">
+                                                                <table class="table table-add table-leave">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Tên phạt nội bộ</th>
@@ -177,7 +180,7 @@ const PenaltyCRUDComponent = ({ selected, typeOpen, setListPenalty }) => {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "edit" ? handleUpdatePenalty : handleCreatePenalty} > {typeOpen.at(-1) === "edit" ? "CẬP NHẬT" : "THÊM MỚI"}</div>                                    </div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalEdit ? handleUpdatePenalty : handleCreatePenalty} > {typeOpen.at(-1) === modalEdit ? "CẬP NHẬT" : "THÊM MỚI"}</div>                                    </div>
                                 </div>
                             </div>
                         </form>

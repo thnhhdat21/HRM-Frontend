@@ -24,6 +24,10 @@ export { CONTRACT_CREATE_APPENDIX, CONTRACT_CREATE_NEW, CONTRACT_STATE_WAITING, 
 
 
 export const checkValidatorContract = (contractDetail) => {
+    if (contractDetail.employeeId === 0 || contractDetail.employeeId === "") {
+        toast.error("Yêu cầu nhập nhân sự!")
+        return false;
+    }
     if (contractDetail.contractType === 0 || contractDetail.contractType === "") {
         toast.error("Yêu cầu chọn thông tin loại hợp đồng!")
         return false;

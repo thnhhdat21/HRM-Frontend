@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import "../css/timekeeping-style.css"
 import { convertDate } from '../../../util/TimeUtil';
 import { getWorkingDay } from '../../../service/TimeKeepingSerivce';
-import { responseData } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
 import { getLetter } from '../../../service/LetterService';
-import { LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME, LETTER_TYPE_WORKTIME, LetterState, LetterType } from '../../../util/LetterUtil';
-import { getListLetterReason } from '../../../service/LetterReasonService';
+import { LETTER_TYPE_END_WORK, LETTER_TYPE_INOUT, LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME, LETTER_TYPE_WORKTIME, LetterState, LetterType } from '../../../util/LetterUtil';
 
 const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
     const WORK = 1;
@@ -61,20 +59,25 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
     useEffect(() => {
         if (type === LETTER && workingDay.letterIds && first) {
             setFirst(false)
-            workingDay.letterIds.forEach((item) => {
-                getLetter(item).then((reponse) => {
-                    if (reponse.data.code === 1000) {
-                        setLetter([...letter, reponse.data.data])
+            const fetch = async () => {
+                var listLetter = []
+                for (const item of workingDay.letterIds) {
+                    const response = await getLetter(item)
+                    if (response.data.code === 1000) {
+                        listLetter.push(response.data.data)
                     }
-                })
-            })
+                }
+                if (listLetter.length > 0) {
+                    setLetter(listLetter)
+                }
+            }
+            fetch()
         }
     }, [type])
-
     return (
         <>
             <div ref={ref} class="menu" id="detail_timekeeping" style={style()}>
-                <div class="modal-content " style={{ padding: "15px" }}>
+                <div class="modal-content" style={{ padding: "15px" }}>
                     <div class="modal-header no-border">
                         <div class="d-flex align-items-center">
                             <h4 class="modal-title me-2">{selected.employeeName}, ngày {convertDate(selected.dateWorking)}</h4>
@@ -160,13 +163,12 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
                     }
 
                     {type === LETTER && (
-                        <div class="modal-body ">
+                        <div class="modal-body overflow-timekeeping-detail">
                             {
                                 letter.length > 0 && letter.map((item, index) => {
                                     const letterType = Number(item.letterType)
-                                    if ((letterType === LETTER_TYPE_WORKTIME ||
-                                        letterType === LETTER_TYPE_LEAVE ||
-                                        letterType === LETTER_TYPE_OVERTIME
+                                    const letterState = Number(item.letterState)
+                                    if ((letterType != LETTER_TYPE_END_WORK
                                     ))
                                         return (
                                             <>
@@ -186,61 +188,71 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
                                                     <div class="col-md-6">
                                                         <div class="mb-3 d-flex flex-column info-detail">
                                                             <label class="form-label">Trạng thái</label>
-                                                            <p class={`badge ${letterType ? LetterState.get(letterType).bg : ""}`}>{letterType ? LetterState.get(letterType).name : ""}</p>
+                                                            <p class={`badge ${letterState ? LetterState.get(letterState).bg : ""}`}>{letterState ? LetterState.get(letterState).name : ""}</p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-2">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Chi tiết</label>
-                                                        <div class="card-body p-0">
-                                                            <div class="custom-datatable-filter table-responsive">
-                                                                <div class="table-container">
-                                                                    <table class="table" id='myTable'>
-                                                                        <thead class="thead-light">
-                                                                            <tr>
-                                                                                <th>Bắt đầu</th>
-                                                                                <th>Kết thúc</th>
-                                                                                {letterType === LETTER_TYPE_WORKTIME ? (
-                                                                                    <>
-                                                                                        <th>Đi muộn</th>
-                                                                                        <th>Về sớm</th>
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <th>Tổng thời gian</th>
-                                                                                )}
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr data-id='1'>
-                                                                                <td>
-                                                                                    <span>{item.timeStart || (letterType === LETTER_TYPE_LEAVE && item.dateStart) || (letterType === LETTER_TYPE_WORKTIME && convertDate(item.dateStart))}</span>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <span>{item.timeEnd || (letterType === LETTER_TYPE_LEAVE && item.dateEnd) || (letterType === LETTER_TYPE_WORKTIME && convertDate(item.dateEnd))}</span>
-                                                                                </td>
-                                                                                {letterType === LETTER_TYPE_WORKTIME ? (
-                                                                                    <>
+                                                {
+                                                    letterType !== LETTER_TYPE_INOUT && (
+                                                        <div class="row mt-2">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Chi tiết</label>
+                                                                <div class="card-body p-0">
+                                                                    <div class="custom-datatable-filter table-responsive">
+                                                                        <div class="table-container">
+                                                                            <table class="table" id='myTable'>
+                                                                                <thead class="thead-light">
+                                                                                    <tr>
+                                                                                        <th>Bắt đầu</th>
+                                                                                        <th>Kết thúc</th>
+                                                                                        {letterType === LETTER_TYPE_WORKTIME ? (
+                                                                                            <>
+                                                                                                <th>Đi muộn</th>
+                                                                                                <th>Về sớm</th>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <th>Tổng thời gian</th>
+                                                                                        )}
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr data-id='1'>
                                                                                         <td>
-                                                                                            <span>{item.goLate}</span>
+                                                                                            <span>{item.timeStart || (letterType === LETTER_TYPE_LEAVE && item.dateStart) || (letterType === LETTER_TYPE_WORKTIME && convertDate(item.dateStart))}</span>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <span>{item.backEarly}</span>
+                                                                                            <span>{item.timeEnd || (letterType === LETTER_TYPE_LEAVE && item.dateEnd) || (letterType === LETTER_TYPE_WORKTIME && convertDate(item.dateEnd))}</span>
                                                                                         </td>
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <td>
-                                                                                        <span>{item.total}</span>
-                                                                                    </td>
-                                                                                )}
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                                        {letterType === LETTER_TYPE_WORKTIME ? (
+                                                                                            <>
+                                                                                                <td>
+                                                                                                    <span>{item.goLate}</span>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <span>{item.backEarly}</span>
+                                                                                                </td>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <td>
+                                                                                                <span>{item.total}</span>
+                                                                                            </td>
+                                                                                        )}
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    )
+                                                }
+
+                                                {
+                                                    letter.length > 0 && (
+                                                        <div className='border-bottom'></div>
+                                                    )
+                                                }
                                             </>
                                         )
                                 })

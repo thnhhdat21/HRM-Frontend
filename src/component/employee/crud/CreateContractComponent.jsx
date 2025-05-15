@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { responseData } from '../../../util/ResponseUtil';
-import { getListContractType } from '../../../service/ContractTypeService';
 import { getListJobPosition } from '../../../service/JobPositionService';
 import { getListDepartmentChild } from '../../../service/DepartmentService';
-import { getAllowanceByContractType, getListAllownace } from '../../../service/AllowanceService';
-import { countContractAppendix, createContract, getContractProfileByEmloyeeId } from '../../../service/ContractService';
+import { countContractAppendix, createContract } from '../../../service/Manage/ManageContractService';
 import { getResumeProfile } from '../../../service/EmployeeService';
 import { checkValidatorAllowanceContract, checkValidatorContract, CONTRACT_CREATE_APPENDIX, CONTRACT_CREATE_NEW } from '../../../util/ContractUtil';
+import { getContractProfileByEmloyeeId } from '../../../service/ContractService';
+import { getListContractType } from '../../../service/ContractTypeService';
+import { getAllowanceByContractType, getListAllownace } from '../../../service/AllowanceService';
 
 const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) => {
     const modalId = "create-contract"
@@ -206,7 +207,7 @@ const CreateContractComponent = ({ employeeId, typeOpen, updateListEmplyee }) =>
                 toast.success("Cập nhật thành công")
                 document.querySelector(`#${modalId} [data-bs-dismiss="modal"]`).click();
             } else if (response.data.code > 1000) {
-                toast.error(response.data.message)
+                toast.info(response.data.message)
             } else if (response.data.code < 1000) {
                 toast.error("Bảo trì hệ thống")
             }

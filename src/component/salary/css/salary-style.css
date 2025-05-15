@@ -132,6 +132,16 @@
     border-bottom: 1px solid #ddd;
 }
 
+.grid-timekeeping {
+    display: grid;
+    grid-template-columns: 100px 1fr 250px 150px 150px 100px;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+
 .avater-payroll img {
     width: 25px;
     height: 25px;

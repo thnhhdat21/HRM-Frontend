@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateNameFilter, updatePageIndexFilter, updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
 import FilterSearchComponent from './FilterSearchComponent';
+import { pathPermissionList } from '../../util/LeftMenuUtil';
+import Cookies from 'js-cookie';
 
 const HeaderComponnent = ({ setting }) => {
     const [openFilter, setOpenFilter] = useState(false)
@@ -10,6 +12,14 @@ const HeaderComponnent = ({ setting }) => {
     const searchFilter = useSelector((state) => state.searchFilter)
     const titleHeader = useSelector((state) => state.titleHeader)
     const [valueName, setValueName] = useState("")
+
+    const roleString = Cookies.get('permissions');
+    let roles = new Set();
+
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+    }
 
     useEffect(() => {
         setValueName(searchFilter.name)
@@ -78,16 +88,28 @@ const HeaderComponnent = ({ setting }) => {
                                     </div>
                                 </div>
                                 <div className="me-1">
-                                    <Link to="/settings/account" className="btn btn-menubar">
-                                        <i className="ti ti-settings-cog" />
-                                    </Link>
-                                </div>
-                                <div class="dropdown me-1" >
-                                    <Link to="/manage-employee/list-employee" className="btn btn-menubar">
-                                        <i class="ti ti-layout-grid-remove"></i>
-                                    </Link>
+                                    {
+                                        roles.has('ADMIN') && (<Link to="/settings/account" className="btn btn-menubar">
+                                            <i className="ti ti-settings-cog" />
+                                        </Link>)
+                                    }
 
                                 </div>
+                                <div className="dropdown me-1">
+                                    {
+                                        (() => {
+                                            const item = pathPermissionList.find(item =>
+                                                item.permissions && item.permissions.some(role => roles.has(role))
+                                            );
+                                            return item && (
+                                                <Link to={item.path} className="btn btn-menubar">
+                                                    <i className="ti ti-layout-grid-remove"></i>
+                                                </Link>
+                                            );
+                                        })()
+                                    }
+                                </div>
+
                                 <div className="me-1 notification_item">
                                     <a href="#" className="btn btn-menubar position-relative me-1" id="notification_popup"
                                         data-bs-toggle="dropdown">

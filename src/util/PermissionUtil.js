@@ -79,3 +79,23 @@ export {
     MANAGE_ASSET, WATCH_ASSET, CREATE_ASSET,
     PermissionType, permissions, permissionCreate
 };
+
+
+export const PerWatchAdmin = ['ADMIN']
+export const PerWatchEmployee = ['ADMIN', 'ROLE_WATCH_EMPLOYEE_COMPANY', 'ROLE_WATCH_EMPLOYEE_DEPARTMENT']
+export const PerWatchContract = ['ADMIN', 'ROLE_WATCH_CONTRACT_COMPANY', 'ROLE_WATCH_CONTRACT_DEPARTMENT']
+export const PerWatchInsurance = ['ADMIN', 'ROLE_WATCH_INSURANCE_COMPANY', 'ROLE_WATCH_INSURANCE_DEPARTMENT']
+export const PerWatchDecision = ['ADMIN', 'ROLE_WATCH_DECISION_COMPANY', 'ROLE_WATCH_DECISION_DEPARTMENT']
+export const PerWatchLetter = ['ADMIN', 'ROLE_MANAGE_LETTER_COMPANY', 'ROLE_MANAGE_LETTER_DEPARTMENT']
+export const PerWatchTimeSheet = ['ROLE_WATCH_TIMESHEET_COMPANY', 'ROLE_WATCH_TIMESHEET_DEPARTMENT']
+export const PerWatchSalary = ['ADMIN', 'ROLE_WATCH_SALARY_COMPANY', 'ROLE_WATCH_SALARY_DEPARTMENT']
+
+
+
+
+export const PerManageAdmin = ['ADMIN']
+export const PerManageEmployee = ['ADMIN', 'ROLE_MANAGE_EMPLOYEE']
+export const PerManageContract = ['ADMIN', 'ROLE_MANAGE_CONTRACT',]
+export const PerManageDecision = ['ADMIN', 'ROLE_MANAGE_DECISION']
+export const PerManageLetter = ['ADMIN', 'ROLE_MANAGE_LETTER_COMPANY', 'ROLE_MANAGE_LETTER_DEPARTMENT']
+export const PerManageTimeSheet = ['ADMIN', 'ROLE_MANAGE_TIMESHEET']

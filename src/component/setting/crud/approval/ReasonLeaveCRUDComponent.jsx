@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../../css/crud-style.css'
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { getLetterReasonDetail } from '../../../../service/LetterReasonService';
+import { getLetterReasonDetail } from '../../../../service/Manage/ManageLetterReasonService';
 const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpdate, handleCreate }) => {
+    const modalCreate = "create_leave_reason-create"
+    const modalEdit = "create_leave_reason-edit"
     const [rows, setRows] = useState([{
         id: uuidv4(),
         reason: "",
@@ -43,7 +45,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
 
     const [values, setValues] = useState({})
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit") {
+        if (typeOpen.at(-1) === modalEdit) {
             getLetterReasonDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const approvalReason = response.data.data
@@ -59,7 +61,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                 }
             })
 
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{
                 id: uuidv4(),
                 reason: "",
@@ -113,7 +115,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
                                         {
-                                            typeOpen.at(-1) === "edit" ? (
+                                            typeOpen.at(-1) === modalEdit ? (
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="mb-3">
@@ -137,6 +139,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                                                         <div class="mb-3">
                                                             <label class="form-label">Đơn vị</label>
                                                             <select name='unit' value={values.unit} onChange={onChangeUpdate}>
+                                                                <option value={"Ngày / Tuần"}>Ngày / Tuần</option>
                                                                 <option value={"Ngày / Tuần"}>Ngày / Tuần</option>
                                                                 <option value={"Ngày / Tháng"}>Ngày / Tháng</option>
                                                                 <option value={"Ngày / Năm"}>Ngày / Năm</option>
@@ -183,7 +186,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                                                                                 <td><input type="text" className="form-control" name='symbol' value={row.symbol} onChange={(e) => onChangeInputCreate(index, e)} /></td>
                                                                                 <td><input type="number" className="form-control" name='maximum' value={row.maximum} onChange={(e) => onChangeInputCreate(index, e)} /></td>
                                                                                 <td>
-                                                                                    <select name='unit' value={values.unit} onChange={(e) => onChangeInputCreate(index, e)}>
+                                                                                    <select name='unit' value={row.unit} onChange={(e) => onChangeInputCreate(index, e)}>
                                                                                         <option value={""} hidden>Chọn</option>
                                                                                         <option value={"Ngày / Tuần"}>Ngày / Tuần</option>
                                                                                         <option value={"Ngày / Tháng"}>Ngày / Tháng</option>
@@ -191,7 +194,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                                                                                     </select>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <select name='workDayEnabled' value={values.workDayEnabled} onChange={(e) => onChangeInputCreate(index, e)}>
+                                                                                    <select name='workDayEnabled' value={row.workDayEnabled} onChange={(e) => onChangeInputCreate(index, e)}>
                                                                                         <option value={true}>Có</option>
                                                                                         <option value={false}>Không</option>
                                                                                     </select>
@@ -222,7 +225,7 @@ const ReasonLeaveCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpda
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class="btn btn-primary" onClick={(e) => typeOpen.at(-1) === "edit" ? handleUpdate(e, values, checkValitor) : handleCreate(e, rows, checkValitor)}>CẬP NHẬT </button>
+                                        <button type="submit" class="btn btn-primary" onClick={(e) => typeOpen.at(-1) === modalEdit ? handleUpdate(e, values, checkValitor) : handleCreate(e, rows, checkValitor)}>CẬP NHẬT </button>
                                     </div>
                                 </div>
                             </div>

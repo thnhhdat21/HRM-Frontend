@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/context-menu-style.css'
 
-const ContextMenuSetting = ({ x, y, showMenu, modalId, handleDelete, selectedId, setlist, setTypeOpenModal }) => {
+const ContextMenuSetting = ({ x, y, showMenu, modalId, setTypeOpenModal }) => {
     const style = () => {
         return {
             borderRadius: 10,
@@ -16,10 +16,13 @@ const ContextMenuSetting = ({ x, y, showMenu, modalId, handleDelete, selectedId,
         <>
             <div className="menu" style={style()}>
                 <ul>
-                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target={`#${modalId}`} onClick={() => setTypeOpenModal("edit-" + modalId)}><i className='ti ti-edit' />
+                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target={`#${modalId}`} onClick={() => { setTypeOpenModal((prev) => [...prev, modalId + "-edit"]) }}><i className='ti ti-edit' />
                         Chỉnh sửa
                     </li>
-                    <li style={{ width: "200px" }} onClick={() => handleDelete(selectedId, setlist)}><i className='ti ti-trash' />
+                    <li style={{ width: "200px" }}
+                        data-bs-toggle="modal"
+                        data-bs-target="#approve_delete_component"
+                    ><i className='ti ti-trash' />
                         Xóa
                     </li>
                 </ul>

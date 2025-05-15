@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getListAllownace } from '../../../service/AllowanceService';
 import { responseData } from '../../../util/ResponseUtil';
 import { toast } from 'react-toastify';
 import { getWorkProfile } from '../../../service/ContractService';
 import { compareDates } from '../../../util/TimeUtil';
 import { v4 as uuidv4 } from 'uuid';
 import { getDecision, updateSalaryAppoint } from '../../../service/DecisionService';
+import { getListAllownace } from '../../../service/AllowanceService';
 
 const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelect, updateDecision }) => {
     const createModal = "create_salary_decision-create";

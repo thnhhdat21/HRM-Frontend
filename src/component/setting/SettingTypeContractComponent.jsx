@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import TypeContractCRUDComponent from './crud/TypeContractCRUDComponent';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import { responseData, responseDelete } from '../../util/ResponseUtil';
-import { deleteContractType, getListContractType } from '../../service/ContractTypeService';
+import { deleteContractType } from '../../service/Manage/ManageContractTypeService';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import { getListContractType } from '../../service/ContractTypeService';
 
 const SettingTypeContractComponent = () => {
     const dispatch = useDispatch();
@@ -25,9 +28,11 @@ const SettingTypeContractComponent = () => {
     const handleDeleteContractType = () => {
         deleteContractType(selectedId).then(response => {
             responseDelete(response, setListContractType, selectedId)
+            if (response.data.code === 1000) {
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+            }
         });
     }
-
 
     return (
         <>
@@ -46,7 +51,7 @@ const SettingTypeContractComponent = () => {
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#crud_type_contract"
                                     class="btn btn-primary d-flex align-items-center"
-                                    onClick={() => setTypeOpen(prevList => [...prevList, "open"])}>
+                                    onClick={() => setTypeOpen(prevList => [...prevList, "crud_type_contract-create"])}>
                                     <i
                                         class="ti ti-circle-plus" style={{ fontSize: "20px" }} ></i></a>
                             </div>
@@ -89,9 +94,13 @@ const SettingTypeContractComponent = () => {
                     </div>
                 </div>
             </div>
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleDeleteContractType}
+            />
 
             <TypeContractCRUDComponent selectedId={selectedId} typeOpen={typeOpen} setListContractType={setListContractType} setTypeOpen={setTypeOpen} />
-            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_type_contract"} handleDelete={handleDeleteContractType} setTypeOpen={setTypeOpen} />
+            <ContextMenuTwoItem x={x} y={y} showMenu={showMenu} modalId={"crud_type_contract"} setTypeOpen={setTypeOpen} />
         </>
     );
 };

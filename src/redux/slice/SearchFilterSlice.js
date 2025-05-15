@@ -12,7 +12,8 @@ export const searchFilterSlice = createSlice({
         duty: [],
         dateJoin: "",
         yearMonth: "",
-        year: 0
+        year: 0,
+        salaryTableId: 0
     },
     reducers: {
         update: (state, action) => {
@@ -24,8 +25,9 @@ export const searchFilterSlice = createSlice({
             state.jobPosition = action.payload.jobPosition;
             state.duty = action.payload.duty;
             state.dateJoin = action.payload.dateJoin;
-            state.yearMonth = action.payload.yearMonth
-            state.year = action.payload.year
+            state.yearMonth = action.payload.yearMonth;
+            state.year = action.payload.year;
+            state.salaryTableId = action.payload.salaryTableId;
         },
         updateTypeFilter: (state, action) => {
             state.type = action.payload
@@ -64,6 +66,11 @@ export const searchFilterSlice = createSlice({
             state.year = action.payload;
             state.pageIndex = 1
         },
+
+        updateSalaryTableId: (state, action) => {
+            state.salaryTableId = action.payload;
+            state.pageIndex = 1
+        },
         resetSearchFilter: (state) => {
             state.name = '';
             state.type = '';
@@ -73,8 +80,6 @@ export const searchFilterSlice = createSlice({
             state.jobPosition = [];
             state.duty = [];
             state.dateJoin = '';
-            state.yearMonth = "";
-            state.year = ""
         }
 
     }
@@ -90,5 +95,6 @@ export const {
     updateSearchFilter,
     resetSearchFilter,
     updateYearMonthFilter,
-    updateYearFilter } = searchFilterSlice.actions;
+    updateYearFilter,
+    updateSalaryTableId } = searchFilterSlice.actions;
 export default searchFilterSlice.reducer;

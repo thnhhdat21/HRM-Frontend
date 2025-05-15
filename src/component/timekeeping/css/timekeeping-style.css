@@ -137,3 +137,10 @@
     background-color: #f5f5f5;
     cursor: pointer;
 }
+
+
+.overflow-timekeeping-detail {
+    max-height: 440px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

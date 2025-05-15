@@ -11,7 +11,7 @@ import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { updatePageIndexFilter, updateYearMonthFilter } from '../../redux/slice/SearchFilterSlice';
 import { closingTimeKeeping, getCountTimeKeeping, getListTimeKeeping, timeSheetState } from '../../service/TimeKeepingSerivce';
 import { responseData } from '../../util/ResponseUtil';
-import { LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME } from '../../util/LetterUtil';
+import { LETTER_TYPE_INOUT, LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME } from '../../util/LetterUtil';
 import DeparmentFilterComponent from '../employee/component/DeparmentFilterComponent';
 import { toast } from 'react-toastify';
 import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
@@ -75,7 +75,6 @@ const TimeSheetComponent = () => {
         timeSheetFilter.dateJoin || '',
         timeSheetFilter.yearMonth
     ])
-
 
     const handleIconClick = () => {
         setOpen(true);
@@ -206,6 +205,10 @@ const TimeSheetComponent = () => {
                                                             } else if (dayWorking.workDay === 0 && item.type === LETTER_TYPE_LEAVE) {
                                                                 symbol = ""
                                                                 value = item.symbol
+                                                            } else if (dayWorking.workDay !== 0 && item.type === LETTER_TYPE_LEAVE) {
+                                                                symbol = 'p'
+                                                            } else if (item.type === LETTER_TYPE_INOUT && !dayWorking.late) {
+                                                                symbol = ''
                                                             }
                                                         })
                                                     }
@@ -225,8 +228,8 @@ const TimeSheetComponent = () => {
                                                                 {symbol && (
                                                                     <span style={{
                                                                         position: 'absolute',
-                                                                        top: '0px',
-                                                                        right: '-5px',
+                                                                        top: '-3px',
+                                                                        right: '-7px',
                                                                         fontSize: '10px',
                                                                         fontWeight: 600
                                                                     }}>
@@ -241,7 +244,7 @@ const TimeSheetComponent = () => {
                                                 {item.timeKeeping.length > 0 && (
                                                     <>
                                                         <td>{item.totalLateDay}</td>
-                                                        <td>{item.totalLateDay * 50}</td>
+                                                        <td>{Number(item.totalLateDay * 50000).toLocaleString("vi-VN")}</td>
                                                         <td>{item.onLeaveTotal}</td>
                                                         <td>{item.onLeaveUsed}</td>
                                                         <td>{item.onLeaveTotal - item.onLeaveUsed}</td>
@@ -282,7 +285,9 @@ const TimeSheetComponent = () => {
                 </div>
             </div>
             <TimeKeepingDetailComponent x={xdb} y={ydb} showMenu={showMenudb} selected={selected} ref={infoWorkDay} />
+
             <DeparmentFilterComponent typeOpen={typeOpen} />
+
             <ApproveOrDeleteComponent handleClick={handleClosed} type={CLOSING} />
         </>
     );

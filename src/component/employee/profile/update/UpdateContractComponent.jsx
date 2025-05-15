@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { getContractDetail, updateContract, createContract } from '../../../../service/ContractService';
+import { getContractDetail, updateContract, createContract } from '../../../../service/Manage/ManageContractService';
 import { responseData } from '../../../../util/ResponseUtil';
 import { getListDepartmentChild } from '../../../../service/DepartmentService';
 import { getListJobPosition } from '../../../../service/JobPositionService';
-import { getAllowanceByContractType, getListAllownace } from '../../../../service/AllowanceService';
-import { getListContractType } from '../../../../service/ContractTypeService';
 import { v4 as uuidv4 } from 'uuid';
 import { checkValidatorAllowanceContract, checkValidatorContract, CONTRACT_CREATE_APPENDIX } from '../../../../util/ContractUtil';
+import { getListContractType } from '../../../../service/ContractTypeService';
+import { getAllowanceByContractType, getListAllownace } from '../../../../service/AllowanceService';
 
 const UpdateContractComponent = ({ employeeId, contractId, openModal, updateContractProfile, count }) => {
     const modalId = "update-contract-profile"

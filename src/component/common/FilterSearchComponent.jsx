@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSearchFilter, updateDepartmentFilter, updateSearchFilter } from '../../redux/slice/SearchFilterSlice';
+import { resetSearchFilter, updateSearchFilter } from '../../redux/slice/SearchFilterSlice';
 import { responseData } from '../../util/ResponseUtil';
 import { getListDepartmentChild } from '../../service/DepartmentService';
 import SelectCustomer from '../customer/SelectCustomer';
@@ -79,14 +78,8 @@ const FilterSearchComponent = ({ typeOpen }) => {
 
     const onChangeReset = (e) => {
         e.preventDefault()
+        console.log("hahah")
         dispatch(resetSearchFilter())
-        setValues({
-            name: "",
-            dateJoin: ""
-        })
-        setListDepartment([])
-        setListJobPostion([])
-        setListDuty([])
     }
 
     const searching = (e) => {
@@ -176,8 +169,8 @@ const FilterSearchComponent = ({ typeOpen }) => {
                                     <div class="modal-footer" style={{ zIndex: 1060, position: "static" }}>
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class={`btn ${searching() ? "btn-primary" : "btn-outline-light border"}  me-2`} onClick={(e) => { if (searching()) onChangeReset(e); }}
-                                        >ĐẶT LẠI </button>
+                                        <div class={`btn ${searching() ? "btn-primary" : "btn-outline-light border"}  me-2`} onClick={(e) => { if (searching()) onChangeReset(e); }}
+                                        >ĐẶT LẠI </div>
                                         <button type="submit" class="btn btn-primary" onClick={onChangeSearch}>TÌM KIẾM </button>
                                     </div>
                                 </div>

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
-import { createContractType, getContracTypeDetail, getListContractType, updateContractType } from '../../../service/ContractTypeService';
-import { getListAllownace } from '../../../service/AllowanceService';
+import { createContractType, getContracTypeDetail, updateContractType } from '../../../service/Manage/ManageContractTypeService';
 import { responseData, responseUpdate } from '../../../util/ResponseUtil';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import { CONTRACT_HAS_NO_TERM, contractTypeSelect } from '../../../util/ContractTypeUtil';
+import { getListContractType } from '../../../service/ContractTypeService';
+import { getListAllownace } from '../../../service/AllowanceService';
 
 
 const TypeContractCRUDComponent = ({ selectedId, setListContractType, typeOpen }) => {
+    const modalEdit = "crud_type_contract-edit"
+    const modalCreate = "crud_type_contract-create"
     const [allowancePrev, setAllowancePrev] = useState("");
     const [selectedAllowance, setSelectedAllowance] = useState("");
     const [listAllowance, setListAllowance] = useState({});
@@ -29,7 +32,7 @@ const TypeContractCRUDComponent = ({ selectedId, setListContractType, typeOpen }
     }, [])
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit" && selectedId) {
+        if (typeOpen.at(-1) === modalEdit && selectedId) {
             getContracTypeDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const contractTypeDettail = response.data.data
@@ -57,7 +60,7 @@ const TypeContractCRUDComponent = ({ selectedId, setListContractType, typeOpen }
                     }
                 }
             })
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setValues({
                 name: "",
                 type: "",
@@ -70,7 +73,7 @@ const TypeContractCRUDComponent = ({ selectedId, setListContractType, typeOpen }
             setSelectedAllowance("")
             setAllowancePrev("")
         }
-    }, [typeOpen, selectedId]);
+    }, [typeOpen]);
 
     const onChangeInputGeneral = (e) => {
         const { name, value } = e.target;
@@ -336,7 +339,7 @@ const TypeContractCRUDComponent = ({ selectedId, setListContractType, typeOpen }
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "edit" ? handlUpdateContractType : handleCreateContractType}>{typeOpen.at(-1) === "edit" ? "CẬP NHẬT" : "THÊM MỚI"} </div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalEdit ? handlUpdateContractType : handleCreateContractType}>{typeOpen.at(-1) === modalEdit ? "CẬP NHẬT" : "THÊM MỚI"} </div>
                                     </div>
                                 </div>
                             </div>

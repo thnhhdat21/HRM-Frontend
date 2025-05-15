@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../css/crud-style.css';
-import { createDuty, getListDuty, updateDuty } from '../../../service/DutyService';
+import { createDuty, updateDuty } from '../../../service/Manage/ManageDutyService';
 import { toast } from 'react-toastify';
+import { getListDuty } from '../../../service/DutyService';
 
 
 const DutyCRUDComponent = ({ selectedDuty, typeOpen, setListDuty }) => {
+    const modalEdit = "crud_duty-edit"
+    const modalCreate = "crud_duty-create"
     const [valuesEdit, setValuesEdit] = useState({
         name: "",
         des: ""
@@ -12,15 +15,15 @@ const DutyCRUDComponent = ({ selectedDuty, typeOpen, setListDuty }) => {
     const [rows, setRows] = useState([{ id: Date.now(), name: "", des: "" }]);
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit" && selectedDuty) {
+        if (typeOpen.at(-1) === modalEdit && selectedDuty) {
             setValuesEdit({
                 name: selectedDuty.name || "",
                 des: selectedDuty.description || ""
             });
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{ id: Date.now(), name: "", des: "" }])
         }
-    }, [typeOpen, selectedDuty]);
+    }, [typeOpen]);
 
     const onChangeInputEdit = (e) => {
         setValuesEdit({ ...valuesEdit, [e.target.name]: e.target.value })
@@ -93,7 +96,7 @@ const DutyCRUDComponent = ({ selectedDuty, typeOpen, setListDuty }) => {
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
-                                        {typeOpen.at(-1) === "edit" ? (
+                                        {typeOpen.at(-1) === modalEdit ? (
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
@@ -115,7 +118,7 @@ const DutyCRUDComponent = ({ selectedDuty, typeOpen, setListDuty }) => {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="mb-3">
-                                                            <table class="table table-add">
+                                                            <table class="table table-add table-leave">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Tên chức vụ</th>
@@ -152,7 +155,7 @@ const DutyCRUDComponent = ({ selectedDuty, typeOpen, setListDuty }) => {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === "open" ? handleCreateDuty : handleUpdateDuty}  >{typeOpen.at(-1) === "open" ? "THÊM MỚI" : "CẬP NHẬT"} </div>
+                                        <div type="submit" class="btn btn-primary" onClick={typeOpen.at(-1) === modalCreate ? handleCreateDuty : handleUpdateDuty}  >{typeOpen.at(-1) === modalCreate ? "THÊM MỚI" : "CẬP NHẬT"} </div>
                                     </div>
                                 </div>
                             </div>

@@ -1,91 +1,65 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuAsset from '../../contextmenu/ContextMenuAsset';
 import './css/salary-style.css'
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { getListSalaryTable } from '../../service/SalaryService';
+import { responseData } from '../../util/ResponseUtil';
+import { convertDate, convertMonth } from '../../util/TimeUtil';
+import { useNavigate } from 'react-router-dom';
 
 const PayrollComponen = () => {
     const dispatch = useDispatch()
     dispatch(updateTitleHeader({ title: "Danh sách bảng lương", subTitle: "" }))
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 260);
+    const [salaryTable, setSalaryTable] = useState([])
+
+    const navigate = useNavigate()
+
+    const handleDoubleClick = (salaryTableId) => {
+        navigate('/manage-salary/table-salary-detail', { state: { salaryTableId: salaryTableId } })
+    }
+
+    useEffect(() => {
+        getListSalaryTable().then((response) => {
+            responseData(response, setSalaryTable)
+        })
+    }, [])
+
     return (
         <>
             <div class="page-wrapper" style={{ marginTop: "20px" }}>
                 <div class="card">
-                    {/* <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
-                            <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                            </div>
-                            <div class="mb-2 dropdown profile-dropdown">
-                            </div>
-                        </div> */}
                     <div class="card-body p-0">
-                        <div class="custom-datatable-filter table-responsive">
-                            <div class="table-container">
-                                <div class="grid header-payroll">
-                                    <div class="form-check form-check-md">
-                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                    </div>
-                                    <span>Tạo bởi</span>
+                        <div class="custom-datatable-filter table-responsive height-my-table">
+                            <div class="table-container ">
+                                <div class="grid-timekeeping header-payroll">
+                                    <span></span>
                                     <span>Tên bảng lương</span>
                                     <span>Trạng thái</span>
-                                    <span>Phòng ban áp dụng</span>
                                     <span>Nhân sự</span>
                                     <span>Tổng tiền</span>
                                     <span>Ngày tạo</span>
                                 </div>
-
-                                <div style={{ fontSize: "20px" }}>
-                                    <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Tháng 8/2023</label>
-                                </div>
-                                <div class="grid" >
-                                    <div class="form-check form-check-md">
-                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                    </div>
-                                    <span class="avatar avatar-lg me-2 avatar-rounded avater-payroll">
-                                        <img src="/assets/img/profiles/avatar-12.jpg" alt="img" />
-                                    </span>
-                                    <span>Bảng lương BOD</span>
-                                    <span class="badge">Chưa chốt</span>
-                                    <span>Ban Giám đốc</span>
-                                    <span>5</span>
-                                    <span>22,040,000</span>
-                                    <span>25/08/2023</span>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="form-check form-check-md">
-                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                    </div>
-                                    <span class="avatar avatar-lg me-2 avatar-rounded avater-payroll">
-                                        <img src="/assets/img/profiles/avatar-12.jpg" alt="img" />
-                                    </span>
-                                    <span>Bảng lương Test - Tạm ứng</span>
-                                    <span class="badge">Chưa chốt</span>
-                                    <span>Ban Giám đốc, Phòng Kinh doanh Hà Nội</span>
-                                    <span>39</span>
-                                    <span>28,770,000</span>
-                                    <span>25/08/2023</span>
-                                </div>
-
-                                <div style={{ fontSize: "20px" }}>
-                                    <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Tháng 7/2023</label>
-                                </div>
-                                <div class="grid">
-                                    <div class="form-check form-check-md">
-                                        <input class="form-check-input" type="checkbox" id="select-all" />
-                                    </div>
-                                    <span class="avatar avatar-lg me-2 avatar-rounded avater-payroll">
-                                        <img src="/assets/img/profiles/avatar-12.jpg" alt="img" />
-                                    </span>
-                                    <span>BẢNG LƯƠNG CHI NHÁNH HCM</span>
-                                    <span class="badge">Chưa chốt</span>
-                                    <span>Công ty Cổ phần 1Office</span>
-                                    <span>121</span>
-                                    <span>0</span>
-                                    <span>25/09/2023</span>
-                                </div>
+                                {
+                                    salaryTable.length > 0 && salaryTable.map((item, index) => (
+                                        <>
+                                            <div style={{ fontSize: "20px" }}>
+                                                <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Tháng {convertMonth(item.yearMonth)}</label>
+                                            </div>
+                                            <div class="grid-timekeeping" onDoubleClick={() => handleDoubleClick(item.id)}>
+                                                <span></span>
+                                                <span>{item.nameSalaryTable}</span>
+                                                <span class="badge">Chưa chốt</span>
+                                                <span>{item.numberEmployee}</span>
+                                                <span>{item.totalAmount && Number(item.totalAmount).toLocaleString('vi-VN')}</span>
+                                                <span>{convertDate(item.createdAt)}</span>
+                                            </div>
+                                        </>
+                                    ))
+                                }
                             </div>
                         </div>
 

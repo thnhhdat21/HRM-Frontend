@@ -7,6 +7,8 @@ import ContextMenuGroup from '../../contextmenu/ContextMenuGroup';
 import EditGroupComponent from './crud/EditGroupComponent';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
 
 const ManageGroupComponent = () => {
     const dispatch = useDispatch();
@@ -30,11 +32,14 @@ const ManageGroupComponent = () => {
             if (response.data.code === 1000) {
                 toast.success("Xóa thành công!");
                 setListRole(prevList => prevList.filter(item => item.id !== selectedId));
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+
             } else {
                 toast.error(response.data.message);
             }
         });
     }
+
     return (
         <>
             <div class="page-wrapper">
@@ -44,7 +49,7 @@ const ManageGroupComponent = () => {
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
                             </div>
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-                                <Link to={"/admin/admin-group/add"}
+                                <Link to={"/settings/group/add"}
                                     class="btn btn-primary d-flex align-items-center"><i
                                         class="ti ti-circle-plus " style={{ fontSize: "20px" }}></i>
                                 </Link>
@@ -109,7 +114,12 @@ const ManageGroupComponent = () => {
                     </div>
                 </div>
             </div>
-            <ContextMenuGroup x={x} y={y} showMenu={showMenu} handleDeleteRole={handleDeleteRole} />
+            <ApproveOrDeleteComponent
+                type={DELETE}
+                handleClick={handleDeleteRole}
+            />
+
+            <ContextMenuGroup x={x} y={y} showMenu={showMenu} />
             <EditGroupComponent id={selectedId} />
         </>
     );

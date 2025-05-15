@@ -23,18 +23,11 @@ export const calculatorTime = (timeIn, timeOut, breakStartTime, breakEndTime, ne
         breakStartTimeMinutes = Number(breakStartTime.split(":")[0]) * 60 + Number(breakStartTime.split(":")[1])
         breakEndTimeMinutes = Number(breakEndTime.split(":")[0]) * 60 + Number(breakEndTime.split(":")[1])
     }
-    // console.log(timeOutMinutes)
-    // console.log(timeInMinutes)
-    // console.log(breakEndTimeMinutes)
-    // console.log(breakStartTimeMinutes)
-    // console.log(timeNextDay)
-
     const totalTimeResponse = ((timeOutMinutes - timeInMinutes) - (breakEndTimeMinutes - breakStartTimeMinutes) + timeNextDay) / 60;
     return totalTimeResponse
 }
 
 export const calculatorTimeNoBreak = (timeIn, timeOut, nextDayEnabled) => {
-    console.log(nextDayEnabled)
     const timeInMinutes = Number(timeIn.split(":")[0]) * 60 + Number(timeIn.split(":")[1])
     const timeOutMinutes = Number(timeOut.split(":")[0]) * 60 + Number(timeOut.split(":")[1])
     const timeNextDay = JSON.parse(nextDayEnabled) === true ? 24 * 60 : 0
@@ -49,6 +42,38 @@ export const convertDate = (dateStr) => {
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year}`;
 };
+
+export const convertDateInTimeSheet = (dateStr) => {
+    if (!dateStr)
+        return;
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}`;
+};
+export const formatTimeToVietnamese = (timeStr) => {
+    if (!timeStr) return "";
+
+    const [hours, minutes] = timeStr.split(":").map(Number);
+
+    let result = "";
+    if (hours > 0) result += `${hours} tiếng `;
+    if (minutes > 0) result += `${minutes} phút`;
+
+    return result.trim();
+};
+
+export const convertMonth = (dateStr) => {
+    if (!dateStr)
+        return;
+    const [year, month] = dateStr.split("-");
+    return `${month}/${year}`;
+};
+export const convertMonthText = (dateStr) => {
+    if (!dateStr)
+        return;
+    const [year, month] = dateStr.split("-");
+    return `Tháng ${Number(month)}`;
+};
+
 
 export function convertDateTime(input) {
     const [datePart, timePart] = input.split(' ');
@@ -135,26 +160,101 @@ export const getListDateTime = () => {
     return tempOptions
 }
 
+// export const generateDays = (monthInput) => {
+//     const weekdays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+
+//     const now = new Date();
+//     const currentYear = now.getFullYear(); // lấy năm hiện tại
+
+//     const month = monthInput - 1; // Trừ 1 vì JavaScript Date tháng là 0-11
+
+//     let days = [];
+//     let date = new Date(currentYear, month, 1); // Tạo từ ngày 1 của tháng nhập vào
+
+//     while (date.getMonth() === month) {
+//         days.push({
+//             day: date.getDate(),
+//             weekday: weekdays[date.getDay()]
+//         });
+//         date.setDate(date.getDate() + 1);
+//     }
+//     return days;
+// };
+
 export const generateDays = (monthInput) => {
     const weekdays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 
-    const now = new Date();
-    const currentYear = now.getFullYear(); // lấy năm hiện tại
+    const now = new Date(); // hôm nay: 7/5/2025
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth(); // tháng hiện tại (0-based)
+    const currentDate = now.getDate();   // ngày hiện tại
 
-    const month = monthInput - 1; // Trừ 1 vì JavaScript Date tháng là 0-11
-
+    const month = monthInput - 1; // Chuyển về 0-based
     let days = [];
-    let date = new Date(currentYear, month, 1); // Tạo từ ngày 1 của tháng nhập vào
 
-    while (date.getMonth() === month) {
+    // Nếu month tương lai, không return gì cả
+    if (month > currentMonth) return [];
+
+    let date = new Date(currentYear, month, 1); // Ngày đầu tháng
+
+    while (
+        date.getMonth() === month &&
+        (month < currentMonth || date.getDate() <= currentDate)
+    ) {
         days.push({
             day: date.getDate(),
-            weekday: weekdays[date.getDay()]
+            weekday: weekdays[date.getDay()],
         });
         date.setDate(date.getDate() + 1);
     }
+
     return days;
 };
+
+export const getDayOnWeek = (date) => {
+    const weekdays = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+    const day = new Date(date)
+    return weekdays[day.getDay()];
+};
+
+const numberToWords = (num) => {
+    const words = [
+        "", "một", "hai", "ba", "bốn", "năm", "sáu",
+        "bảy", "tám", "chín", "mười", "mười một", "mười hai"
+    ];
+    return words[num] || `${num}`;
+};
+
+export const convertLeaveDayToText = (days) => {
+    const fullDays = Math.floor(days);
+    const decimalPart = +(days - fullDays).toFixed(1); // fix lỗi float
+
+    if (fullDays === 0 && decimalPart === 0.5) {
+        return "nửa ngày";
+    } else if (decimalPart === 0.5) {
+        return `${numberToWords(fullDays)} ngày rưỡi`;
+    } else {
+        return `${numberToWords(fullDays)} ngày`;
+    }
+};
+
+
+export const formatDateTime = (dateTimeStr) => {
+    if (!dateTimeStr) return "";
+
+    const [datePart, timePart] = dateTimeStr.split(" ");
+    const [year, month, day] = datePart.split("-");
+
+    // Kiểm tra xem có phần giờ hay không
+    const formattedDate = `${day}/${month}/${year}`;
+    if (timePart) {
+        return `${formattedDate} ${timePart}`;
+    } else {
+        return formattedDate;
+    }
+};
+
+
 
 
 

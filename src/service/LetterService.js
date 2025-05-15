@@ -1,7 +1,6 @@
 import axios from "axios";
-import { API_URL_PREFIX } from "./constant/URLConstant";
 
-const REST_API_BASE_URL = API_URL_PREFIX + "/letter";
+const REST_API_BASE_URL = "/letter";
 
 export const getListLetter = (values) => {
     const requestBody = {
@@ -41,7 +40,7 @@ export const updateLeaveLetter = (values) => {
     const requestBody = {
         letterId: values.letterId,
         // employeeId: values.employeeId,
-        employeeId: 2,
+        employeeId: 444,
         letterReasonId: values.letterReasonId,
         dateStart: values.dateStart,
         dateEnd: values.dateEnd,
@@ -58,8 +57,8 @@ export const updateOverTimeLetter = (values) => {
         // employeeId: values.employeeId,
         employeeId: 442,
         letterReasonId: values.letterReasonId,
-        timeStart: values.timeStart,
-        timeEnd: values.timeEnd,
+        timeStart: values.timeStart.length === 5 ? values.timeStart + ":00" : values.timeStart,
+        timeEnd: values.timeEnd.length === 5 ? values.timeEnd + ":00" : values.timeEnd,
         total: values.total,
         isNextDay: values.isNextDay,
         description: values.description
@@ -99,7 +98,7 @@ export const updateInOutAndEndWorkLetter = (values) => {
     const requestBody = {
         letterId: values.letterId,
         // employeeId: values.employeeId,
-        employeeId: 2,
+        employeeId: 442,
         letterReasonId: values.letterReasonId,
         dateRegis: values.dateRegis,
         description: values.description

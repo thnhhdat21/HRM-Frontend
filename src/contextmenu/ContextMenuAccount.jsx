@@ -1,7 +1,6 @@
-import React from 'react';
 import './css/context-menu-style.css'
 import { ACCOUNT_ACTIVED, ACCOUNT_LOCKED, ACCOUNT_NOT_ACTIVE } from '../util/AccountUtil';
-import { deleteAccount, getCountAccount, lockAccount, unlockAccount } from '../service/AccountService';
+import { getCountAccount, lockAccount, unlockAccount } from '../service/Manage/ManageAccountService';
 import { toast } from 'react-toastify';
 
 const ContextMenuAccount = ({ x, y, showMenu, typeAccount, setListAccount, setCountAccout, selected, setOpenModal }) => {
@@ -26,20 +25,6 @@ const ContextMenuAccount = ({ x, y, showMenu, typeAccount, setListAccount, setCo
                     }
                 })
                 toast.success("Khóa tài khoản thành công")
-            }
-        })
-    }
-
-    const handleOnClickDelete = () => {
-        deleteAccount(selected.id).then((response) => {
-            if (response.data.code === 1000) {
-                setListAccount(prevList => prevList.filter(item => item.id !== selected.id));
-                getCountAccount().then((response) => {
-                    if (response.data.code === 1000) {
-                        setCountAccout(response.data.data)
-                    }
-                })
-                toast.success("Xóa tài khoản thành công")
             }
         })
     }
@@ -95,11 +80,10 @@ const ContextMenuAccount = ({ x, y, showMenu, typeAccount, setListAccount, setCo
                             </li>
                         ) : null
                     )}
-                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target="#edit_account" onClick={() => setOpenModal("open")}>
-                        <i className='ti ti-edit' />
-                        Chỉnh sửa
-                    </li>
-                    <li style={{ width: "200px" }} onClick={handleOnClickDelete}>
+                    <li style={{ width: "200px" }}
+                        data-bs-toggle="modal"
+                        data-bs-target="#approve_delete_component"
+                    >
                         <i className='ti ti-trash' />
                         Xóa
                     </li>

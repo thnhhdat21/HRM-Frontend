@@ -5,25 +5,27 @@ import { toast } from 'react-toastify';
 
 
 const BusinessBlockCRUDComponent = ({ setListBusinessBlock, typeOpen, businessBlock }) => {
+    const modalEdit = "crud_business_block-edit"
+    const modalCreate = "crud_business_block-create"
     const [values, setValues] = useState({
         name: "",
         code: "",
     })
 
     useEffect(() => {
-        if (typeOpen === "edit-crud_business_block") {
+        if (typeOpen.at(-1) === modalEdit) {
             setValues({
                 id: businessBlock.id || "",
                 name: businessBlock.name || "",
                 code: businessBlock.code || "",
             });
-        } else {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setValues({
                 name: "",
                 code: "",
             });
         }
-    }, [typeOpen, businessBlock])
+    }, [typeOpen])
 
     const onChangeInput = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -71,7 +73,7 @@ const BusinessBlockCRUDComponent = ({ setListBusinessBlock, typeOpen, businessBl
                     <div class="modal-content">
                         <div class="modal-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{typeOpen === "edit" ? "Cập nhật khối nghiệp vụ" : "Tạo mới khối nghiệp vụ"} </h4>
+                                <h4 class="modal-title me-2">{typeOpen.at(-1) === modalEdit ? "Cập nhật khối nghiệp vụ" : "Tạo mới khối nghiệp vụ"} </h4>
                             </div>
                             <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -102,7 +104,7 @@ const BusinessBlockCRUDComponent = ({ setListBusinessBlock, typeOpen, businessBl
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div type="submit" class="btn btn-primary" onClick={() => { typeOpen === "create" ? handleCreateBusinessBlock() : handleUpdateBusinessBlock() }}> {typeOpen === "create" ? "THÊM MỚI" : "CẬP NHẬT"} </div>
+                                        <div type="submit" class="btn btn-primary" onClick={() => { typeOpen.at(-1) === modalCreate ? handleCreateBusinessBlock() : handleUpdateBusinessBlock() }}> {typeOpen.at(-1) === modalCreate ? "THÊM MỚI" : "CẬP NHẬT"} </div>
                                     </div>
                                 </div>
                             </div>

@@ -13,7 +13,6 @@ const HolidaysCRUDComponent = ({ selected, openModal, handleUpdateHoliday }) => 
         date: "",
         description: ""
     })
-    console.log(selected)
     useEffect(() => {
         if (openModal.at(-1) === MODAL_CREATE) {
             setValues({

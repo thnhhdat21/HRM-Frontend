@@ -6,8 +6,23 @@ import { calculateWorkingTime, compareDates, convertDate } from '../../../../uti
 import { getOnLeaveProfile } from '../../../../service/OnLeaveService';
 import { ContractStatus } from '../../../../util/ContractUtil';
 import UpdateOnLeaveComponent from '../update/UpdateOnLeaveComponent';
+import Cookies from 'js-cookie';
+import { PerManageEmployee } from '../../../../util/PermissionUtil';
 
 const EmployeeWorkComponnent = ({ employeeId, navId }) => {
+    //Lay role
+    const roleString = Cookies.get('permissions');
+    const currentAccountLogin = Cookies.get('employeeId');
+    let roles = new Set();
+
+    let isUpdateInfo = false;
+
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+        isUpdateInfo = PerManageEmployee.some(role => roles.has(role)) || currentAccountLogin === employeeId
+    }
+
     const [work, setWork] = useState({})
     const [workHistory, setWorkHistory] = useState({})
     const [onLeave, setOnLeave] = useState({})
@@ -40,6 +55,9 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
             responseData(response, setOnLeave)
         })
     }
+
+    console.log(onLeave)
+
     return (
         <>
             <div class="mt-5 tab-pane fade" id="profile-work" role="tabpanel">
@@ -74,7 +92,7 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                                     )}</td>
                                 </tr>
                                 <tr>
-                                    <th>Ngày ký HĐLĐ chính thức</th>
+                                    <th>Ngày ký HĐLĐ</th>
                                     <td>{convertDate(work.dateSign)}</td>
                                     <th>Tên hợp đồng</th>
                                     <td>{work.contractName}</td>
@@ -100,25 +118,31 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                 <div class="profile-container mt-4">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Thông tin nghỉ phép</div>
-                        <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-onleave"
-                            onClick={() => handleOpenModal("#update-onleave")}>
-                            <i className='ti ti-edit' style={{ fontSize: "25px" }} />
-                        </div>
+                        {
+                            isUpdateInfo && (
+                                <div className='update-infomation' style={{ marginRight: "10px" }} data-bs-toggle="modal" data-bs-target="#update-onleave"
+                                    onClick={() => handleOpenModal("#update-onleave")}>
+                                    <i className='ti ti-edit' style={{ fontSize: "25px" }} />
+                                </div>
+                            )
+                        }
+
                     </div>
                     <div class="profile-info">
                         <table class="table borderless profile-details">
                             <tbody>
                                 <tr>
                                     <th style={{ width: "25%" }}>Số phép theo quy định</th>
-                                    <td>{onLeave.totalDay ? onLeave.totalDay.toFixed(2) : ""}</td>
-                                    <th style={{ width: "25%" }}>Phép tồn</th>
-                                    <td></td>
+                                    <td>{onLeave.regulaDay ? onLeave.regulaDay.toFixed(2) : ""}</td>
+                                    <th style={{ width: "25%" }}>Phép thâm niên</th>
+                                    <td>{onLeave.seniorDay ? onLeave.seniorDay.toFixed(2) : ""}</td>
+
                                 </tr>
                                 <tr>
                                     <th>Số phép đã nghỉ</th>
                                     <td>{onLeave.usedDay ? onLeave.usedDay.toFixed(2) : ""}</td>
                                     <th>Còn lại</th>
-                                    <td>{onLeave.totalDay > onLeave.usedDay ? (onLeave.totalDay - onLeave.usedDay).toFixed(2) : ""}</td>
+                                    <td>{onLeave.regulaDay > onLeave.usedDay ? (onLeave.regulaDay + onLeave.seniorDay - onLeave.usedDay).toFixed(2) : ""}</td>
                                 </tr>
                             </tbody>
                         </table>

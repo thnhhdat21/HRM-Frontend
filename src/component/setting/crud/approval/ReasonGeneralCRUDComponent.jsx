@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
-import { type } from '@testing-library/user-event/dist/type';
-import { getLetterReasonDetail } from '../../../../service/LetterReasonService';
+import { getLetterReasonDetail } from '../../../../service/Manage/ManageLetterReasonService';
 
 const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUpdate, handleCreate }) => {
+    const modalCreate = "crud_general_reason-create"
+    const modalEdit = "crud_general_reason-edit"
     const [rows, setRows] = useState([{
         id: uuidv4(),
         reason: "",
@@ -39,7 +40,7 @@ const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUp
     const [values, setValues] = useState({})
 
     useEffect(() => {
-        if (typeOpen.at(-1) === "edit") {
+        if (typeOpen.at(-1) === modalEdit) {
             getLetterReasonDetail(selectedId).then((response) => {
                 if (response.data.code === 1000) {
                     const approvalReason = response.data.data
@@ -52,7 +53,7 @@ const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUp
                 }
             })
 
-        } else if (typeOpen.at(-1) === "open") {
+        } else if (typeOpen.at(-1) === modalCreate) {
             setRows([{
                 id: uuidv4(),
                 reason: "",
@@ -94,7 +95,7 @@ const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUp
                                 <div class="tab-pane fade show active">
                                     <div class="modal-body pb-0 ">
                                         {
-                                            typeOpen.at(-1) === "edit" ? (
+                                            typeOpen.at(-1) === modalEdit ? (
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
@@ -152,7 +153,7 @@ const ReasonGeneralCRUDComponent = ({ selectedId, typeOpen, reasonType, handleUp
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class="btn btn-primary" onClick={(e) => typeOpen.at(-1) === "edit" ? handleUpdate(e, values, checkValitor) : handleCreate(e, rows, checkValitor)}>CẬP NHẬT </button>
+                                        <button type="submit" class="btn btn-primary" onClick={(e) => typeOpen.at(-1) === modalEdit ? handleUpdate(e, values, checkValitor) : handleCreate(e, rows, checkValitor)}>CẬP NHẬT </button>
                                     </div>
                                 </div>
                             </div>
