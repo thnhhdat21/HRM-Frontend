@@ -6,7 +6,7 @@ const DepartmentFolder = ({ explorer, setSelectedId }) => {
         <>
             {
                 explorer && (<>
-                    <div class="grid-department"
+                    <div className="grid-department"
                         onContextMenu={(e) => { e.preventDefault(); setSelectedId(explorer.id); }}
                     >
                         <span></span>

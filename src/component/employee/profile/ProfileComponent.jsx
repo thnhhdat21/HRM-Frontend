@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../css/profile.css';
 import ResumeComponent from './subcomponent.jsx/ResumeComponent';
 import EmployeeWorkComponnent from './subcomponent.jsx/EmployeeWorkComponent';
@@ -8,13 +8,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getFile } from '../../../service/MinIOService';
 import { PROFILE_CONTRACT, PROFILE_RESUME, PROFILE_SALARY, PROFILE_WORK } from '../../../util/EmployeeUtil';
 import { useDispatch } from 'react-redux';
-import { updateSubTitleHeader } from '../../../redux/slice/TitleHeaderSlice';
+import { updateTitleHeader } from '../../../redux/slice/TitleHeaderSlice';
 import Cookies from 'js-cookie';
 import { PerWatchContract, PerWatchEmployee, PerWatchSalary } from '../../../util/PermissionUtil';
 const ProfileComponnent = () => {
     // lấy permission 
     const roleString = Cookies.get('permissions');
     let roles = new Set();
+    const currentEmployeeId = Cookies.get('employeeId');
 
     if (roleString) {
         const parsedRoles = roleString.split(',');
@@ -24,12 +25,17 @@ const ProfileComponnent = () => {
     const location = useLocation();
     const employeeId = location.state?.employeeId || "";
     const employeeName = location.state?.employeeName || "";
+    const navItem = location.state?.navItem || "";
+    const [navId, setNavId] = useState()
 
-    const [navId, setNavId] = useState(1)
+    useEffect(() => {
+        if (navItem)
+            setNavId(navItem)
+    }, [navItem])
+
     const [imageCache, setImageCache] = useState(new Map());
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    dispatch(updateSubTitleHeader(employeeName))
+    dispatch(updateTitleHeader({ title: "Hồ sơ nhân sự", subTitle: employeeName }))
 
     const handleClickNav = (e) => {
         const value = e.target.value
@@ -54,6 +60,7 @@ const ProfileComponnent = () => {
             }
         }
     }
+
     return (
         <>
             <div className='page-wrapper' style={{ position: "static" }}>
@@ -62,37 +69,29 @@ const ProfileComponnent = () => {
                         <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list-2">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px' }}>
                                 <ul className="nav ">
-                                    <li className="nav-item d-flex align-items-center justify-content-between flex-wrap button-header" role="presentation" >
-                                        <i className="ti ti-arrow-left ti-icon"
-                                            onClick={() => navigate("/manage-employee/list-employee")}
-                                            style={{ fontSize: "20px", marginRight: "10px" }} />
-                                    </li>
-                                    {
-                                        PerWatchEmployee.some(role => roles.has(role)) && (
-                                            <>
-                                                <li className="nav-item nav-profile" role="presentation" >
-                                                    <button className="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#profile-resume" value={PROFILE_RESUME} onClick={handleClickNav}> Sơ yếu lý lịch</button>
-                                                </li>
-                                                <li className="nav-item" role="presentation">
-                                                    <button className="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#profile-work" value={PROFILE_WORK} onClick={handleClickNav}>Công việc</button>
-                                                </li>
-                                            </>
-                                        )
-                                    }
-                                    {
-                                        PerWatchContract.some(role => roles.has(role)) && (
-                                            <li className="nav-item" role="presentation">
-                                                <button className="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#profile-contract" value={PROFILE_CONTRACT} onClick={handleClickNav}>Hợp đồng</button>
+                                    {(PerWatchEmployee.some(role => roles.has(role)) || currentEmployeeId === employeeId) && (
+                                        <>
+                                            <li className="nav-item nav-profile" role="presentation" >
+                                                <button className={`nav-link nav-link-profile ${navId === PROFILE_RESUME ? "active" : ""}`} id="info-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#profile-resume" value={PROFILE_RESUME} onClick={handleClickNav}> Sơ yếu lý lịch</button>
                                             </li>
-                                        )
-                                    }
+                                            <li className="nav-item nav-profile" role="presentation">
+                                                <button className={`nav-link nav-link-profile ${navId === PROFILE_WORK ? "active" : ""}`} id="address-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#profile-work" value={PROFILE_WORK} onClick={handleClickNav}>Công việc</button>
+                                            </li>
+                                        </>
+                                    )}
+                                    {(PerWatchContract.some(role => roles.has(role)) || currentEmployeeId === employeeId) && (
+                                        <li className="nav-item" role="presentation">
+                                            <button className={`nav-link nav-link-profile ${navId === PROFILE_CONTRACT ? "active" : ""}`} id="address-tab" data-bs-toggle="tab"
+                                                data-bs-target="#profile-contract" value={PROFILE_CONTRACT} onClick={handleClickNav}>Hợp đồng</button>
+                                        </li>
+                                    )}
+
                                     {
-                                        PerWatchSalary.some(role => roles.has(role)) && (
+                                        (PerWatchSalary.some(role => roles.has(role)) || currentEmployeeId === employeeId) && (
                                             <li className="nav-item" role="presentation">
-                                                <button className="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
+                                                <button className={`nav-link nav-link-profile ${navId === PROFILE_SALARY ? "active" : ""}`} id="address-tab" data-bs-toggle="tab"
                                                     data-bs-target="#profile-salary" value={PROFILE_SALARY} onClick={handleClickNav}>Lương & Phụ cấp</button>
                                             </li>
                                         )

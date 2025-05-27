@@ -6,7 +6,7 @@ import CreateNewInsuranceComponent from './CreateNewInsuranceComponent';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../../redux/slice/TitleHeaderSlice';
 import { toast } from 'react-toastify';
-import { createEmployee, updateResumeProfile } from '../../../service/EmployeeService';
+import { createEmployee } from '../../../service/Manage/ManageEmployeeService';
 import { v4 as uuidv4 } from 'uuid';
 import { checkValidatorEducation } from '../../../util/EducationUtil';
 import { checkValidatorResume } from '../../../util/EmployeeUtil';
@@ -15,6 +15,7 @@ import { checkValidatorAllowanceContract, checkValidatorContract, CONTRACT_CREAT
 import { checkValidatorInsurance } from '../../../util/InsuranceUtil';
 import Cookies from 'js-cookie';
 import { PerManageContract } from '../../../util/PermissionUtil';
+import { useNavigate } from 'react-router-dom';
 
 const CreateNewEmployeeComponent = () => {
     //lay role
@@ -29,6 +30,7 @@ const CreateNewEmployeeComponent = () => {
 
     const dispatch = useDispatch();
     dispatch(updateTitleHeader({ title: "Tạo mới hồ sơ nhân sự", subTitle: "" }))
+    const navigate = useNavigate();
     const [isUpdateFamily, setIsUpdateFamily] = useState(true);
     const [isUpdateEdu, setIsUpdateEdu] = useState(true);
     const [isCreateContract, setIsCreateContract] = useState(false);
@@ -112,7 +114,6 @@ const CreateNewEmployeeComponent = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        console.log("click")
         var isCorrect = false;
         isCorrect = checkValidatorResume(valuesResume);
         var valuesEdu = [];
@@ -173,11 +174,11 @@ const CreateNewEmployeeComponent = () => {
             insuranceRequest = insurance
         }
 
-        console.log(isCorrect)
         if (isCorrect) {
             createEmployee(valuesResume, valuesEdu, valuesFami, contractCreate, insuranceRequest).then((response) => {
                 if (response.data.code === 1000) {
                     toast.success("Cập nhật thành công")
+                    navigate("/manage-employee/list-employee")
                 } else if (response.data.code > 1000) {
                     toast.info(response.data.message)
                 } else {
@@ -190,32 +191,32 @@ const CreateNewEmployeeComponent = () => {
     return (
         <>
             <div className='page-wrapper'>
-                <div class="content">
-                    <div class="card card-body">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list-2">
+                <div className="content">
+                    <div className="card card-body">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list-2">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile'>
-                                        <button class="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation">
+                                        <button className="nav-link nav-link-profile active" id="info-tab" data-bs-toggle="tab"
                                             data-bs-target="#create-employee-resume" > Sơ yếu lý lịch</button>
                                     </li>
                                     {
                                         PerManageContract.some((role) => roles.has(role)) && (
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
+                                            <li className="nav-item" role="presentation">
+                                                <button className="nav-link nav-link-profile " id="address-tab" data-bs-toggle="tab"
                                                     data-bs-target="#create-employee-contract" >Hợp đồng</button>
                                             </li>
                                         )
                                     }
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
+                                    <li className="nav-item" role="presentation">
+                                        <button className="nav-link nav-link-profile" id="address-tab" data-bs-toggle="tab"
                                             data-bs-target="#create-employee-insurance" >Bảo hiểm</button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="tab-content" id="myTabContent">
+                        <div className="tab-content" id="myTabContent">
                             <CreateNewResumeComponent
                                 valuesResume={valuesResume}
                                 setValuesResume={setValuesResume}
@@ -246,10 +247,10 @@ const CreateNewEmployeeComponent = () => {
                         </div>
                     </div>
 
-                    <div class="modal-footer mt-5">
-                        <button type="button" class="btn btn-outline-light border me-2"
+                    <div className="modal-footer mt-5">
+                        <button type="button" className="btn btn-outline-light border me-2"
                             data-bs-dismiss="modal">HỦY BỎ</button>
-                        <button type="submit" class="btn btn-primary" onClick={handleUpdate}>CẬP NHẬT</button>
+                        <button type="submit" className="btn btn-primary" onClick={handleUpdate}>CẬP NHẬT</button>
                     </div>
                 </div>
             </div >

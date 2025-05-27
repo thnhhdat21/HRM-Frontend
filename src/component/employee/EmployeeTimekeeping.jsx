@@ -10,6 +10,7 @@ import { LETTER_TYPE_INOUT, LetterState } from '../../util/LetterUtil';
 import CheckinLetterComponent from '../letter/crud/CheckinLetterComponent';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
+import Cookies from 'js-cookie';
 
 const EmployeeTimekeeping = () => {
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const EmployeeTimekeeping = () => {
     const [typeOpen, setTypeOpen] = useState([])
     const [typeSave, setTypeSave] = useState(0)
     const [dateRegisInOut, setDateRegisInOut] = useState("");
-    const currentHour = new Date().getHours();
+    const employeeId = Cookies.get('employeeId')
     const handleIconClick = () => {
         setOpen(true);
     };
@@ -34,7 +35,7 @@ const EmployeeTimekeeping = () => {
     useEffect(() => {
         if (monthValue) {
             const fommattedMonthValue = monthValue.format('YYYY-MM')
-            getTimeSheetEmployee(fommattedMonthValue).then((response) => {
+            getTimeSheetEmployee(employeeId, fommattedMonthValue).then((response) => {
                 responseData(response, setTimeSheet)
             })
         }
@@ -55,7 +56,7 @@ const EmployeeTimekeeping = () => {
 
     const handleClickCheckin = (e) => {
         e.preventDefault()
-        employeeCheckIn().then((response) => {
+        employeeCheckIn(employeeId).then((response) => {
             if (response.data.code === 1000) {
                 updateTimeKeeping()
             }
@@ -64,7 +65,7 @@ const EmployeeTimekeeping = () => {
 
     const handleClickCheckout = (e) => {
         e.preventDefault()
-        employeeCheckOut().then((response) => {
+        employeeCheckOut(employeeId).then((response) => {
             if (response.data.code === 1000) {
                 updateTimeKeeping()
             }
@@ -154,7 +155,7 @@ const EmployeeTimekeeping = () => {
                                                                         <span className='strong-timekeeping'>{formatTimeToVietnamese(item.timeLate)}</span>
                                                                     </div>
                                                                     {
-                                                                        item.late && item.letterState == 0 && (
+                                                                        item.late && item.letterState === 0 && (
                                                                             <div className={`explain ${item.late ? "" : "hidden"}`} style={{ cursor: 'pointer' }}
                                                                                 data-bs-toggle="modal"
                                                                                 data-bs-target="#create_checkin_letter"
@@ -167,7 +168,7 @@ const EmployeeTimekeeping = () => {
                                                                         )
                                                                     }
                                                                     {
-                                                                        item.letterState != 0 && (
+                                                                        item.letterState !== 0 && (
                                                                             <div style={{ padding: "5px" }}>
                                                                                 <span className={`badge ${item.letterState ? LetterState.get(Number(item.letterState)).bg : ""}`}>{item.letterState ? LetterState.get(Number(item.letterState)).name : ""}</span>
                                                                             </div>

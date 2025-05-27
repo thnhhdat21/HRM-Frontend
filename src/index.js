@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -7,21 +6,16 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import EmployeeComponent from './component/employee/EmployeeComponent';
 import HomeComponnent from './component/home/HomeComponent';
 import ProfileComponnent from './component/employee/profile/ProfileComponent';
-import ManageAccountComponent from './component/setting/ManageAccountComponent';
-import ManageDepartmentComponent from './component/setting/ManageDepartmentComponent';
-import ManageGroupComponent from './component/setting/ManageGroupComponent';
-import GroupCRUDComponent from './component/setting/crud/GroupCRUDComponent';
-import SettingJobPositionComponent from './component/setting/SettingJobPositionComponent';
-import SettingDutyComponent from './component/setting/SettingDutyComponent';
-import SettingPenaltyComponent from './component/setting/SettingPenaltyComponent';
-import SettingRewardComponent from './component/setting/SettingRewardComponent';
-import SettingTypeContractComponent from './component/setting/SettingTypeContractComponent';
-import SettingAllowanceComponent from './component/setting/SettingAllowanceComponent';
-import SettingInsuranceComponent from './component/setting/SettingInsuranceComponent';
+import ManageDepartmentComponent from './component/setting/department/ManageDepartmentComponent';
+import SettingJobPositionComponent from './component/setting/jobposition/SettingJobPositionComponent';
+import SettingPenaltyComponent from './component/setting/decision/SettingPenaltyComponent';
+import SettingRewardComponent from './component/setting/decision/SettingRewardComponent';
+import SettingTypeContractComponent from './component/setting/typecontract/SettingTypeContractComponent';
+import SettingInsuranceComponent from './component/setting/insurance/SettingInsuranceComponent';
 import CreateNewEmployeeComponent from './component/employee/crud/CreateNewEmployeeComponent';
 import ContractCRUDComponent from './component/contract/crud/ContractCRUDComponent';
 import InsuaranceComponent from './component/insurance/InsuaranceComponent';
-import SettingOnLeaveComponent from './component/setting/SettingOnLeaveComponent';
+import SettingOnLeaveComponent from './component/setting/onleave/SettingOnLeaveComponent';
 import TimeSheetComponent from './component/timekeeping/TimeSheetComponent';
 import HolidaysComponent from './component/timekeeping/HolidaysComponent';
 import OnLeaveManamentComponent from './component/timekeeping/OnLeaveManamentComponent';
@@ -32,17 +26,23 @@ import EmployeeOTComponent from './component/employee/EmployeeOTComponent';
 import EmployeeLeaveComponent from './component/employee/EmployeeLeaveComponent';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
-import DecisionComponent from './component/decision/DecisionComponent';
 import DetailDecisionComponent from './component/decision/DetailDecisionComponent';
-import LetterComponent from './component/letter/LetterComponent';
-import SettingApprovalComponent from './component/setting/SettingApprovalComponent';
-import DetailLetterComponent from './component/letter/crud/DetailLetterComponent';
+import SettingLetterReasonComponent from './component/setting/letter/SettingLetterReasonComponent';
+import DetailLetterComponent from './component/letter/DetailLetterComponent';
 import PayrollEmployeeComponent from './component/salary/PayrollEmployeeComponent';
 import LoginComponent from './component/authentication/LoginComponent';
 import ManageRoutes from './routes/ManageRoutes';
 import NoAuthozComponent from './component/common/NoAuthozComponent';
-import { PerWatchAdmin, PerWatchContract, PerWatchDecision, PerWatchEmployee, PerWatchInsurance, PerWatchLetter, PerWatchSalary, PerWatchTimeSheet } from './util/PermissionUtil';
+import { PerWatchAdmin, PerWatchContract, PerWatchDecision, PerWatchEmployee, PerWatchInsurance, PerWatchLetter, PerWatchReport, PerWatchSalary, PerWatchTimeSheet } from './util/PermissionUtil';
 import ManageContractComponent from './component/contract/ManageContractComponent';
+import ManageDecisionComponent from './component/decision/ManageDecisionComponent';
+import ManageLetterComponent from './component/letter/ManageLetterComponent';
+import ManageAccountComponent from './component/setting/account/ManageAccountComponent';
+import SettingAllowanceComponent from './component/setting/allowance/SettingAllowanceComponent';
+import GroupCRUDComponent from './component/setting/group/GroupCRUDComponent';
+import ManageGroupComponent from './component/setting/group/ManageGroupComponent';
+import SettingDutyComponent from './component/setting/duty/SettingDutyComponent';
+import ReportComponent from './component/reports/ReportComponent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -72,7 +72,7 @@ root.render(
             <Route path="/settings/contract" element={<SettingTypeContractComponent />} />
             <Route path="/settings/allowance" element={<SettingAllowanceComponent />} />
             <Route path="/settings/insurance" element={<SettingInsuranceComponent />} />
-            <Route path="/settings/approval" element={<SettingApprovalComponent />} />
+            <Route path="/settings/letter-reason" element={<SettingLetterReasonComponent />} />
             <Route path="/settings/on-leave" element={<SettingOnLeaveComponent />} />
           </Route>
 
@@ -95,13 +95,13 @@ root.render(
 
           {/*Decision */}
           <Route element={<ManageRoutes allowedRoles={PerWatchDecision} />}>
-            <Route path='/manage-decision/decision' element={<DecisionComponent />} />
+            <Route path='/manage-decision/decision' element={<ManageDecisionComponent />} />
             <Route path='/manage-decision/decision-detail' element={<DetailDecisionComponent />} />
           </Route>
 
           {/* letter */}
           <Route element={<ManageRoutes allowedRoles={PerWatchLetter} />}>
-            <Route path='/manage-letter/letter' element={<LetterComponent />} />
+            <Route path='/manage-letter/letter' element={<ManageLetterComponent />} />
             <Route path='/manage-letter/letter-detail' element={<DetailLetterComponent />} />
           </Route>
 
@@ -119,6 +119,9 @@ root.render(
             <Route path='/manage-salary/tax' element={<ListTaxComponent />} />
           </Route>
 
+          <Route element={<ManageRoutes allowedRoles={PerWatchReport} />}>
+            <Route path='/manage-report' element={<ReportComponent />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

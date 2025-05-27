@@ -55,24 +55,22 @@ const EmployeeSalaryComponent = ({ employeeId, navId }) => {
         }
     }, [salaryRequest, navId])
 
-    console.log(salaryAllowance)
-
     return (
         <>
-            <div class="tab-pane fade" id="profile-salary" style={{ margin: "60px 10px 0 10px" }}>
-                <div class="row">
-                    <div class="col-xl-8 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
-                                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 ">
+            <div className={`tab-pane fade ${navId === PROFILE_SALARY ? "show active" : ""} `} v id="profile-salary" style={{ margin: "60px 10px 0 10px" }}>
+                <div className="row">
+                    <div className="col-xl-8 d-flex">
+                        <div className="card flex-fill">
+                            <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                                <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 ">
                                     <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                        <ul class="nav ">
-                                            <li class="nav-item" role="presentation" className='nav-profile' style={{}}>
-                                                <button class="nav-link nav-link-profile active" id="info-tab"
+                                        <ul className="nav ">
+                                            <li className="nav-item nav-profile" role="presentation" style={{}}>
+                                                <button className="nav-link nav-link-profile active" id="info-tab"
                                                 >Lương thực nhân năm {salaryRequest.year}</button>
                                             </li>
                                         </ul>
-                                        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 icon-header-2">
+                                        <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3 icon-header-2">
                                             <div className="d-flex flex-column align-items-center icon-header-2" style={{ fontSize: "12px", position: "relative" }}
                                                 onClick={handleIconClick} >
                                                 <i className='fe fe-calendar' style={{ fontSize: "20px", cursor: "pointer" }} />
@@ -92,14 +90,14 @@ const EmployeeSalaryComponent = ({ employeeId, navId }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body p-0 height-my-table" ref={tableRef}>
+                            <div className="card-body p-0 height-my-table" ref={tableRef}>
                                 <div style={{ padding: "16px" }}>
-                                    <div class="row">
+                                    <div className="row">
                                         {
                                             salaryEmployee.length > 0 && salaryEmployee.map((item, index) => (
-                                                <div key={index} class="col-md-3 item-salary-month" onDoubleClick={() => setSalaryDetail(item)}>
-                                                    <div class="d-flex flex-column info-detail">
-                                                        <label class="form-label">{convertMonthText(item.yearMonth)}</label>
+                                                <div key={index} className="col-md-3 item-salary-month" onDoubleClick={() => setSalaryDetail(item)}>
+                                                    <div className="d-flex flex-column info-detail">
+                                                        <label className="form-label">{convertMonthText(item.yearMonth)}</label>
                                                         <div className='content-salary-month'>
                                                             <span className='luong-thuc-nhan'>Lương thực nhận</span>
                                                             <span>{Number(item.salary).toLocaleString('vi-VN')} VNĐ</span>
@@ -113,27 +111,27 @@ const EmployeeSalaryComponent = ({ employeeId, navId }) => {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
+                    <div className="col-xl-4 d-flex">
+                        <div className="card flex-fill">
+                            <div className="card-header">
+                                <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
                                     <h6>Lương và phụ cấp</h6>
                                 </div>
                             </div>
-                            <div class="card-body schedule-timeline activity-timeline">
-                                <div class="d-flex align-items-start">
-                                    <div class="avatar avatar-md avatar-rounded bg-info flex-shrink-0 dots-history">
+                            <div className="card-body schedule-timeline activity-timeline">
+                                <div className="d-flex align-items-start">
+                                    <div className="avatar avatar-md avatar-rounded bg-info flex-shrink-0 dots-history">
                                     </div>
-                                    <div class="flex-fill ps-3 pb-4 timeline-flow content-history">
+                                    <div className="flex-fill ps-3 pb-4 timeline-flow content-history">
                                         <div style={{ marginLeft: "15px" }}>
                                             <div className='d-flex align-items-center justify-content-between'>
-                                                <p class="fw-medium text-gray-9 mb-1">Lương cơ bản</p>
-                                                <p class="fw-medium text-gray-9 mb-1">{Number(salaryAllowance.salaryGross).toLocaleString("vi-VN")} VNĐ</p>
+                                                <p className="fw-medium text-gray-9 mb-1">Lương cơ bản</p>
+                                                <p className="fw-medium text-gray-9 mb-1">{Number(salaryAllowance.salaryGross).toLocaleString("vi-VN")} VNĐ</p>
                                             </div>
                                             {salaryAllowance.allowances && salaryAllowance.allowances.length > 0 && salaryAllowance.allowances.map((item, index) => (
                                                 <div className='d-flex align-items-center justify-content-between' style={{ marginLeft: "5px" }}>
-                                                    <p class="fw-medium text-gray-9 mb-1">{item.name}</p>
-                                                    <p class="fw-medium text-gray-9 mb-1">{item.amount !== 0 && (Number(item.amount).toLocaleString("vi-VN") + "VNĐ / " + item.unit)}</p>
+                                                    <p className="fw-medium text-gray-9 mb-1">{item.name}</p>
+                                                    <p className="fw-medium text-gray-9 mb-1">{item.amount !== 0 && (Number(item.amount).toLocaleString("vi-VN") + "VNĐ / " + item.unit)}</p>
                                                 </div>
                                             ))}
                                         </div>

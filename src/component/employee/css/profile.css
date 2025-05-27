@@ -289,6 +289,11 @@
     border: none !important;
 }
 
+.update-avatar-resume {
+    margin-top: 20px;
+    align-self: flex-start;
+}
+
 .update-avatar {
     position: relative;
     border: 1px solid #e9edf4;

@@ -44,43 +44,43 @@ const UpdateNumberInsuranceComponent = ({ employeeId, typeOpen, updateInsurace }
     }
     return (
         <>
-            <div class="modal fade" id={modalId}>
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-accepts">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Số sổ bảo hiểm</h4>
+            <div className="modal fade" id={modalId}>
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-accepts">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Số sổ bảo hiểm</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
                         <form action="employees.html">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active">
-                                    <div class="modal-body pb-0 ">
-                                        <div class="row">
+                            <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active">
+                                    <div className="modal-body pb-0 ">
+                                        <div className="row">
                                             <div className={` row mt-2 `}>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Số sổ bảo hiểm </label>
-                                                        <input type="text" class="form-control" placeholder='Nhập số sổ bảo hiểm' name='insuranceNumber' value={insurance.insuranceNumber} onChange={onChangeInput} />
+                                                <div className="col-md-6">
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Số sổ bảo hiểm </label>
+                                                        <input type="text" className="form-control" placeholder='Nhập số sổ bảo hiểm' name='insuranceNumber' value={insurance.insuranceNumber} onChange={onChangeInput} />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Số thẻ BHYT </label>
-                                                        <input type="text" class="form-control" placeholder='Nhập số thẻ BHYT' name='insuranceCard' value={insurance.insuranceCard} onChange={onChangeInput} />
+                                                <div className="col-md-6">
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Số thẻ BHYT </label>
+                                                        <input type="text" className="form-control" placeholder='Nhập số thẻ BHYT' name='insuranceCard' value={insurance.insuranceCard} onChange={onChangeInput} />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-light border me-2"
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class="btn btn-primary" onClick={hanldeClickUpdateInsurance}>CẬP NHẬT </button>
+                                        <button type="submit" className="btn btn-primary" onClick={hanldeClickUpdateInsurance}>CẬP NHẬT </button>
                                     </div>
                                 </div>
                             </div>

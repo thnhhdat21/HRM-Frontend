@@ -63,18 +63,17 @@ const InsuaranceComponent = () => {
         }
     }, [insuranceFilter])
 
-    console.log(listInsurance)
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header  flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header  flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ align-items-center justify-content-between ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
                                 <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                    <ul class="nav ">
-                                        <li class="nav-item" role="presentation" className='nav-profile' style={{}}>
-                                            <button class="nav-link nav-link-profile active" id="info-tab"
+                                    <ul className="nav ">
+                                        <li className="nav-item nav-profile" role="presentation" style={{}}>
+                                            <button className="nav-link nav-link-profile active" id="info-tab"
                                             >Danh sách tháng {convertMonth(insuranceFilter.yearMonth)}</button>
                                         </li>
                                     </ul>
@@ -98,11 +97,11 @@ const InsuaranceComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive height-my-table">
-                                <div class="table-container">
-                                    <table class="table" id='myTable'>
-                                        <thead class="thead-light">
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive height-my-table">
+                                <div className="table-container">
+                                    <table className="table" id='myTable'>
+                                        <thead className="thead-light">
                                             <tr>
                                                 <th>Mã NV</th>
                                                 <th>Họ và tên</th>

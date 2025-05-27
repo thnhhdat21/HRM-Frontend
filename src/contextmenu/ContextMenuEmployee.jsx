@@ -1,10 +1,10 @@
 import './css/context-menu-style.css'
 import { useNavigate } from 'react-router-dom';
 import { DECISION_TYPE_PENALTY, DECISION_TYPE_REWARD } from '../util/DecisionUtil';
-import { PerManageAdmin, PerManageContract, PerManageDecision, PerWatchEmployee } from '../util/PermissionUtil';
+import { PerManageAdmin, PerManageContract, PerManageDecision, PerManageEmployee, PerWatchEmployee } from '../util/PermissionUtil';
+import { PROFILE_RESUME } from '../util/EmployeeUtil';
 
 const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleClickUpdateEdu, hanleClickUpdateFamily, handleClickUpdateResume, handleClickUpdateAccount, roles }) => {
-
 
     const navigate = useNavigate();
     const style = () => {
@@ -18,19 +18,23 @@ const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleC
         }
     }
     const handleClickNavigate = (url) => {
-        navigate(url, { state: { employeeId: infoEmployee.employeeId, employeeName: infoEmployee.employeeName } });
+        navigate(url, { state: { employeeId: infoEmployee.employeeId, employeeName: infoEmployee.employeeName, navItem: PROFILE_RESUME } });
     }
 
     return (
         <>
-            <div class="menu main-menu" style={style()}>
+            <div class="menu main-menu" style={style()} id='contextMenuEmployee'>
                 <ul>
                     {
                         PerWatchEmployee.some((role) => roles.has(role)) && (
+                            <li onClick={() => handleClickNavigate('/profile-employee')}><i className='fe fe-eye' />
+                                Chi tiết nhân sự
+                            </li>
+                        )
+                    }
+                    {
+                        PerManageEmployee.some((role) => roles.has(role)) && (
                             <>
-                                <li onClick={() => handleClickNavigate('/profile-employee')}><i className='fe fe-eye' />
-                                    Chi tiết nhân sự
-                                </li>
                                 <li data-bs-toggle="modal" data-bs-target="#update-resume"
                                     onClick={() => handleClickUpdateResume()}
                                 ><i className='ti ti-refresh' />
@@ -89,7 +93,6 @@ const ContextMenuEmployee = ({ x, y, showMenu, setTypeOpen, infoEmployee, hanleC
                                         </li>
                                         <li data-bs-toggle="modal" data-bs-target="#end-contract" style={{ display: infoEmployee.contractId ? "" : "none" }}
                                             onClick={() => setTypeOpen((prev) => [...prev, "#end-contract"])}
-
                                         >
                                             Thanh lý
                                         </li>

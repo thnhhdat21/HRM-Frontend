@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../css/timekeeping-style.css"
 import { convertDate } from '../../../util/TimeUtil';
-import { getWorkingDay } from '../../../service/TimeKeepingSerivce';
+import { getWorkingDay } from '../../../service/Manage/ManageTimeKeepingSerivce';
 import { toast } from 'react-toastify';
 import { getLetter } from '../../../service/LetterService';
-import { LETTER_TYPE_END_WORK, LETTER_TYPE_INOUT, LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME, LETTER_TYPE_WORKTIME, LetterState, LetterType } from '../../../util/LetterUtil';
+import { LETTER_TYPE_END_WORK, LETTER_TYPE_INOUT, LETTER_TYPE_LEAVE, LETTER_TYPE_WORKTIME, LetterState, LetterType } from '../../../util/LetterUtil';
 
 const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
     const WORK = 1;
@@ -74,19 +74,20 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
             fetch()
         }
     }, [type])
+
     return (
         <>
-            <div ref={ref} class="menu" id="detail_timekeeping" style={style()}>
-                <div class="modal-content" style={{ padding: "15px" }}>
-                    <div class="modal-header no-border">
-                        <div class="d-flex align-items-center">
-                            <h4 class="modal-title me-2">{selected.employeeName}, ngày {convertDate(selected.dateWorking)}</h4>
+            <div ref={ref} className="menu" id="detail_timekeeping" style={style()}>
+                <div className="modal-content" style={{ padding: "15px" }}>
+                    <div className="modal-header no-border">
+                        <div className="d-flex align-items-center">
+                            <h4 className="modal-title me-2">{selected.employeeName}, ngày {convertDate(selected.dateWorking)}</h4>
                         </div>
-                        <button type="button" class="btn-close custom-btn-close" onClick={() => setShowMenuTwo(false)}>
-                            <i class="ti ti-x"></i>
+                        <button type="button" className="btn-close custom-btn-close" onClick={() => setShowMenuTwo(false)}>
+                            <i className="ti ti-x"></i>
                         </button>
                     </div>
-                    <div class="card-header flex-wrap row-gap-3 p-categoty-list header-timekeeping-detail">
+                    <div className="card-header flex-wrap row-gap-3 p-categoty-list header-timekeeping-detail">
                         <div className='d-flex category-list-employ align-items-center ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500, borderBottom: "1px solid #E9EDF4" }}>
                             <span style={{ cursor: 'pointer' }} className={`${type === WORK ? "active-category-list" : ""} `} onClick={() => setType(WORK)}>Bảng chấm công</span>
                             <span style={{ cursor: 'pointer' }} className={`${type === LETTER ? "active-category-list" : ""} `} onClick={() => setType(LETTER)}>Đơn từ</span>
@@ -94,67 +95,67 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
                     </div>
 
                     {type === WORK && (
-                        <div class="modal-body ">
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <label class="form-label">Công làm việc trong ngày: </label>
+                        <div className="modal-body ">
+                            <div className="row ">
+                                <div className="col-md-12">
+                                    <label className="form-label">Công làm việc trong ngày: </label>
                                     <span>&ensp;{workingDay.workDay}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <label class="form-label">Thông tin nhân sự: </label>
+                            <div className="row ">
+                                <div className="col-md-12">
+                                    <label className="form-label">Thông tin nhân sự: </label>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Mã nhân viên: &ensp; {selected.employeeCode}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Vị trí: &ensp; {selected.jobPosition}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12 mb-2">
+                            <div className="row ">
+                                <div className="col-md-12 mb-2">
                                     <span>Phòng ban: &ensp; {selected.department}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <label class="form-label">Ca làm việc: </label>
+                            <div className="row ">
+                                <div className="col-md-12">
+                                    <label className="form-label">Ca làm việc: </label>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Tên ca: &ensp; Ca hành chính  </span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Mã ca: &ensp; HC   </span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Thời gian: &ensp; 8:00 - 17:30</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Check-in: &ensp; {workingDay.checkin}</span>
                                     <span>&ensp;&ensp;Muộn: &ensp; {workingDay.timeLate}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Check-out: &ensp; {workingDay.checkout}</span>
                                     <span>&ensp;&ensp;Sớm: &ensp; {workingDay.timeEarly}</span>
                                 </div>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-12">
+                            <div className="row ">
+                                <div className="col-md-12">
                                     <span>Tiền phạt do đi muộn: &ensp; {workingDay.late && "50.000"}</span>
                                 </div>
                             </div>
@@ -163,45 +164,45 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
                     }
 
                     {type === LETTER && (
-                        <div class="modal-body overflow-timekeeping-detail">
+                        <div className="modal-body overflow-timekeeping-detail">
                             {
                                 letter.length > 0 && letter.map((item, index) => {
                                     const letterType = Number(item.letterType)
                                     const letterState = Number(item.letterState)
-                                    if ((letterType != LETTER_TYPE_END_WORK
+                                    if ((letterType !== LETTER_TYPE_END_WORK
                                     ))
                                         return (
                                             <>
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3 d-flex flex-column info-detail">
-                                                            <label class="form-label">Loại đơn từ</label>
+                                                <div className="row mt-2">
+                                                    <div className="col-md-6">
+                                                        <div className="mb-3 d-flex flex-column info-detail">
+                                                            <label className="form-label">Loại đơn từ</label>
                                                             <span>{letterType && LetterType.get(letterType).name}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3 d-flex flex-column info-detail">
-                                                            <label class="form-label">Lý do</label>
+                                                    <div className="col-md-6">
+                                                        <div className="mb-3 d-flex flex-column info-detail">
+                                                            <label className="form-label">Lý do</label>
                                                             <span>{item.letterReason}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3 d-flex flex-column info-detail">
-                                                            <label class="form-label">Trạng thái</label>
-                                                            <p class={`badge ${letterState ? LetterState.get(letterState).bg : ""}`}>{letterState ? LetterState.get(letterState).name : ""}</p>
+                                                    <div className="col-md-6">
+                                                        <div className="mb-3 d-flex flex-column info-detail">
+                                                            <label className="form-label">Trạng thái</label>
+                                                            <p className={`badge ${letterState ? LetterState.get(letterState).bg : ""}`}>{letterState ? LetterState.get(letterState).name : ""}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 {
                                                     letterType !== LETTER_TYPE_INOUT && (
-                                                        <div class="row mt-2">
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Chi tiết</label>
-                                                                <div class="card-body p-0">
-                                                                    <div class="custom-datatable-filter table-responsive">
-                                                                        <div class="table-container">
-                                                                            <table class="table" id='myTable'>
-                                                                                <thead class="thead-light">
+                                                        <div className="row mt-2">
+                                                            <div className="mb-3">
+                                                                <label className="form-label">Chi tiết</label>
+                                                                <div className="card-body p-0">
+                                                                    <div className="custom-datatable-filter table-responsive">
+                                                                        <div className="table-container">
+                                                                            <table className="table" id='myTable'>
+                                                                                <thead className="thead-light">
                                                                                     <tr>
                                                                                         <th>Bắt đầu</th>
                                                                                         <th>Kết thúc</th>
@@ -255,6 +256,7 @@ const TimeKeepingDetailComponent = ({ x, y, showMenu, selected, ref }) => {
                                                 }
                                             </>
                                         )
+                                    return <></>
                                 })
                             }
                         </div>

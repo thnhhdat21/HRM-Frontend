@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, setRowFamily, rowEducation, setRowEducation,
@@ -69,14 +68,14 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
 
     return (
         <>
-            <div class="tab-pane fade active show" id="create-employee-resume">
-                <div class="col-md-12 mt-2" style={{ fontSize: "20px" }}>
-                    <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Thông tin chung</label>
+            <div className="tab-pane fade active show" id="create-employee-resume">
+                <div className="col-md-12 mt-2" style={{ fontSize: "20px" }}>
+                    <i className='ti ti-chevron-down text-danger' /> <label className="form-label text-danger" >Thông tin chung</label>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-2">
-                        <div class="mb-3">
-                            <div class="image-section" style={{ margin: 0 }}>
+                <div className="row mt-2">
+                    <div className="col-md-2">
+                        <div className="mb-3">
+                            <div className="image-section" style={{ margin: 0 }}>
                                 <div className='update-avatar'>
                                     <img
                                         src={valuesResume.avatar instanceof File || valuesResume.avatar instanceof Blob
@@ -98,54 +97,64 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Họ và tên </label>
-                            <input type="text" class="form-control" placeholder='Nhập họ và tên' name='fullName' value={valuesResume.fullName} onChange={onChangeReSume} />
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Họ và tên </label>
+                            <input type="text" className="form-control" placeholder='Nhập họ và tên' name='fullName' value={valuesResume.fullName} onChange={onChangeReSume} />
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nơi sinh </label>
-                            <input type="text" class="form-control" placeholder='Nhập nơi sinh' name='placeOfBirth' value={valuesResume.placeOfBirth} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="mb-3">
-                            <label class="form-label">Ngày sinh </label>
-                            <input type="date" class="form-control" name='dateOfBirth' value={valuesResume.dateOfBirth} onChange={onChangeReSume} />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nơi ở hiện tại </label>
-                            <input type="text" class="form-control" placeholder='Nơi ở hiện tại' style={{ width: "202%" }} name='currentAddress' value={valuesResume.currentAddress} onChange={onChangeReSume} />
+                        <div className="mb-3">
+                            <label className="form-label">Nơi sinh </label>
+                            <input type="text" className="form-control" placeholder='Nhập nơi sinh' name='placeOfBirth' value={valuesResume.placeOfBirth} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="mb-3">
-                            <label class="form-label">Giới tính</label>
-                            <select class="form-control" name='gender' value={valuesResume.gender} onChange={onChangeReSume}>
-                                <option value={""}>Giới tính</option>
+                    <div className="col-md-2">
+                        <div className="mb-3">
+                            <label className="form-label">Ngày sinh </label>
+                            <input type="date" className="form-control" name='dateOfBirth' value={valuesResume.dateOfBirth} onChange={onChangeReSume} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Nơi ở hiện tại </label>
+                            <input type="text" className="form-control" placeholder='Nơi ở hiện tại' style={{ width: "205%" }} name='currentAddress' value={valuesResume.currentAddress} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                    <div className="col-md-2">
+                        <div className="mb-3">
+                            <label className="form-label">Giới tính</label>
+                            <select className="form-control" name='gender' value={valuesResume.gender} onChange={onChangeReSume}>
+                                <option value={""} hidden>Giới tính</option>
                                 <option value={true}>Nam</option>
                                 <option value={false}>Nữ</option>
                             </select>
                         </div>
                     </div>
+                    <div className="col-md-2">
+                        <div className="mb-3">
+                            <label className="form-label">Trạng thái hồ sơ</label>
+                            <select className="form-control" name='type' value={valuesResume.type} onChange={onChangeReSume}>
+                                <option value={""} hidden>Trạng thái</option>
+                                <option value={1}>Thử việc</option>
+                                <option value={2}>Chính thức</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">CMT/Căn cước/Hộ chiếu </label>
-                            <input type="email" class="form-control " placeholder='CMT/Căn cước/Hộ chiếu' name='identityCard' value={valuesResume.identityCard} onChange={onChangeReSume} />
+                <div className="row">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">CMT/Căn cước/Hộ chiếu </label>
+                            <input type="email" className="form-control " placeholder='CMT/Căn cước/Hộ chiếu' name='identityCard' value={valuesResume.identityCard} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Ngày cấp </label>
-                            <input type="date" class="form-control " name='issueDateCCCD' value={valuesResume.issueDateCCCD} onChange={onChangeReSume} />
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Ngày cấp </label>
+                            <input type="date" className="form-control " name='issueDateCCCD' value={valuesResume.issueDateCCCD} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Nơi cấp</label>
-                            <input type="text" class="form-control " placeholder='Nhập nơi cấp' name='placeCCCD' value={valuesResume.placeCCCD} onChange={onChangeReSume} />
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Nơi cấp</label>
+                            <input type="text" className="form-control " placeholder='Nhập nơi cấp' name='placeCCCD' value={valuesResume.placeCCCD} onChange={onChangeReSume} />
                         </div>
                     </div>
                 </div>
@@ -189,17 +198,17 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
                         </div>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Quốc tịch </label>
-                            <input type="email" class="form-control " placeholder='Nhập tên quốc tịch' name='nation' value={valuesResume.nation} onChange={onChangeReSume} />
+                <div className="row mt-2">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Quốc tịch </label>
+                            <input type="email" className="form-control " placeholder='Nhập tên quốc tịch' name='nation' value={valuesResume.nation} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Tình trạng hôn nhân </label>
-                            <select class="form-control" name='marriageStatus' value={valuesResume.marriageStatus} onChange={onChangeReSume}>
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Tình trạng hôn nhân </label>
+                            <select className="form-control" name='marriageStatus' value={valuesResume.marriageStatus} onChange={onChangeReSume}>
                                 <option value={""}>Tình trạng</option>
                                 <option value={true}>Đã kết hôn</option>
                                 <option value={false}>Chưa kết hôn</option>
@@ -208,96 +217,96 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
                     </div>
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Dân tộc </label>
-                            <input type="text" class="form-control " placeholder='Nhập dân tộc' name='religion' value={valuesResume.religion} onChange={onChangeReSume} />
+                <div className="row mt-2">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Dân tộc </label>
+                            <input type="text" className="form-control " placeholder='Nhập dân tộc' name='religion' value={valuesResume.religion} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Tôn giáo </label>
-                            <input type="text" class="form-control " placeholder='Nhập tôn giáo' name='ethnic' value={valuesResume.ethnic} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Số tài khoản </label>
-                            <input type="text" class="form-control " placeholder='Nhập số tài khoản' name='accountBank' value={valuesResume.accountBank} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Tên tài khoản </label>
-                            <input type="text" class="form-control " placeholder='Nhập tên tài khoản' name='bankAccountName' value={valuesResume.bankAccountName} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Ngân hàng </label>
-                            <input type="text" class="form-control " placeholder='Nhập tên ngân hàng' name='bankName' value={valuesResume.bankName} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Mã số thuế</label>
-                            <input type="text" class="form-control " placeholder='Nhập mã số thuế' name='taxCode' value={valuesResume.taxCode} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Ngày vào </label>
-                            <input type="date" class="form-control " name='dateJoin' value={valuesResume.dateJoin} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12" style={{ fontSize: "20px" }}>
-                    <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Thông tin liên hệ</label>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Điện thoại </label>
-                            <input type="text" class="form-control " placeholder='Nhập số điện thoại' name='phoneNumber' value={valuesResume.phoneNumber} onChange={onChangeReSume} />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Email </label>
-                            <input type="text" class="form-control " placeholder='Nhập email' name='email' value={valuesResume.email} onChange={onChangeReSume} />
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Tôn giáo </label>
+                            <input type="text" className="form-control " placeholder='Nhập tôn giáo' name='ethnic' value={valuesResume.ethnic} onChange={onChangeReSume} />
                         </div>
                     </div>
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Nguyên quán </label>
-                            <input type="text" class="form-control " placeholder='Nhập nguyên quán' name='homeTown' value={valuesResume.homeTown} onChange={onChangeReSume} />
+                <div className="row mt-2">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Số tài khoản </label>
+                            <input type="text" className="form-control " placeholder='Nhập số tài khoản' name='accountBank' value={valuesResume.accountBank} onChange={onChangeReSume} />
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Thường trú </label>
-                            <input type="text" class="form-control " placeholder='Nhập thường trú' name='permanentAddress' value={valuesResume.permanentAddress} onChange={onChangeReSume} />
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Tên tài khoản </label>
+                            <input type="text" className="form-control " placeholder='Nhập tên tài khoản' name='bankAccountName' value={valuesResume.bankAccountName} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Ngân hàng </label>
+                            <input type="text" className="form-control " placeholder='Nhập tên ngân hàng' name='bankName' value={valuesResume.bankName} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-2">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Mã số thuế</label>
+                            <input type="text" className="form-control " placeholder='Nhập mã số thuế' name='taxCode' value={valuesResume.taxCode} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Ngày vào </label>
+                            <input type="date" className="form-control " name='dateJoin' value={valuesResume.dateJoin} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-12" style={{ fontSize: "20px" }}>
+                    <i className='ti ti-chevron-down text-danger' /> <label className="form-label text-danger" >Thông tin liên hệ</label>
+                </div>
+                <div className="row mt-2">
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Điện thoại </label>
+                            <input type="text" className="form-control " placeholder='Nhập số điện thoại' name='phoneNumber' value={valuesResume.phoneNumber} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="mb-3">
+                            <label className="form-label">Email </label>
+                            <input type="text" className="form-control " placeholder='Nhập email' name='email' value={valuesResume.email} onChange={onChangeReSume} />
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12" style={{ fontSize: "20px" }}
+                <div className="row mt-2">
+                    <div className="col-md-6">
+                        <div className="mb-3">
+                            <label className="form-label">Nguyên quán </label>
+                            <input type="text" className="form-control " placeholder='Nhập nguyên quán' name='homeTown' value={valuesResume.homeTown} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="mb-3">
+                            <label className="form-label">Thường trú </label>
+                            <input type="text" className="form-control " placeholder='Nhập thường trú' name='permanentAddress' value={valuesResume.permanentAddress} onChange={onChangeReSume} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-md-12" style={{ fontSize: "20px" }}
                     onClick={() => setIsUpdateFamily(!isUpdateFamily)}
                 >
-                    <i className={` ${isUpdateFamily ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger `} /> <label class="form-label text-danger" style={{ cursor: 'pointer' }}>Thông tin gia đình & người phụ thuộc</label>
+                    <i className={` ${isUpdateFamily ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger `} /> <label className="form-label text-danger" style={{ cursor: 'pointer' }}>Thông tin gia đình & người phụ thuộc</label>
                 </div>
 
                 <div className={`row ${isUpdateFamily ? "" : "hidden"}`} style={{ marginLeft: "0px" }}>
-                    <table class="table table-add table-leave">
+                    <table className="table table-add table-leave">
                         <thead>
                             <tr>
                                 <th style={{ width: "5%" }}>Mối QH</th>
@@ -343,31 +352,31 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
                                     </td>
                                     <td><input type="text" className="form-control" name='taxCode' value={row.taxCode} onChange={(e) => onChangeInputCreate(index, e, setRowFamily)} /></td>
                                     <td>
-                                        <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id, setRowFamily, rowFamily)}>
-                                            <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                        <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id, setRowFamily, rowFamily)}>
+                                            <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <div class="col-md-1 mt-2">
-                        <div class="d-flex justify-content-start">
-                            <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                    <div className="col-md-1 mt-2">
+                        <div className="d-flex justify-content-start">
+                            <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                 <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRowFamily} />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 mt-4" style={{ fontSize: "20px" }}
+                <div className="col-md-12 mt-4" style={{ fontSize: "20px" }}
                     onClick={() => setIsUpdateEdu(!isUpdateEdu)}
                 >
-                    <i className={` ${isUpdateEdu ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger `} /> <label class="form-label text-danger" style={{ cursor: 'pointer' }}>Quá trình học tập</label>
+                    <i className={` ${isUpdateEdu ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger `} /> <label className="form-label text-danger" style={{ cursor: 'pointer' }}>Quá trình học tập</label>
                 </div>
 
                 <div className={`row ${isUpdateEdu ? "" : "hidden"}`} style={{ marginLeft: "0px" }}>
-                    <table class="table table-add table-leave">
+                    <table className="table table-add table-leave">
                         <thead>
                             <tr>
                                 <th style={{ width: "10%" }}>Từ tháng</th>
@@ -389,17 +398,17 @@ const CreateNewResumeComponent = ({ valuesResume, setValuesResume, rowFamily, se
                                     <td><input type="text" className="form-control" name='major' value={row.major} onChange={(e) => onChangeInputCreate(index, e, setRowEducation)} /></td>
                                     <td><input type="text" className="form-control" name='methodTraining' value={row.methodTraining} onChange={(e) => onChangeInputCreate(index, e, setRowEducation)} /></td>
                                     <td>
-                                        <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id, setRowEducation, rowEducation)}>
-                                            <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                        <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id, setRowEducation, rowEducation)}>
+                                            <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <div class="col-md-1 mt-2">
-                        <div class="d-flex justify-content-start">
-                            <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                    <div className="col-md-1 mt-2">
+                        <div className="d-flex justify-content-start">
+                            <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                 <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRowEducation} />
                             </div>
                         </div>

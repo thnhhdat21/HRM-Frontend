@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { mapPathId, menuEmployeeManage, menuEmployeePersonal, menuObjectSetting } from '../../util/LeftMenuUtil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetSearchFilter, updateStatusFilter } from '../../redux/slice/SearchFilterSlice';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { logoutUtil } from '../../util/AuthenUtil';
+import { logout } from '../../service/AuthenService';
 
 const LeftMenuComponnent = () => {
     const location = useLocation();
@@ -27,7 +30,7 @@ const LeftMenuComponnent = () => {
             setLeftMenu(menuEmployeePersonal);
         } else if (location.pathname.startsWith("/settings")) {
             setLeftMenu(menuObjectSetting)
-        } else {
+        } else if (location.pathname.startsWith("/manage")) {
             setLeftMenu(menuEmployeeManage);
         }
         setSelectedMenu(location.pathname)
@@ -57,6 +60,20 @@ const LeftMenuComponnent = () => {
         dispatch(updateStatusFilter(item.status))
         navigate(item.path);
     };
+
+    const refreshToken = Cookies.get("refreshToken")
+    const handleClickLogout = (e) => {
+        e.preventDefault()
+        logout(refreshToken).then((response) => {
+            if (response.data.code === 1000) {
+                toast.success("Đăng xuất")
+                logoutUtil()
+                setTimeout(() => {
+                    navigate("/");
+                }, 500);
+            }
+        })
+    }
 
     return (
         <>
@@ -103,36 +120,50 @@ const LeftMenuComponnent = () => {
                                                 )
                                             })
                                         ) : (
-                                            leftMenu.length > 0 && leftMenu.map((item, index) => {
-                                                const hasPermission = item.permissions && item.permissions.some(role => roles.has(role))
-                                                if (hasPermission) {
-                                                    return (
-                                                        < li key={index + item.name} className='submenu'>
-                                                            <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
-                                                                className={`${activeMenu === item.id ? "active" : ""}  ${selectedMenu === item.path ? "active subdrop" : ""} 
+                                            <>
+                                                {
+                                                    leftMenu.length > 0 && leftMenu.map((item, index) => {
+                                                        const hasPermission = item.permissions && item.permissions.some(role => roles.has(role))
+                                                        if (hasPermission) {
+                                                            return (
+                                                                < li key={index + item.name} className='submenu'>
+                                                                    <a role="button" href="#" onClick={(e) => handleMenuClick(item, e)}
+                                                                        className={`${activeMenu === item.id ? "active" : ""}  ${selectedMenu === item.path ? "active subdrop" : ""} 
                                                                 ${activeMenu === item.id ? "subdrop" : ""}`} >
 
-                                                                <i className={item.icon}></i>
-                                                                <span>{item.name}</span>
-                                                                <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
+                                                                        <i className={item.icon}></i>
+                                                                        <span>{item.name}</span>
+                                                                        <span className={`${item.child.length > 0 ? 'menu-arrow' : ''} `}></span>
+                                                                    </a>
+                                                                    {
+                                                                        item.child && item.child.length > 0 && (
+                                                                            <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
+                                                                                {
+                                                                                    item.child.map((itemChild, index) => (
+                                                                                        <li key={itemChild.name + index} >
+                                                                                            <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
+                                                                                        </li>
+                                                                                    ))
+                                                                                }
+                                                                            </ul>
+                                                                        )
+                                                                    }
+                                                                </li>
+                                                            )
+                                                        }
+                                                    })
+                                                }
+                                                {
+                                                    location.pathname.startsWith("/personal") && (
+                                                        < li className='submenu' onClick={handleClickLogout}>
+                                                            <a role="button">
+                                                                <i className='ti ti-logout'></i>
+                                                                <span>Đăng xuất</span>
                                                             </a>
-                                                            {
-                                                                item.child && item.child.length > 0 && (
-                                                                    <ul style={{ display: activeMenu === item.path ? "block" : "none" }}>
-                                                                        {
-                                                                            item.child.map((itemChild, index) => (
-                                                                                <li key={itemChild.name + index} >
-                                                                                    <a role="button" href='#' onClick={(e) => handleSubMenuClick(itemChild, e)} className={`${activeSubMenu === itemChild.id ? "active" : ""}`}>{itemChild.name}</a>
-                                                                                </li>
-                                                                            ))
-                                                                        }
-                                                                    </ul>
-                                                                )
-                                                            }
                                                         </li>
                                                     )
                                                 }
-                                            })
+                                            </>
                                         )
                                     }
                                 </ul>

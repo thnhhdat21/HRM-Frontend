@@ -13,7 +13,7 @@ const DECISION_TYPE_TERMINATION = 6
 
 export const DecisionType = new Map([
     [1, { name: "Quyết định khen thưởng", modal: "create_reward_penalty_decision" }],
-    [2, { name: "Quyết định điều chuyể", modal: "create_tranfer_appointment_decision" }],
+    [2, { name: "Quyết định điều chuyển", modal: "create_tranfer_appointment_decision" }],
     [3, { name: "Quyết định kỷ luật nội bộ", modal: "create_reward_penalty_decision" }],
     [4, { name: "Quyết định bổ nhiệm", modal: "create_tranfer_appointment_decision" }],
     [5, { name: "Quyết định điều chỉnh lương", modal: "create_salary_decision" }],

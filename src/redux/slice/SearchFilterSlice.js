@@ -46,6 +46,7 @@ export const searchFilterSlice = createSlice({
         updateStatusFilter: (state, action) => {
             state.status = action.payload;
             state.type = '';
+            state.pageIndex = 1;
         },
 
         updateSearchFilter: (state, action) => {
@@ -69,6 +70,11 @@ export const searchFilterSlice = createSlice({
 
         updateSalaryTableId: (state, action) => {
             state.salaryTableId = action.payload;
+            state.pageIndex = 1
+        },
+
+        updateWhenClickNavContract: (state, action) => {
+            state.type = action.payload;
             state.pageIndex = 1
         },
         resetSearchFilter: (state) => {
@@ -96,5 +102,6 @@ export const {
     resetSearchFilter,
     updateYearMonthFilter,
     updateYearFilter,
-    updateSalaryTableId } = searchFilterSlice.actions;
+    updateSalaryTableId,
+    updateWhenClickNavContract } = searchFilterSlice.actions;
 export default searchFilterSlice.reducer;

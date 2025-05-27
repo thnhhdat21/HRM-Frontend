@@ -46,20 +46,20 @@ const PayrollEmployeeComponent = () => {
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="card">
-                    <div class="card-header  flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="card">
+                    <div className="card-header  flex-wrap row-gap-3 p-categoty-list">
                         <div className='d-flex category-list-employ align-items-center justify-content-between ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px' }}>
                                 <span className='active-category-list'>Bảng lương</span>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="custom-datatable-filter table-responsive height-my-table">
-                            <div class="table-container sticky-table">
-                                <table class="table table-bordered" id='myTable'>
-                                    <thead class="thead-light">
+                    <div className="card-body p-0">
+                        <div className="custom-datatable-filter table-responsive height-my-table">
+                            <div className="table-container sticky-table">
+                                <table className="table table-bordered" id='myTable'>
+                                    <thead className="thead-light">
                                         <tr>
                                             <th rowSpan="2" className='table-manv'>Mã NV</th>
                                             <th rowSpan="2" className='table-hovaten'>Họ và tên</th>

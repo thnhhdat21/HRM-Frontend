@@ -91,7 +91,7 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
         if (typeof id === 'number' && !isNaN(id)) {
             setAllowances(prevRows =>
                 prevRows.map((allowance, i) =>
-                    i === index ? { ...allowance, ["isUpdate"]: "delete" } : allowance
+                    i === index ? { ...allowance, isUpdate: "delete" } : allowance
                 )
             );
         } else {
@@ -107,7 +107,7 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
 
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: id, ["amount"]: amount, ["unit"]: unit, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, allowanceId: id, amount: amount, unit: unit, isUpdate: 'update' } : row
             )
         );
     };
@@ -115,7 +115,7 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
     const handleClearAllowance = (index) => {
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: '', ["amount"]: '', ["unit"]: '' } : row
+                i === index ? { ...row, allowanceId: '', amount: '', unit: '' } : row
             )
         );
     };
@@ -124,7 +124,7 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
         const { name, value } = event.target;
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, [name]: value, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, [name]: value, isUpdate: 'update' } : row
             )
         );
     };
@@ -175,41 +175,41 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
 
     return (
         <>
-            <div class="modal fade" id="create_salary_decision">
-                <div class="modal-dialog modal-dialog-centered modal-lg ">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Quyết định tăng lương</h4>
+            <div className="modal fade" id="create_salary_decision">
+                <div className="modal-dialog modal-dialog-centered modal-lg ">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Quyết định tăng lương</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Số quyết định </label>
-                                        <input type="text" class="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Số quyết định </label>
+                                        <input type="text" className="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày quyết định </label>
-                                        <input type="date" class="form-control" name='dateDecision' value={values.dateDecision} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Ngày quyết định </label>
+                                        <input type="date" className="form-control" name='dateDecision' value={values.dateDecision} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nhân viên </label>
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Nhân viên </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn nhân sự</option>
                                                 {
                                                     listEmployeeSelect.length > 0 && listEmployeeSelect.map((item, index) => (
@@ -227,40 +227,40 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do</label>
-                                        <input type="email" class="form-control" placeholder='Lý do điều chỉnh lương' name='reason' value={values.reason} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do</label>
+                                        <input type="email" className="form-control" placeholder='Lý do điều chỉnh lương' name='reason' value={values.reason} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Từ ngày </label>
-                                        <input type="date" class="form-control " name='dateActive' value={values.dateActive} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Từ ngày </label>
+                                        <input type="date" className="form-control " name='dateActive' value={values.dateActive} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Tiền lương cũ </label>
-                                        <input type="text" class="form-control readonly-input" value={salaryOld} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Tiền lương cũ </label>
+                                        <input type="text" className="form-control readonly-input" value={salaryOld} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Tiền lương mới </label>
-                                        <input type="text" class="form-control " placeholder='Tiền lương mới' name='amountNew' value={values.amountNew} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Tiền lương mới </label>
+                                        <input type="text" className="form-control " placeholder='Tiền lương mới' name='amountNew' value={values.amountNew} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
                             <div className='row' style={{ marginLeft: "15px" }}>
-                                <div class="col-md-10">
-                                    <div class="mb-3">
-                                        <table class="table borderless table-create-profile">
+                                <div className="col-md-10">
+                                    <div className="mb-3">
+                                        <table className="table borderless table-create-profile">
                                             <tbody>
                                                 <tr>
                                                     <th style={{ width: "50%" }}>Phụ cấp</th>
@@ -269,11 +269,11 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
                                                     <th ></th>
                                                 </tr>
                                                 {
-                                                    allowances.length > 0 && allowances.filter((item) => item.isUpdate != "delete").map((item, index) => (
+                                                    allowances.length > 0 && allowances.filter((item) => item.isUpdate !== "delete").map((item, index) => (
                                                         <tr>
                                                             <td>
                                                                 <div className="select-wrapper-department">
-                                                                    <select class="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
+                                                                    <select className="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
                                                                         <option value={""} hidden>Chọn phụ cấp</option>
                                                                         {
                                                                             listAllowance.length > 0 && listAllowance.map((item, index) => (
@@ -290,7 +290,7 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
                                                             </td>
                                                             <td><input type="text" className="form-control" name='amount' value={item.amount || ""} onChange={(e) => onChangeInputAmountAndUnit(index, e)} /></td>
                                                             <td>
-                                                                <select class="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
+                                                                <select className="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
                                                                     <option value={""} hidden>Đơn vị</option>
                                                                     <option value={"Ngày"} >Ngày</option>
                                                                     <option value={"Tháng"} >Tháng</option>
@@ -298,8 +298,8 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
-                                                                    <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                                                <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
+                                                                    <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -309,17 +309,17 @@ const SalaryDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelec
                                         </table>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-start">
-                                    <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                                <div className="d-flex justify-content-start">
+                                    <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                         <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRow} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

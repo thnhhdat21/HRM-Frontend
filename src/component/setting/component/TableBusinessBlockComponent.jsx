@@ -1,14 +1,12 @@
-import React from 'react';
-
 const TableBusinessBlockComponent = ({ ref, setSelectedId, listBusinessBlock, setBusinessBlockDetail }) => {
 
     return (
         <>
-            <div class="card-body p-0 tab-pane fade" id='business-block'>
-                <div class="custom-datatable-filter table-responsive">
-                    <div class="table-container">
-                        <table class="table" id='myTable'>
-                            <thead class="thead-light">
+            <div className="card-body p-0 tab-pane fade" id='business-block'>
+                <div className="custom-datatable-filter table-responsive">
+                    <div className="table-container">
+                        <table className="table" id='myTable'>
+                            <thead className="thead-light">
                                 <tr>
                                     <th></th>
                                     <th>Tên nghiệp vụ</th>

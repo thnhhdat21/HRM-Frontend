@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuContract from '../../contextmenu/ContextMenuContract';
 import EndContractComponent from './crud/EndContractComponent';
@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { responseData } from '../../util/ResponseUtil';
-import { updateTypeFilter } from '../../redux/slice/SearchFilterSlice';
-import { getCountContractType, getListContract } from '../../service/Manage/ManageContractService';
+import { updatePageIndexFilter, updateTypeFilter, updateWhenClickNavContract } from '../../redux/slice/SearchFilterSlice';
+import { getCountContract, getCountContractType, getListContract } from '../../service/Manage/ManageContractService';
 import { ContractStatus } from '../../util/ContractUtil';
 import { convertDate } from '../../util/TimeUtil';
 import CreateContractComponent from '../employee/crud/CreateContractComponent';
@@ -32,22 +32,26 @@ const ManageContractComponent = () => {
     const [listCountContractType, setListCountContractType] = useState([])
     const [listContract, setListContract] = useState([])
     const [totalContract, setTotalContract] = useState("")
+    const [totalContractType, setTotalContractType] = useState("")
     const [typeOpen, setTypeOpen] = useState([])
     const [infoEmployee, setInfoEmployee] = useState({
         employeeId: "",
+        employeeName: "",
         contractId: "",
         contractCode: "",
         contractState: "",
         contractDateLiquid: "",
     })
+
     useEffect(() => {
         const fetchAll = async () => {
             const response = await getCountContractType(searchFilter)
             if (response.data.code === 1000) {
                 const list = response.data.data
+                setListCountContractType(list)
                 const totalCount = list.reduce((total, item) => total + (item.count || 0), 0);
                 setListCountContractType(list)
-                setTotalContract(totalCount)
+                setTotalContractType(totalCount)
             }
         }
         fetchAll()
@@ -64,11 +68,19 @@ const ManageContractComponent = () => {
         getListContract(searchFilter).then((response) => {
             responseData(response, setListContract)
         })
+
+        getCountContract(searchFilter).then((response) => {
+            if (response.data.code === 1000) {
+                const count = response.data.data
+                setTotalContract(count)
+            }
+        })
+
     }, [searchFilter])
 
 
     const onChangeType = (e) => {
-        dispatch(updateTypeFilter(e.target.value))
+        dispatch(updateWhenClickNavContract(e.target.value))
     }
 
     const handleClickType = (index) => {
@@ -83,6 +95,7 @@ const ManageContractComponent = () => {
         const valueNew = {
             employeeId: item.employeeId,
             contractId: item.contractId,
+            employeeName: item.employeeName,
             contractCode: item.contractCode,
             contractState: item.contractState,
             contractDateLiquid: item.contractDateLiquid,
@@ -102,29 +115,28 @@ const ManageContractComponent = () => {
         getListContract(searchFilter).then((response) => {
             responseData(response, setListContract)
         })
-
     }
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile'>
-                                        <button class={`nav-link nav-link-profile ${searchFilter.type === '' ? "active" : ""}`}
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation" >
+                                        <button className={`nav-link nav-link-profile ${searchFilter.type === '' ? "active" : ""}`}
                                             value={''}
                                             data-bs-target="#setting-asset-group"
                                             onClick={onChangeType}>
-                                            Tất cả {"(" + totalContract + ")"}
+                                            Tất cả {"(" + totalContractType + ")"}
                                         </button>
                                     </li>
                                     {
                                         listCountContractType.length > 0 && listCountContractType.slice(0, 3).map((item, index) => (
-                                            <li class="nav-item" role="presentation" className='nav-profile'>
-                                                <button class={`nav-link nav-link-profile ${Number(searchFilter.type) === Number(item.id) ? "active" : ""}`}
+                                            <li className="nav-item nav-profile" role="presentation">
+                                                <button className={`nav-link nav-link-profile ${Number(searchFilter.type) === Number(item.id) ? "active" : ""}`}
                                                     value={item.id}
                                                     data-bs-target="#setting-asset-group"
                                                     onClick={onChangeType}
@@ -135,8 +147,8 @@ const ManageContractComponent = () => {
                                         ))
                                     }
                                     {
-                                        listCountContractType.length > 3 && (<li class="nav-item" role="presentation" className='nav-profile'>
-                                            <button class={`nav-link nav-link-profile ${Number(searchFilter.type) === Number(listCountContractType[3].id) ? "active" : ""}`}
+                                        listCountContractType.length > 3 && (<li className="nav-item nav-profile" role="presentation">
+                                            <button className={`nav-link nav-link-profile ${Number(searchFilter.type) === Number(listCountContractType[3].id) ? "active" : ""}`}
                                                 value={listCountContractType[3].id}
                                                 data-bs-target="#setting-asset-group"
                                                 onClick={onChangeType}>
@@ -146,11 +158,11 @@ const ManageContractComponent = () => {
                                     }
                                     <li>
                                         <div className='dropdown'>
-                                            <button class={`nav-link nav-link-profile `} style={{ paddingLeft: 0 }} data-bs-toggle="dropdown">
+                                            <button className={`nav-link nav-link-profile `} style={{ paddingLeft: 0 }} data-bs-toggle="dropdown">
                                                 < i className={`ti ${1 === 1 ? "ti-chevron-down" : "ti-chevron-up"}`} />
                                             </button>
                                             <div style={{ position: 'relative' }} className='dropdown-menu'>
-                                                <div class="menu menu-title " >
+                                                <div className="menu menu-title " >
                                                     {
                                                         <ul>
                                                             {listCountContractType.length > 0 && listCountContractType.slice(4).map((item, index) => (
@@ -170,21 +182,21 @@ const ManageContractComponent = () => {
                             </div>
                             {
                                 isManage && (
-                                    <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-                                        <div class="mb-2">
-                                            <Link to={"/manage-contract/create-contract"} class="btn btn-danger d-flex align-items-center" >
-                                                <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                                    <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                                        <div className="mb-2">
+                                            <Link to={"/manage-contract/create-contract"} className="btn btn-danger d-flex align-items-center" >
+                                                <i className="ti ti-circle-plus" style={{ fontSize: "20px" }} />
                                             </Link>
                                         </div>
                                     </div>
                                 )
                             }
                         </div>
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive">
-                                <div class="table-container">
-                                    <table class="table" id='myTable'>
-                                        <thead class="thead-light">
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive height-my-table">
+                                <div className="table-container">
+                                    <table className="table" id='myTable'>
+                                        <thead className="thead-light">
                                             <tr>
                                                 <th>Người tạo</th>
                                                 <th>Mã HĐ</th>
@@ -208,7 +220,7 @@ const ManageContractComponent = () => {
                                                         <td>{item.department}</td>
                                                         <td>{item.contractName}</td>
                                                         <td>
-                                                            <td><span class={`badge ${item.contractStatus ? ContractStatus.get(Number(item.contractStatus)).bg : ""}`}>{item.contractStatus ? ContractStatus.get(Number(item.contractStatus)).name : ""}</span></td>
+                                                            <td><span className={`badge ${item.contractStatus ? ContractStatus.get(Number(item.contractStatus)).bg : ""}`}>{item.contractStatus ? ContractStatus.get(Number(item.contractStatus)).name : ""}</span></td>
                                                         </td>
                                                         <td>{convertDate(item.dateSign)}</td>
                                                         <td>{convertDate(item.dateEnd)}</td>
@@ -220,19 +232,23 @@ const ManageContractComponent = () => {
                                 </div>
                             </div>
 
-                            <div class="row pageable-center">
-                                <div class="col-sm-12 col-md-5">
-                                    <div>Hiển thị 1 - 10 trong 10 bản ghi</div>
+                            <div className="row pageable-center">
+                                <div className="col-sm-12 col-md-5">
+                                    <div>Hiển thị {(() => {
+                                        const start = (searchFilter.pageIndex - 1) * 12 + 1;
+                                        const end = Math.min(searchFilter.pageIndex * 12, totalContract);
+                                        return `${start} - ${end}`;
+                                    })()} trong {totalContract} bản ghi</div>
                                 </div>
-                                <div class="col-sm-12 col-md-7">
-                                    <div class="dataTables_paginate mg-top-0">
-                                        <ul class="pagination">
-                                            <li class="page-item previous disabled my-center">
-                                                <i class="ti ti-chevron-left"></i>
+                                <div className="col-sm-12 col-md-7">
+                                    <div className="dataTables_paginate mg-top-0">
+                                        <ul className="pagination">
+                                            <li className={`page-item previous disabled my-center ${searchFilter.pageIndex === 1 ? "hidden" : ""}`} onClick={() => { dispatch(updatePageIndexFilter(searchFilter.pageIndex - 1)) }}>
+                                                <i className="ti ti-chevron-left"></i>
                                             </li>
-                                            <li class="page-item active "><a class="page-link">1</a></li>
-                                            <li class=" page-item next disabled my-center">
-                                                <i class="ti ti-chevron-right"></i>
+                                            <li className="page-item active "><a className="page-link">{searchFilter.pageIndex}</a></li>
+                                            <li className={`page-item next disabled my-center  ${((searchFilter.pageIndex - 1) * 12 + 12) >= totalContract ? "hidden" : ""}`} onClick={() => { dispatch(updatePageIndexFilter(searchFilter.pageIndex + 1)) }}>
+                                                <i className="ti ti-chevron-right"></i>
                                             </li>
                                         </ul>
                                     </div>
@@ -252,7 +268,9 @@ const ManageContractComponent = () => {
 
             <CreateContractComponent
                 employeeId={infoEmployee.employeeId}
-                typeOpen={typeOpen} />
+                typeOpen={typeOpen}
+                updateListContract={updateListContract}
+            />
         </>
     );
 };

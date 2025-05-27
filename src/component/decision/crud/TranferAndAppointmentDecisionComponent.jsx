@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { getWorkProfile } from '../../../service/ContractService';
+import { useEffect, useState } from 'react';
 import { getListDepartmentChild } from '../../../service/DepartmentService';
 import { getListJobPosition } from '../../../service/JobPositionService';
 import { responseData } from '../../../util/ResponseUtil';
@@ -7,6 +6,7 @@ import { getDecision, updateTransferAndAppoint } from '../../../service/Decision
 import { toast } from 'react-toastify';
 import { compareDates } from '../../../util/TimeUtil';
 import { DECISION_TYPE_TRANSFER } from '../../../util/DecisionUtil';
+import { getEmployeeJobPosition } from '../../../service/EmployeeService';
 
 const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, listEmployeeSelect, updateDecision }) => {
     const createModal = "create_tranfer_appointment_decision-create";
@@ -42,6 +42,7 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
                 jobPositionNewId: "",
                 type: type
             })
+            setInfoOld({})
         } else if (typeOpen.at(-1) === editModal) {
             getDecision(decisionId).then((response) => {
                 if (response.data.code === 1000) {
@@ -78,7 +79,7 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
 
     useEffect(() => {
         if (values.employeeId) {
-            getWorkProfile(values.employeeId).then((response) => {
+            getEmployeeJobPosition(values.employeeId).then((response) => {
                 if (response.data.code === 1000) {
                     const profile = response.data.data
                     setInfoOld({
@@ -146,40 +147,40 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
 
     return (
         <>
-            <div class="modal fade" id="create_tranfer_appointment_decision">
-                <div class="modal-dialog modal-dialog-centered modal-lg  modal-crud-appendix">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2"> {type === DECISION_TYPE_TRANSFER ? "Quyết định điều chuyển phòng ban" : "Quyết định bổ nhiệm"} </h4>
+            <div className="modal fade" id="create_tranfer_appointment_decision">
+                <div className="modal-dialog modal-dialog-centered modal-lg  modal-crud-appendix">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2"> {type === DECISION_TYPE_TRANSFER ? "Quyết định điều chuyển phòng ban" : "Quyết định bổ nhiệm"} </h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Số quyết định </label>
-                                        <input type="email" class="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Số quyết định </label>
+                                        <input type="email" className="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày quyết định </label>
-                                        <input type="date" class="form-control" name='date' value={values.date} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Ngày quyết định </label>
+                                        <input type="date" className="form-control" name='date' value={values.date} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nhân viên </label>
+                            <div className="row mt-2">
+                                <div className="col-md-12">
+                                    <div className="mb-3">
+                                        <label className="form-label">Nhân viên </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn nhân sự</option>
                                                 {
                                                     listEmployeeSelect.length > 0 && listEmployeeSelect.map((item, index) => (
@@ -196,35 +197,35 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">{type === DECISION_TYPE_TRANSFER ? "Lý do điều chuyển" : "Lý do bổ nhiệm"} </label>
-                                        <input type="email" class="form-control" placeholder='Lý do điều chuyển' value={values.reason} name='reason' onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">{type === DECISION_TYPE_TRANSFER ? "Lý do điều chuyển" : "Lý do bổ nhiệm"} </label>
+                                        <input type="email" className="form-control" placeholder='Lý do điều chuyển' value={values.reason} name='reason' onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="mb-4">
-                                        <label class="form-label">Phòng ban cũ </label>
-                                        <input type="text" class="form-control readonly-input" value={infoOld.departmentNewOld} placeholder='Phòng ban cũ' onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <div className="mb-4">
+                                        <label className="form-label">Phòng ban cũ </label>
+                                        <input type="text" className="form-control readonly-input" value={infoOld.departmentNewOld} placeholder='Phòng ban cũ' onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Vị trí cũ </label>
-                                        <input type="text" class="form-control readonly-input" value={infoOld.jobPositionNewOld} placeholder='Vị trí cũ' onChange={onChangeInput} />
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Vị trí cũ </label>
+                                        <input type="text" className="form-control readonly-input" value={infoOld.jobPositionNewOld} placeholder='Vị trí cũ' onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phòng ban mới </label>
+                            <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Phòng ban mới </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.departmentNewId)} name='departmentNewId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.departmentNewId)} name='departmentNewId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn phòng ban mới</option>
                                                 {
                                                     listDepartment.length > 0 && listDepartment.map((item, index) => (
@@ -240,11 +241,11 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Vị trí mới </label>
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Vị trí mới </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.jobPositionNewId)} name='jobPositionNewId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.jobPositionNewId)} name='jobPositionNewId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn vị trí mới</option>
                                                 {
                                                     listJobposition.length > 0 && listJobposition.map((item, index) => (
@@ -262,10 +263,10 @@ const TranferAndAppointmentDecisionComponent = ({ decisionId, typeOpen, type, li
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

@@ -30,25 +30,25 @@ const SalaryQuickWatchComponent = ({ x, y, showMenu, id, yearMonth }) => {
     }, [id])
     return (
         <>
-            <div class="menu" id="detail_timekeeping" style={style()}>
-                <div class="modal-content" style={{ padding: "15px" }}>
-                    <div class="modal-header no-border">
-                        <div class="d-flex align-items-center">
-                            <h4 class="modal-title me-2">Phiếu lương tháng {convertMonth(yearMonth)}</h4>
+            <div className="menu" id="detail_timekeeping" style={style()}>
+                <div className="modal-content" style={{ padding: "15px" }}>
+                    <div className="modal-header no-border">
+                        <div className="d-flex align-items-center">
+                            <h4 className="modal-title me-2">Phiếu lương tháng {convertMonth(yearMonth)}</h4>
                         </div>
-                        <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="menu"
+                        <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="menu"
                             aria-label="Close">
-                            <i class="ti ti-x"></i>
+                            <i className="ti ti-x"></i>
                         </button>
                     </div>
-                    <div class="card-header flex-wrap row-gap-3 p-categoty-list header-timekeeping-detail">
+                    <div className="card-header flex-wrap row-gap-3 p-categoty-list header-timekeeping-detail">
                         <div className='d-flex category-list-employ align-items-center ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500, borderBottom: "1px solid #E9EDF4" }}>
                             <span >Thực lĩnh:</span>
                             <span className='text-success' style={{ fontSize: "25px" }}>{Number(salaryDetail.salaryReal).toLocaleString("vi-VN")} VNĐ</span>
                         </div>
                     </div>
 
-                    <div class="modal-body ">
+                    <div className="modal-body ">
                         <table className="table profile-details table-detail-salary">
                             <tbody>
                                 <tr>

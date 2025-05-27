@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SelectCustomer = ({ listItem, selectedItem, setSelectedItem, type, elementId }) => {
     const [mapListJob, setMapListJob] = useState(new Map())
@@ -59,19 +59,19 @@ const SelectCustomer = ({ listItem, selectedItem, setSelectedItem, type, element
     }
 
     return (
-        <div class="custom-select">
-            <div class="select-box" onClick={toggleOptions}>
-                <div class="selected-container" id="selected-items">
+        <div className="custom-select">
+            <div className="select-box" onClick={toggleOptions}>
+                <div className="selected-container" id="selected-items">
                     {selectedItem.length > 0 && selectedItem.map((item, index) => (
                         <div className="selected-item">
                             {mapListJob.get(item)}
-                            <span class="remove-btn" onClick={() => removeItem(item)}>&times;</span>
+                            <span className="remove-btn" onClick={() => removeItem(item)}>&times;</span>
                         </div>
                     ))}
                 </div>
                 {selectedItem.length > 0 && (<span onClick={clearAllItem}>✖</span>)}
             </div>
-            <div class="select-options" id={elementId} style={type === "up" ? styleTop() : styleBottom()}>
+            <div className="select-options" id={elementId} style={type === "up" ? styleTop() : styleBottom()}>
                 {
                     listItem.length > 0 && listItem.map((item, index) => (
                         <div id={item.id} className={`${selectedItem.includes(item.id) ? "hidden" : ""}`} onClick={(e) => handleSelected(item.id, e)}>{item.name}</div>

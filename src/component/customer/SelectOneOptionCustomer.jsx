@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { convertDateTime } from '../../util/TimeUtil';
 
 const SelectOneOptionCustomer = ({ listItem, name, values, setValues, elementId }) => {
@@ -32,14 +31,14 @@ const SelectOneOptionCustomer = ({ listItem, name, values, setValues, elementId 
     }
 
     return (
-        <div class="custom-select">
-            <div class="select-box" onClick={toggleOptions}>
-                <div class="selected-container" id="selected-items">
+        <div className="custom-select">
+            <div className="select-box" onClick={toggleOptions}>
+                <div className="selected-container" id="selected-items">
                     <span>{values[name] ? convertDateTime(values[name]) : "Chọn"}</span>
                 </div>
                 {values[name] && (<span onClick={clearAllItem}>✖</span>)}
             </div>
-            <div class="select-options" id={elementId} style={styleBottom()}>
+            <div className="select-options" id={elementId} style={styleBottom()}>
                 {
                     listItem.length > 0 && listItem.map((item, index) => (
                         <div id={item.id} className={`${values[name] === item.value ? "hidden" : ""}`} onClick={(e) => handleSelected(item, e)}>{item.name}</div>

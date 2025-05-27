@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import OvertimeLetterComponent from '../letter/crud/OvertimeLetterComponent';
 import { useDispatch } from 'react-redux';
@@ -8,9 +8,12 @@ import { responseData } from '../../util/ResponseUtil';
 import { deleteLetter } from '../../service/LetterService';
 import { convertDate, getDayOnWeek } from '../../util/TimeUtil';
 import { LETTER_TYPE_OVERTIME, LetterState } from '../../util/LetterUtil';
-import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
 import ContextMenuEmployeeTwoItem from '../../contextmenu/ContextMenuEmployeeTwoItem';
 import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../customer/ApproveOrDeleteComponent';
+import Cookies from 'js-cookie';
+
+
 const EmployeeOTComponent = () => {
     const tableRef = useRef(null)
     const { x, y, showMenu } = useRightClickMenu(tableRef, 200, 82);
@@ -19,9 +22,10 @@ const EmployeeOTComponent = () => {
     const [selected, setSelected] = useState("")
     const dispatch = useDispatch()
     dispatch(updateTitleHeader({ title: "Danh sách tăng ca", subTitle: "" }))
+    const employeeId = Cookies.get('employeeId')
 
     useEffect(() => {
-        getListOverTimeLetter().then((response) => {
+        getListOverTimeLetter(employeeId).then((response) => {
             responseData(response, setListOvertime)
         })
     }, [])
@@ -45,26 +49,25 @@ const EmployeeOTComponent = () => {
         })
     }
 
-
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div style={{ marginBottom: "10px" }} className='d-flex align-items-center justify-content-center'>
-                                <a href="#" class="btn btn-danger d-flex align-items-center"
+                                <a href="#" className="btn btn-danger d-flex align-items-center"
                                     data-bs-toggle="modal"
                                     data-bs-target="#create_overtime_letter"
                                     onClick={() => handleClickDropMenu("create_overtime_letter")}
                                 >
-                                    <i class="ti ti-clock" style={{ fontSize: "20px", marginRight: "5px" }} />
+                                    <i className="ti ti-clock" style={{ fontSize: "20px", marginRight: "5px" }} />
                                     Đăng ký OT
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <table class="table borderless table-timekeeping-employee">
+                        <div className="card-body p-0">
+                            <table className="table borderless table-timekeeping-employee">
                                 <thead>
                                     <tr>
                                         <th style={{ width: "10%" }}>Ngày</th>
@@ -76,7 +79,7 @@ const EmployeeOTComponent = () => {
                                     {listOvertime.length > 0 && listOvertime.map((item, index) => (
                                         <tr key={index} onContextMenu={() => setSelected(item)}>
                                             <td>
-                                                <div class="timekeeping-items">
+                                                <div className="timekeeping-items">
                                                     <span>{getDayOnWeek(item.dateRegis)}</span>
                                                     <span>{convertDate(item.dateRegis)}</span>
                                                 </div>
@@ -132,12 +135,12 @@ const EmployeeOTComponent = () => {
                 state={selected.letterState}
             />
 
-
             <OvertimeLetterComponent
                 letterId={selected.letterId}
                 typeOpen={typeOpen}
                 type={LETTER_TYPE_OVERTIME}
                 updateLetter={update}
+                employeeId={employeeId}
             />
         </>
     );

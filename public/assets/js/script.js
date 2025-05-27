@@ -202,34 +202,6 @@ Template Name: Smarthr - Bootstrap Admin Template
 		});
 	}
 
-	// Sidebar
-	// var Sidemenu = function () {
-	// 	this.$menuItem = $('.sidebar-menu a');
-	// };
-
-	// function init() {
-	// 	var $this = Sidemenu;
-	// 	$('.sidebar-menu a').on('click', function (e) {
-	// 		if ($(this).parent().hasClass('submenu')) {
-	// 			e.preventDefault();
-	// 		}
-	// 		if (!$(this).hasClass('subdrop')) {
-	// 			$('ul', $(this).parents('ul:first')).slideUp(250);
-	// 			$('a', $(this).parents('ul:first')).removeClass('subdrop');
-	// 			$(this).next('ul').slideDown(350);
-	// 			$(this).addClass('subdrop');
-	// 		} else if ($(this).hasClass('subdrop')) {
-	// 			$(this).removeClass('subdrop');
-	// 			$(this).next('ul').slideUp(350);
-	// 		}
-	// 	});
-
-	// 	$('.sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
-	// }
-
-
-	// Sidebar Initiate
-	// init();
 	$(document).on('mouseover', function (e) {
 		e.stopPropagation();
 		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
@@ -244,34 +216,6 @@ Template Name: Smarthr - Bootstrap Admin Template
 			return false;
 		}
 	});
-
-	// Sidebar
-	// var Colsidemenu = function () {
-	// 	this.$menuItems = $('.sidebar-right a');
-	// };
-
-	// function colinit() {
-	// 	var $this = Colsidemenu;
-	// 	$('.sidebar-right ul a').on('click', function (e) {
-	// 		if ($(this).parent().hasClass('submenu')) {
-	// 			e.preventDefault();
-	// 			console.log("1");
-	// 		}
-	// 		if (!$(this).hasClass('subdrop')) {
-	// 			$('ul', $(this).parents('ul:first')).slideUp(250);
-	// 			$('a', $(this).parents('ul:first')).removeClass('subdrop');
-	// 			$(this).next('ul').slideDown(350);
-	// 			$(this).addClass('subdrop');
-	// 			console.log("0");
-	// 		} else if ($(this).hasClass('subdrop')) {
-	// 			$(this).removeClass('subdrop');
-	// 			$(this).next('ul').slideUp(350);
-	// 			console.log("3");
-	// 		}
-	// 	});
-	// 	$('.sidebar-right ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
-	// }
-	// colinit();
 
 	// Table Responsive
 

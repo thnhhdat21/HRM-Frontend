@@ -1,4 +1,4 @@
-import { PerWatchContract, PerWatchDecision, PerWatchEmployee, PerWatchInsurance, PerWatchLetter, PerWatchSalary, PerWatchTimeSheet } from "./PermissionUtil";
+import { PerWatchContract, PerWatchDecision, PerWatchEmployee, PerWatchInsurance, PerWatchLetter, PerWatchReport, PerWatchSalary, PerWatchTimeSheet } from "./PermissionUtil";
 
 const menuObjectSetting = [
     {
@@ -16,7 +16,7 @@ const menuObjectSetting = [
         id: 9, name: 'Cài đặt đối tượng', icon: 'ti ti-adjustments', path: 'setting', child: [
             { id: 10, name: 'Hợp đồng lao động', icon: '', path: '/settings/contract' },
             { id: 11, name: 'Bảo hiểm', icon: '', path: '/settings/insurance' },
-            { id: 12, name: 'Đơn từ', icon: '', path: '/settings/approval' },
+            { id: 12, name: 'Đơn từ', icon: '', path: '/settings/letter-reason' },
             { id: 13, name: 'Nghỉ phép', icon: '', path: '/settings/on-leave' },
             { id: 14, name: 'Phụ cấp', icon: '', path: '/settings/allowance' },
         ]
@@ -25,19 +25,16 @@ const menuObjectSetting = [
 
 const menuEmployeePersonal = [
     {
-        id: 15, name: 'Thông tin chung', icon: 'ti ti-home', path: '/personal/home', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE'], child: []
+        id: 15, name: 'Thông tin chung', icon: 'ti ti-home', path: '/personal/home', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE', 'ADMIN'], child: []
     },
     {
-        id: 16, name: 'Bảng công tháng', icon: 'fe fe-calendar', path: '/personal/timekeeping', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE'], child: []
+        id: 16, name: 'Bảng công tháng', icon: 'fe fe-calendar', path: '/personal/timekeeping', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE', 'ADMIN'], child: []
     },
     {
-        id: 18, name: 'Đăng ký nghỉ', icon: 'ti ti-umbrella', path: '/personal/list-leave', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE'], child: []
+        id: 18, name: 'Đăng ký nghỉ', icon: 'ti ti-umbrella', path: '/personal/list-leave', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE', 'ADMIN'], child: []
     },
     {
-        id: 19, name: 'Đăng ký OT', icon: 'ti ti-clock', path: '/personal/list-overtime', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE'], child: []
-    },
-    {
-        id: 20, name: 'Đăng xuất', icon: 'ti ti-logout', path: '#', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE'], child: []
+        id: 19, name: 'Đăng ký OT', icon: 'ti ti-clock', path: '/personal/list-overtime', permissions: ['ROLE_MANAGE_SELF_EMPLOYEE', 'ADMIN'], child: []
     }
 ]
 
@@ -79,12 +76,7 @@ const menuEmployeeManage = [
     {
         id: 36, name: 'Đơn từ', icon: 'ti ti-clipboard-text', path: '/manage-letter/letter',
         permissions: PerWatchLetter,
-        child: [
-            { id: 37, name: 'Tất cả đơn từ', icon: '', path: '/manage-letter/letter' },
-            { id: 38, name: 'Đơn từ của bạn', icon: '', path: '' },
-            { id: 39, name: 'Đơn từ bạn duyệt', icon: '', path: '' },
-            { id: 40, name: 'Đơn từ phòng bạn', icon: '', path: '' }
-        ]
+        child: []
     },
     {
         id: 41, name: 'Quản lý chấm công', icon: 'ti ti-alarm-plus', path: '/manage-timekeeping',
@@ -104,8 +96,8 @@ const menuEmployeeManage = [
         ]
     },
     {
-        id: 48, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: 'path',
-        permissions: [],
+        id: 48, name: 'Báo cáo', icon: 'ti ti-chart-pie', path: '/manage-report',
+        permissions: PerWatchReport,
         child: []
     },
 ]
@@ -125,7 +117,7 @@ export const mapPathId = new Map([
     ['/settings/penalty', 8],
     ['/settings/contract', 10],
     ['/settings/insurance', 11],
-    ['/settings/approval', 12],
+    ['/settings/letter-reason', 12],
     ['/settings/on-leave', 13],
     ['/settings/allowance', 14],
     ['/personal/home', 15],

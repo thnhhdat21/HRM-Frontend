@@ -1,9 +1,13 @@
-import axios from "axios";
+import axiosClient from "./config/AxiosClient";
 
 const REST_API_BASE_URL = "/salary-table";
 
 export const getListSalaryTable = () => {
-    return axios.post(`${REST_API_BASE_URL}/get-list-salary-table`)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-salary-table`)
+}
+
+export const getListSalaryTableLevelDepartment = () => {
+    return axiosClient.post(`${REST_API_BASE_URL}/get-salary-table-department`)
 }
 
 export const getlistSalaryDetail = (values) => {
@@ -16,7 +20,7 @@ export const getlistSalaryDetail = (values) => {
         "dateJoin": values.dateJoin,
         "salaryTableId": values.salaryTableId
     }
-    return axios.post(`${REST_API_BASE_URL}/get-list-salary-detail`, requestBody)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-list-salary-detail`, requestBody)
 }
 
 export const getCountSalaryDetail = (values) => {
@@ -29,7 +33,7 @@ export const getCountSalaryDetail = (values) => {
         "dateJoin": values.dateJoin,
         "salaryTableId": values.salaryTableId
     }
-    return axios.post(`${REST_API_BASE_URL}/get-count-salary-detail`, requestBody)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-count-salary-detail`, requestBody)
 }
 
 export const getListTax = (values) => {
@@ -42,7 +46,7 @@ export const getListTax = (values) => {
         "dateJoin": values.dateJoin,
         "year": values.year,
     }
-    return axios.post(`${REST_API_BASE_URL}/get-list-tax`, requestBody)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-list-tax`, requestBody)
 }
 
 // export const getCountEmployeeOnLeave = (values) => {
@@ -57,6 +61,6 @@ export const getListTax = (values) => {
 //         "dateJoin": values.dateJoin,
 //         "year": values.year,
 //     }
-//     return axios.post(`${REST_API_BASE_URL}/get-count-on-leave`, requestBody)
+//     return axiosClient.post(`${REST_API_BASE_URL}/get-count-on-leave`, requestBody)
 // }
 

@@ -14,8 +14,13 @@ export const titleHeaderSlice = createSlice({
         updateSubTitleHeader: (state, action) => {
             state.subTitle = action.payload;
         },
+
+        resetTitleHeader: (state) => {
+            state.subTitle = "";
+            state.subTitle = "";
+        },
     }
 })
 
-export const { updateTitleHeader, updateSubTitleHeader } = titleHeaderSlice.actions;
+export const { updateTitleHeader, updateSubTitleHeader, resetTitleHeader } = titleHeaderSlice.actions;
 export default titleHeaderSlice.reducer;

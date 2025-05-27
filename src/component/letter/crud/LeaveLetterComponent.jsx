@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SelectOneOptionCustomer from '../../customer/SelectOneOptionCustomer';
-import { calculateLeaveDays, compareDates, getListDateTime } from '../../../util/TimeUtil';
+import { compareDates, getListDateTime } from '../../../util/TimeUtil';
 import { getLetter, updateLeaveLetter } from '../../../service/LetterService';
 import { toast } from 'react-toastify';
 import { getListLetterReason } from '../../../service/LetterReasonService';
 import { responseData } from '../../../util/ResponseUtil';
 import { LETTER_TYPE_LEAVE } from '../../../util/LetterUtil';
+import Cookies from 'js-cookie';
 
 const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
     const optionDateTime = getListDateTime();
     const createModal = "create_leave_letter-create"
     const editModal = "create_leave_letter-edit"
     const [listReason, setListReason] = useState([])
+    const employeeId = Cookies.get('employeeId')
+
 
     const [values, setValues] = useState({
         letterId: "",
-        employeeId: "",
+        employeeId: employeeId,
         letterReasonId: "",
         dateStart: "",
         dateEnd: "",
@@ -30,13 +33,12 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
             })
     }, [type])
 
-    console.log(listReason)
 
     useEffect(() => {
         if (typeOpen.at(-1) === createModal) {
             setValues({
                 letterId: "",
-                employeeId: "",
+                employeeId: employeeId,
                 letterReasonId: "",
                 dateStart: "",
                 dateEnd: "",
@@ -77,25 +79,25 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
     }
 
     const checkValidator = (value) => {
-        // if (value.letterReasonId === "") {
-        //     toast.error("Yêu cầu chọn lý do nghỉ!")
-        //     return false;
-        // } else if (value.dateStart === '') {
-        //     toast.error("Yêu cầu chọn ngày bắt đầu")
-        //     return false;
-        // } else if (compareDates(value.dateStart.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
-        //     toast.error("Ngày bắt đầu không hợp lệ!")
-        //     return false;
-        // } else if (value.dateEnd === '') {
-        //     toast.error("Yêu cầu chọn ngày kết thúc!")
-        //     return false;
-        // } else if (compareDates(value.dateEnd.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
-        //     toast.error("Ngày kết thúc không hợp lệ!")
-        //     return false;
-        // } else if (compareDates(value.dateStart.split(' ')[0], value.dateEnd.split(' ')[0]) === 1) {
-        //     toast.error("Thời gian không hợp lệ!")
-        //     return false;
-        // }
+        if (value.letterReasonId === "") {
+            toast.error("Yêu cầu chọn lý do nghỉ!")
+            return false;
+        } else if (value.dateStart === '') {
+            toast.error("Yêu cầu chọn ngày bắt đầu")
+            return false;
+        } else if (compareDates(value.dateStart.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
+            toast.error("Ngày bắt đầu không hợp lệ!")
+            return false;
+        } else if (value.dateEnd === '') {
+            toast.error("Yêu cầu chọn ngày kết thúc!")
+            return false;
+        } else if (compareDates(value.dateEnd.split(' ')[0], new Date().toISOString().split('T')[0]) === -1) {
+            toast.error("Ngày kết thúc không hợp lệ!")
+            return false;
+        } else if (compareDates(value.dateStart.split(' ')[0], value.dateEnd.split(' ')[0]) === 1) {
+            toast.error("Thời gian không hợp lệ!")
+            return false;
+        }
         return true
     }
 
@@ -119,26 +121,26 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
 
     return (
         <>
-            <div class="modal fade" id="create_leave_letter">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Tạo đơn xin nghỉ</h4>
+            <div className="modal fade" id="create_leave_letter">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Tạo đơn xin nghỉ</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body">
-                            <div class="row ">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do </label>
+                        <div className="modal-body">
+                            <div className="row ">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
+                                            <select className="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
                                                 <option value={""} hidden>Chọn lý do</option>
                                                 {
                                                     listReason.length > 0 && listReason.map((item, index) => (
@@ -154,17 +156,17 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Tính công </label>
-                                        <input type="text" class="form-control readonly-input" placeholder='Tính công' name='isWorkDay' value={values.isWorkDay} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Tính công </label>
+                                        <input type="text" className="form-control readonly-input" placeholder='Tính công' name='isWorkDay' value={values.isWorkDay} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Từ ngày </label>
+                            <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Từ ngày </label>
                                         <SelectOneOptionCustomer
                                             listItem={optionDateTime}
                                             name={'dateStart'}
@@ -174,9 +176,9 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Đến ngày </label>
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Đến ngày </label>
                                         <SelectOneOptionCustomer
                                             listItem={optionDateTime}
                                             name={'dateEnd'}
@@ -187,31 +189,31 @@ const LeaveLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
+                            <div className="row mt-2">
 
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Tổng ngày nghỉ </label>
-                                        <input type="text" class="form-control" placeholder='Tổng ngày nghỉ' name='total' value={values.total} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Tổng ngày nghỉ </label>
+                                        <input type="text" className="form-control" placeholder='Tổng ngày nghỉ' name='total' value={values.total} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Mô tả</label>
-                                        <textarea type="text" class="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Mô tả</label>
+                                        <textarea type="text" className="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

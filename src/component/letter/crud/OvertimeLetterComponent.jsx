@@ -6,7 +6,7 @@ import { getLetter, updateOverTimeLetter } from '../../../service/LetterService'
 import { toast } from 'react-toastify';
 import { calculatorTimeNoBreak, formatTime } from '../../../util/TimeUtil';
 
-const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
+const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter, employeeId }) => {
     const createModal = "create_overtime_letter-create"
     const editModal = "create_overtime_letter-edit"
     const [listReason, setListReason] = useState([])
@@ -14,7 +14,7 @@ const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
     const [values, setValues] = useState({
         dateRegis: new Date(),
         letterId: "",
-        employeeId: "",
+        employeeId: employeeId,
         letterReasonId: "",
         timeStart: "",
         timeEnd: "",
@@ -35,7 +35,7 @@ const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
             setValues({
                 dateRegis: new Date().toISOString().split('T')[0],
                 letterId: "",
-                employeeId: "",
+                employeeId: employeeId,
                 letterReasonId: "",
                 timeStart: "",
                 timeEnd: "",
@@ -139,60 +139,60 @@ const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
 
     return (
         <>
-            <div class="modal fade" id="create_overtime_letter">
-                <div class="modal-dialog modal-dialog-centered modal-lg ">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Đăng ký làm thêm giờ</h4>
+            <div className="modal fade" id="create_overtime_letter">
+                <div className="modal-dialog modal-dialog-centered modal-lg ">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Đăng ký làm thêm giờ</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày đăng ký </label>
-                                        <input type="date" class="form-control" name='dateRegis' value={values.dateRegis} onChange={onChangeInput} />
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Ngày đăng ký </label>
+                                        <input type="date" className="form-control" name='dateRegis' value={values.dateRegis} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-5 form-check form-check-md d-flex align-items-center mt-2" style={{ margin: "0 0 0 10px" }} >
-                                    <input class="form-check-input" type="checkbox" id="select-all" name='isNextDay' checked={values.isNextDay} onClick={onChangeCheckBox} />
-                                    <label class="form-label" style={{ margin: "0 0 0 10px" }}>Làm thêm qua ngày hôm sau </label>
+                                <div className="col-md-5 form-check form-check-md d-flex align-items-center mt-2" style={{ margin: "0 0 0 10px" }} >
+                                    <input className="form-check-input" type="checkbox" id="select-all" name='isNextDay' checked={values.isNextDay} onClick={onChangeCheckBox} />
+                                    <label className="form-label" style={{ margin: "0 0 0 10px" }}>Làm thêm qua ngày hôm sau </label>
                                 </div>
 
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Giờ bắt đầu làm thêm</label>
-                                        <input type="text" class="form-control" placeholder="--:--" name='timeStart' maxLength={4} value={values.timeStart} onChange={onChangeInputTime} />
+                            <div className="row mt-2">
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Giờ bắt đầu làm thêm</label>
+                                        <input type="text" className="form-control" placeholder="--:--" name='timeStart' maxLength={4} value={values.timeStart} onChange={onChangeInputTime} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Giờ kết thúc làm thêm</label>
-                                        <input type="text" class="form-control" placeholder="--:--" name='timeEnd' maxLength={4} value={values.timeEnd} onChange={onChangeInputTime} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Giờ kết thúc làm thêm</label>
+                                        <input type="text" className="form-control" placeholder="--:--" name='timeEnd' maxLength={4} value={values.timeEnd} onChange={onChangeInputTime} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Tổng số giờ đăng ký</label>
-                                        <input type="text" class="form-control readonly-input" placeholder='Tổng giờ đăng kí' value={values.total} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Tổng số giờ đăng ký</label>
+                                        <input type="text" className="form-control readonly-input" placeholder='Tổng giờ đăng kí' value={values.total} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do làm thêm</label>
+                            <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do làm thêm</label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
+                                            <select className="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
                                                 <option value={""} hidden>Chọn lý do</option>
                                                 {
                                                     listReason.length > 0 && listReason.map((item, index) => (
@@ -209,19 +209,19 @@ const OvertimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Mô tả</label>
-                                        <textarea type="text" class="form-control" placeholder='Nhập tên chức vụ' name='description' value={values.description} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Mô tả</label>
+                                        <textarea type="text" className="form-control" placeholder='Nhập tên chức vụ' name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
                     </div>
                 </div>

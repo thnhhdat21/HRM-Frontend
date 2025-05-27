@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { updateHoliday } from '../../../service/HolidayService';
-import { responseDataUpdateUI } from '../../../util/ResponseUtil';
+import { updateHoliday } from '../../../service/Manage/ManageHolidayService';
 import { toast } from 'react-toastify';
 
 const HolidaysCRUDComponent = ({ selected, openModal, handleUpdateHoliday }) => {

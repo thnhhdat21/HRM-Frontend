@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import './css/context-menu-style.css'
 import { useNavigate } from 'react-router-dom';
 import { CONTRACT_STATE_WAITING } from '../util/ContractUtil';
+import { PROFILE_CONTRACT } from '../util/EmployeeUtil';
 
 const ContextMenuContract = ({ x, y, showMenu, setTypeOpen, infoEmployee, isManage }) => {
+    const navigate = useNavigate();
     const style = () => {
         return {
             borderRadius: 10,
@@ -15,14 +16,19 @@ const ContextMenuContract = ({ x, y, showMenu, setTypeOpen, infoEmployee, isMana
         }
     }
 
-    const navigate = useNavigate();
-
+    const handleClickNavigate = (url) => {
+        navigate(url, { state: { employeeId: infoEmployee.employeeId, employeeName: infoEmployee.employeeName, navItem: PROFILE_CONTRACT } });
+    }
     return (
         <>
             {
                 isManage && (
                     <div class="menu" style={style()}>
                         <ul>
+                            <li onClick={() => handleClickNavigate('/profile-employee')}>
+                                <i className='ti ti-eye' />
+                                Xem hợp đồng
+                            </li>
                             {
                                 infoEmployee.contractState !== CONTRACT_STATE_WAITING ? (<>
                                     <li data-bs-toggle="modal" data-bs-target="#create-contract"

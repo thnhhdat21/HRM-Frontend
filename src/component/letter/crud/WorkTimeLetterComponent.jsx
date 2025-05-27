@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { compareDates } from '../../../util/TimeUtil';
 import { LETTER_TYPE_WORKTIME } from '../../../util/LetterUtil';
 import { responseData } from '../../../util/ResponseUtil';
-import { getListLetterReason } from '../../../service/LetterReasonService';
+import { getLetterReasonDetail, getListLetterReason } from '../../../service/LetterReasonService';
 import { getLetter, updateWorkTimeLetter } from '../../../service/LetterService';
 import { toast } from 'react-toastify';
-import { getLetterReasonDetail } from '../../../service/Manage/ManageLetterReasonService';
 
 const WorkTimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
     const createModal = "create_worktime_letter-create"
@@ -119,26 +118,26 @@ const WorkTimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
 
     return (
         <>
-            <div class="modal fade" id="create_worktime_letter">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-crud-appendix">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Đăng ký làm theo chế độ</h4>
+            <div className="modal fade" id="create_worktime_letter">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-crud-appendix">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Đăng ký làm theo chế độ</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do </label>
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
+                                            <select className="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInputReason}>
                                                 <option value={""} hidden>Chọn lý do</option>
                                                 {
                                                     listReason.length > 0 && listReason.map((item, index) => (
@@ -156,24 +155,24 @@ const WorkTimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-5">
-                                    <div class="mb-3">
-                                        <label class="form-label">Từ ngày</label>
-                                        <input type="date" class="form-control" name='dateStart' value={values.dateStart} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-5">
+                                    <div className="mb-3">
+                                        <label className="form-label">Từ ngày</label>
+                                        <input type="date" className="form-control" name='dateStart' value={values.dateStart} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="mb-3">
-                                        <label class="form-label">Đến ngày</label>
-                                        <input type="date" class="form-control" name='dateEnd' value={values.dateEnd} onChange={onChangeInput} />
+                                <div className="col-md-5">
+                                    <div className="mb-3">
+                                        <label className="form-label">Đến ngày</label>
+                                        <input type="date" className="form-control" name='dateEnd' value={values.dateEnd} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
                             <div className='row'>
-                                <div class="col-md-10">
-                                    <div class="mb-3">
-                                        <table class="table table-create-profile">
+                                <div className="col-md-10">
+                                    <div className="mb-3">
+                                        <table className="table table-create-profile">
                                             <tr>
                                                 <th style={{ width: "32%" }}>Chế độ</th>
                                                 <th>Thời gian</th>
@@ -190,19 +189,19 @@ const WorkTimeLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => 
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Mô tả</label>
-                                        <textarea type="text" class="form-control" name='description' value={values.description} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Mô tả</label>
+                                        <textarea type="text" className="form-control" name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

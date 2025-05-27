@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { getContractDetail, updateContract, createContract } from '../../../../service/Manage/ManageContractService';
+import { getContractDetail, updateContract, createContract, countContractAppendix } from '../../../../service/Manage/ManageContractService';
 import { responseData } from '../../../../util/ResponseUtil';
 import { getListDepartmentChild } from '../../../../service/DepartmentService';
 import { getListJobPosition } from '../../../../service/JobPositionService';
@@ -9,7 +9,7 @@ import { checkValidatorAllowanceContract, checkValidatorContract, CONTRACT_CREAT
 import { getListContractType } from '../../../../service/ContractTypeService';
 import { getAllowanceByContractType, getListAllownace } from '../../../../service/AllowanceService';
 
-const UpdateContractComponent = ({ employeeId, contractId, openModal, updateContractProfile, count }) => {
+const UpdateContractComponent = ({ employeeId, contractId, openModal, updateContractProfile }) => {
     const modalId = "update-contract-profile"
     const modalIdEdit = "#update-contract-profile-edit";
     const modalIdCreate = "#update-contract-profile-create";
@@ -70,13 +70,15 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                 const response = await getContractDetail(contractId)
                 if (response.data.code === 1000) {
                     const contractDetail = response.data.data
+                    const responseCount = await countContractAppendix(contractId)
+                    const count = responseCount.data.data
                     setContractDetail({
                         employeeId: employeeId,
                         contractCode: contractDetail.contractCode + "_" + (count + 1),
                         employeeCode: contractDetail.employeeCode,
                         employeeName: contractDetail.employeeName,
-                        contractType: contractDetail.contractType,
-                        department: contractDetail.department,
+                        contractType: "",
+                        department: "",
                         jobPosition: "",
                         contractMethod: "",
                         salaryGross: "",
@@ -115,7 +117,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
         const { name, value } = event.target;
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, [name]: value, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, [name]: value, isUpdate: 'update' } : row
             )
         );
     };
@@ -128,7 +130,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
 
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: id, ["amount"]: amount, ["unit"]: unit, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, allowanceId: id, amount: amount, unit: unit, isUpdate: 'update' } : row
             )
         );
     };
@@ -141,7 +143,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
     const handleClearAllowance = (index) => {
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: '', ["amount"]: '', ["unit"]: '' } : row
+                i === index ? { ...row, allowanceId: '', amount: '', unit: '' } : row
             )
         );
     };
@@ -154,7 +156,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
         if (typeof id === 'number' && !isNaN(id)) {
             setAllowances(prevRows =>
                 prevRows.map((allowance, i) =>
-                    i === index ? { ...allowance, ["isUpdate"]: "delete" } : allowance
+                    i === index ? { ...allowance, isUpdate: "delete" } : allowance
                 )
             );
         } else {
@@ -181,7 +183,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
 
         if (isCorrect && isCorrectInfo) {
             let response = ""
-            if (openModal.at(-1) === "edit") {
+            if (openModal.at(-1) === modalIdEdit) {
                 response = await updateContract(contractDetail, allowances)
             } else {
                 response = await createContract(contractDetail, allowances)
@@ -199,45 +201,45 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
     }
     return (
         <>
-            <div class="modal fade" id={modalId} >
-                <div class="modal-dialog modal-dialog-centered modal-lg ">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2"> { }Cập nhật hợp đồng</h4>
+            <div className="modal fade" id={modalId} >
+                <div className="modal-dialog modal-dialog-centered modal-lg ">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2"> {openModal.at(-1) === modalIdEdit ? "Chỉnh sửa" : "Tạo phụ lục"} hợp đồng</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
                         <form action="employees.html">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active">
-                                    <div class="modal-body pb-0 overflow-modal-crud">
-                                        <div class="col-md-12" style={{ fontSize: "20px" }}>
-                                            <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Thông tin chung</label>
+                            <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active">
+                                    <div className="modal-body pb-0 overflow-modal-crud">
+                                        <div className="col-md-12" style={{ fontSize: "20px" }}>
+                                            <i className='ti ti-chevron-down text-danger' /> <label className="form-label text-danger" >Thông tin chung</label>
                                         </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-7">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Nhân sự </label>
-                                                    <input type="text" class="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName) || ""} />
+                                        <div className="row mt-2">
+                                            <div className="col-md-7">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Nhân sự </label>
+                                                    <input type="text" className="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName) || ""} />
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Mã hợp đồng </label>
-                                                    <input type="email" class="form-control readonly-input" value={contractDetail.contractCode || ""} />
+                                            <div className="col-md-5">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Mã hợp đồng </label>
+                                                    <input type="email" className="form-control readonly-input" value={contractDetail.contractCode || ""} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Loại hợp đồng </label>
+                                        <div className="row mt-2">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Loại hợp đồng </label>
                                                     <div className="select-wrapper-department">
-                                                        <select class={`select-crud ${openModal.at(-1) === modalIdCreate ? "readonly-input" : ""}`} value={Number(contractDetail.contractType)} name='contractType' onChange={openModal.at(-1) === "edit" ? onChangeInput : onChangeContractTypeWhenOpen}>
+                                                        <select className="select-crud" value={Number(contractDetail.contractType)} name='contractType' onChange={openModal.at(-1) === "edit" ? onChangeInput : onChangeContractTypeWhenOpen}>
                                                             <option value={""} hidden>Chọn loại hợp đồng</option>
                                                             {
                                                                 listContractType.length > 0 && listContractType.map((item, index) => (
@@ -255,12 +257,12 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                             </div>
                                         </div>
 
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Phòng ban </label>
+                                        <div className="row mt-2">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Phòng ban </label>
                                                     <div className="select-wrapper-department">
-                                                        <select class={`select-crud ${openModal.at(-1) === modalIdCreate ? "readonly-input" : ""}`} value={Number(contractDetail.department)} name='department' onChange={onChangeInput}>
+                                                        <select className="select-crud" value={Number(contractDetail.department)} name='department' onChange={onChangeInput}>
                                                             <option value={""} hidden>Chọn phòng ban</option>
                                                             {
                                                                 listDepartment.length > 0 && listDepartment.map((item, index) => (
@@ -276,20 +278,20 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Nơi làm việc </label>
-                                                    <input type="text" class="form-control readonly-input" value={"Công ty giải pháp phần mềm TDSoftware"} />
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Nơi làm việc </label>
+                                                    <input type="text" className="form-control readonly-input" value={"Công ty giải pháp phần mềm TDSoftware"} />
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Vị trí </label>
+                                        <div className="row mt-2">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Vị trí </label>
                                                     <div className="select-wrapper-department">
-                                                        <select class="select-crud" value={Number(contractDetail.jobPosition)} name='jobPosition' onChange={onChangeInput}>
+                                                        <select className="select-crud" value={Number(contractDetail.jobPosition)} name='jobPosition' onChange={onChangeInput}>
                                                             <option value={""} hidden>Chọn vị trí</option>
                                                             {
                                                                 listJobposition.length > 0 && listJobposition.map((item, index) => (
@@ -305,60 +307,60 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Hình thức </label>
-                                                    <input type="email" class="form-control" name='method' value={contractDetail.method || ""} />
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Hình thức </label>
+                                                    <input type="email" className="form-control" name='method' value={contractDetail.method || ""} />
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Hiệu lực từ ngày </label>
-                                                    <input type="date" class="form-control " name='dateStart' value={contractDetail.dateStart || ""} onChange={onChangeInput} />
+                                        <div className="row mt-2">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Hiệu lực từ ngày </label>
+                                                    <input type="date" className="form-control " name='dateStart' value={contractDetail.dateStart || ""} onChange={onChangeInput} />
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Đến ngày </label>
-                                                    <input type="date" class="form-control " name='dateEnd' value={contractDetail.dateEnd || ""} onChange={onChangeInput} />
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Đến ngày </label>
+                                                    <input type="date" className="form-control " name='dateEnd' value={contractDetail.dateEnd || ""} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Ngày ký </label>
-                                                    <input type="date" class="form-control " name='dateSign' value={contractDetail.dateSign || ""} onChange={onChangeInput} />
+                                        <div className="row mt-2">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Ngày ký </label>
+                                                    <input type="date" className="form-control " name='dateSign' value={contractDetail.dateSign || ""} onChange={onChangeInput} />
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Người ký </label>
-                                                    <input type="text" class="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName)} />
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Người ký </label>
+                                                    <input type="text" className="form-control readonly-input" value={(contractDetail.employeeCode + "-" + contractDetail.employeeName)} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12" style={{ fontSize: "20px" }}>
-                                            <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Lương và phụ cấp mới</label>
-                                        </div>
-
-                                        <div className='row' style={{ marginLeft: "15px" }}>
-                                            <div class="col-md-5">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Mức lương </label>
-                                                    <input type="number" class="form-control " name='salaryGross' value={contractDetail.salaryGross || ""} onChange={onChangeInput} />
-                                                </div>
-                                            </div>
+                                        <div className="col-md-12" style={{ fontSize: "20px" }}>
+                                            <i className='ti ti-chevron-down text-danger' /> <label className="form-label text-danger" >Lương và phụ cấp mới</label>
                                         </div>
 
                                         <div className='row' style={{ marginLeft: "15px" }}>
-                                            <div class="col-md-10">
-                                                <div class="mb-3">
-                                                    <table class="table borderless table-create-profile">
+                                            <div className="col-md-5">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Mức lương </label>
+                                                    <input type="number" className="form-control " name='salaryGross' value={contractDetail.salaryGross || ""} onChange={onChangeInput} />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='row' style={{ marginLeft: "15px" }}>
+                                            <div className="col-md-10">
+                                                <div className="mb-3">
+                                                    <table className="table borderless table-create-profile">
                                                         <tbody>
                                                             <tr>
                                                                 <th style={{ width: "50%" }}>Phụ cấp</th>
@@ -367,11 +369,11 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                                 <th ></th>
                                                             </tr>
                                                             {
-                                                                allowances.length > 0 && allowances.filter((item) => item.isUpdate != "delete").map((item, index) => (
+                                                                allowances.length > 0 && allowances.filter((item) => item.isUpdate !== "delete").map((item, index) => (
                                                                     <tr>
                                                                         <td>
                                                                             <div className="select-wrapper-department">
-                                                                                <select class="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
+                                                                                <select className="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
                                                                                     <option value={""} hidden>Chọn phụ cấp</option>
                                                                                     {
                                                                                         listAllowance.length > 0 && listAllowance.map((item, index) => (
@@ -379,7 +381,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                                                         ))
                                                                                     }
                                                                                 </select>
-                                                                                {item.allowanceId && (
+                                                                                {item.allowanceId != 0 && (
                                                                                     <div className="x-selected" onClick={() => handleClearAllowance(index)}>
                                                                                         <i className="ti ti-x"></i>
                                                                                     </div>
@@ -388,7 +390,7 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                                         </td>
                                                                         <td><input type="text" className="form-control" name='amount' value={item.amount || ""} onChange={(e) => onChangeInputAmountAndUnit(index, e)} /></td>
                                                                         <td>
-                                                                            <select class="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
+                                                                            <select className="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
                                                                                 <option value={""} hidden>Đơn vị</option>
                                                                                 <option value={"Ngày"} >Ngày</option>
                                                                                 <option value={"Tháng"} >Tháng</option>
@@ -396,8 +398,8 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                                             </select>
                                                                         </td>
                                                                         <td>
-                                                                            <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
-                                                                                <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                                                            <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
+                                                                                <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -407,17 +409,17 @@ const UpdateContractComponent = ({ employeeId, contractId, openModal, updateCont
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-start">
-                                                <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                                            <div className="d-flex justify-content-start">
+                                                <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                                     <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRow} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-light border me-2"
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class="btn btn-primary" onClick={handleUpdateContract}>CẬP NHẬT </button>
+                                        <button type="submit" className="btn btn-primary" onClick={handleUpdateContract}>CẬP NHẬT </button>
                                     </div>
                                 </div>
                             </div>

@@ -44,9 +44,15 @@ const LoginComponent = ({ }) => {
                     Cookies.set("token", data.accessToken)
                     Cookies.set("refreshToken", data.refreshToken)
                     Cookies.set("employeeId", data.account.employeeId)
+                    Cookies.set("employeeName", data.account.employeeName)
+                    Cookies.set("jobPosition", data.account.jobPosition)
                     Cookies.set("permissions", data.account.permissions)
                     toast.success("Đăng nhập thành công")
-                    navigate("/personal/home")
+                    setTimeout(() => {
+                        navigate("/personal/home")
+                    }, 500);
+                } else if (response.data.code > 1000) {
+                    toast.error(response.data.message)
                 } else {
                     toast.error("Thông tin đăng nhập không chính xác")
                 }
@@ -69,42 +75,42 @@ const LoginComponent = ({ }) => {
                 theme="colored"
                 className="toast-login"
             />
-            <div class="main-wrapper">
-                <div class="container-fuild">
-                    <div class="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
-                        <div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap ">
-                            <div class="col-md-4 mx-auto vh-100">
-                                <div class="vh-100">
-                                    <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
-                                        <div class=" mx-auto mb-5 text-center">
-                                            <img src="/assets/logo/logo.png" class="img-fluid" alt="Img" style={{ width: "300px" }} />
+            <div className="main-wrapper">
+                <div className="container-fuild">
+                    <div className="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
+                        <div className="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap ">
+                            <div className="col-md-4 mx-auto vh-100">
+                                <div className="vh-100">
+                                    <div className="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
+                                        <div className=" mx-auto mb-5 text-center">
+                                            <img src="/assets/logo/logo.png" className="img-fluid" alt="Img" style={{ width: "300px" }} />
                                         </div>
-                                        <form class="">
-                                            <div class="text-center mb-3">
-                                                <h2 class="mb-2">Đăng nhập</h2>
+                                        <form className="">
+                                            <div className="text-center mb-3">
+                                                <h2 className="mb-2">Đăng nhập</h2>
                                             </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Email</label>
-                                                <div class="input-group">
-                                                    <input type="text" name='username' value={values.username} onChange={onChange} class="form-control border-end-0" />
-                                                    <span class="input-group-text border-start-0">
+                                            <div className="mb-3">
+                                                <label className="form-label">Email</label>
+                                                <div className="input-group">
+                                                    <input type="text" name='username' autoComplete="username" value={values.username} onChange={onChange} className="form-control border-end-0" />
+                                                    <span className="input-group-text border-start-0">
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Mật khẩu</label>
-                                                <div class="pass-group">
-                                                    <input type="password" name='password' value={values.password} onChange={onChange} class="pass-input form-control" />
+                                            <div className="mb-3">
+                                                <label className="form-label">Mật khẩu</label>
+                                                <div className="pass-group">
+                                                    <input type="password" autoComplete="current-password" name='password' value={values.password} onChange={onChange} className="pass-input form-control" />
                                                 </div>
                                             </div>
 
-                                            <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary w-100"
+                                            <div className="mb-3">
+                                                <button type="submit" className="btn btn-primary w-100"
                                                     style={{ backgroundColor: "#e50213" }} onClick={handleClickLogin}>Đăng nhập</button>
                                             </div>
                                         </form>
-                                        <div class="mt-5 pb-4 text-center">
-                                            <p class="mb-0 text-gray-9">Copyright &copy; 2024 - TDSoftware</p>
+                                        <div className="mt-5 pb-4 text-center">
+                                            <p className="mb-0 text-gray-9">Copyright &copy; 2024 - TDSoftware</p>
                                         </div>
                                     </div>
                                 </div>

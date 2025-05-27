@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import DepartmentFolder from './DepartmentFolder';
 
 const TableDepartmentComponent = ({ ref, setSelectedId, listDepartment }) => {
     return (
         <>
-            <div class="card-body p-0  tab-pane fade show active" id="department">
-                <div class="custom-datatable-filter table-responsive">
-                    <div class="table-container">
-                        <div class="grid-department header-payroll" style={{ backgroundColor: "#e5e7eb" }}>
+            <div className="card-body p-0  tab-pane fade show active" id="department">
+                <div className="custom-datatable-filter table-responsive">
+                    <div className="table-container">
+                        <div className="grid-department header-payroll" style={{ backgroundColor: "#e5e7eb" }}>
                             <span></span>
                             <span>Tiêu đề</span>
                             <span>Cấp bậc</span>

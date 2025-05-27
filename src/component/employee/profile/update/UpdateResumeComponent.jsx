@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { updateAvatarProfile, updateResumeProfile } from '../../../../service/EmployeeService';
-import { getFile } from '../../../../service/MinIOService';
+import { useEffect, useState } from 'react';
+import { updateResumeProfile } from '../../../../service/EmployeeService';
 import { toast } from 'react-toastify';
-import { convertDate } from '../../../../util/TimeUtil';
 
 const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
     const modalId = "update-resume";
@@ -13,6 +11,7 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
         fullName: "",
         employeeCode: "",
         dateOfBirth: "",
+        type: "",
         gender: "",
         marriageStatus: "",
         nation: "",
@@ -33,13 +32,16 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
         bankName: "",
     })
 
+    console.log(resume)
+
     useEffect(() => {
         if (openModal.at(-1) === `#${modalId}`) {
             setValues({
                 id: resume.id,
                 fullName: resume.fullName,
                 employeeCode: resume.employeeCode,
-                dateOfBirth: convertDate(resume.dateOfBirth),
+                dateOfBirth: resume.dateOfBirth,
+                type: resume.type,
                 gender: resume.gender === "Nam" ? 1 : 0,
                 marriageStatus: resume.marriageStatus === "Kết hôn" ? 1 : 0,
                 nation: resume.nation,
@@ -49,7 +51,7 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
                 religion: resume.religion,
                 ethnic: resume.ethnic,
                 identityCard: resume.identityCard,
-                issueDateCCCD: convertDate(resume.issueDateCCCD),
+                issueDateCCCD: resume.issueDateCCCD,
                 placeCCCD: resume.placeCCCD,
                 homeTown: resume.homeTown,
                 permanentAddress: resume.permanentAddress,
@@ -77,6 +79,7 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
 
     const handleUpdateResume = (e) => {
         e.preventDefault();
+        console.log(values)
         const isCorrect = checkValidator(values);
         const isUpdateAvatar = avatarPrev !== values.avatar;
         if (isCorrect) {
@@ -91,25 +94,25 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
     }
 
     const checkValidator = (values) => {
-        if (values.fullName.trim().length === 0 || values.fullName === null) {
+        if (values.fullName === null || values.fullName.trim().length === 0) {
             toast.error("Yêu cầu nhập họ và tên!")
             return false;
-        } else if (values.nation.trim().length === 0 || values.nation === null) {
+        } else if (values.nation === null || values.nation.trim().length === 0) {
             toast.error("Yêu cầu nhập quốc tịch!")
             return false;
-        } else if (values.phoneNumber.trim().length === 0 || values.phoneNumber === null) {
+        } else if (values.phoneNumber === null || values.phoneNumber.trim().length === 0) {
             toast.error("Yêu cầu nhập số điện thoại!")
             return false;
-        } else if (values.identityCard.trim().length === 0 || values.identityCard === null) {
+        } else if (values.identityCard === null || values.identityCard.trim().length === 0) {
             toast.error("Yêu cầu nhập CMT/Căn cước/Hộ chiếu!")
             return false;
-        } else if (values.issueDateCCCD.trim().length === 0 || values.issueDateCCCD === null) {
+        } else if (values.issueDateCCCD === null || !values.issueDateCCCD || values.issueDateCCCD.trim().length === 0) {
             toast.error("Yêu cầu nhập ngày cấp CMT/Căn cước/Hộ chiếu!")
             return false;
-        } else if (values.placeCCCD.trim().length === 0 || values.placeCCCD === null) {
+        } else if (values.placeCCCD === null || values.placeCCCD.trim().length === 0) {
             toast.error("Yêu cầu nhập nơi cấp CMT/Căn cước/Hộ chiếu!")
             return false;
-        } else if (values.taxCode.trim().length === 0 || values.taxCode === null) {
+        } else if (values.taxCode === null || values.taxCode.trim().length === 0) {
             toast.error("Yêu cầu nhập mã số thuế")
             return false;
         }
@@ -118,22 +121,22 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
 
     return (
         <>
-            <div class="modal fade" id={modalId}>
-                <div class="modal-dialog modal-dialog-centered modal-lg ">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Cập nhật sơ yếu lý lịch</h4>
+            <div className="modal fade" id={modalId}>
+                <div className="modal-dialog modal-dialog-centered modal-lg ">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Cập nhật sơ yếu lý lịch</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="profile-info">
-                                <div className='update-avatar'>
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="profile-info">
+                                <div className='update-avatar update-avatar-resume'>
                                     <img
                                         src={values.avatar instanceof File || values.avatar instanceof Blob
                                             ? URL.createObjectURL(values.avatar) : undefined}
@@ -151,22 +154,22 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
                                         onChange={handleFileChange}
                                     />
                                 </div>
-                                <table class="table borderless profile-details update-resume-modal-f ">
+                                <table className="table borderless profile-details update-resume-modal-f ">
                                     <tbody>
                                         <tr>
-                                            <th>Họ và tên<span class="text-danger"> *</span></th>
+                                            <th>Họ và tên<span className="text-danger"> *</span></th>
                                             <td>
-                                                <input type="text" class="form-control" value={values.fullName} name='fullName' onChange={onChangeInput} />
+                                                <input type="text" className="form-control" value={values.fullName || ""} name='fullName' onChange={onChangeInput} />
                                             </td>
                                             <th>Mã NV</th>
                                             <td>
-                                                <input type="text" class="form-control readonly-input" value={values.employeeCode} name='employeeCode' onChange={onChangeInput} />
+                                                <input type="text" className="form-control readonly-input" value={values.employeeCode || ""} e='employeeCode' onChange={onChangeInput} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Ngày sinh</th>
                                             <td>
-                                                <input type="date" class="form-control" value={values.dateOfBirth} name='dateOfBirth' onChange={onChangeInput} />
+                                                <input type="date" className="form-control" value={values.dateOfBirth || ""} name='dateOfBirth' onChange={onChangeInput} />
                                             </td>
                                             <th>Giới tính</th>
                                             <td>
@@ -186,95 +189,105 @@ const UpdateResumeComponent = ({ resume, openModal, updateResume }) => {
                                                     <option value={0}>Chưa kết hôn</option>
                                                 </select>
                                             </td>
-                                            <th>Quốc tịch<span class="text-danger"> *</span></th>
+                                            <th>Quốc tịch<span className="text-danger"> *</span></th>
                                             <td>
-                                                <input type="text" class="form-control" value={values.nation} name='nation' onChange={onChangeInput} />
+                                                <input type="text" className="form-control" value={values.nation || ""} name='nation' onChange={onChangeInput} />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Điện thoại<span class="text-danger"> *</span></th>
+                                            <th>Điện thoại<span className="text-danger"> *</span></th>
                                             <td>
-                                                <input type="text" class="form-control" value={values.phoneNumber} name='phoneNumber' onChange={onChangeInput} />
+                                                <input type="text" className="form-control" value={values.phoneNumber || ""} name='phoneNumber' onChange={onChangeInput} />
                                             </td>
                                             <th>Email</th>
                                             <td>
-                                                <input type="text" class="form-control readonly-input" value={values.email} name='email' onChange={onChangeInput} />
+                                                <input type="text" className="form-control readonly-input" value={values.email || ""} name='email' onChange={onChangeInput} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>TT hồ sơ</th>
+                                            <td>
+                                                <select className="form-control" value={values.type || ""} name='type' onChange={onChangeInput}>
+                                                    <option value="" selected hidden>Chọn</option>
+                                                    <option value={1}>Thử việc</option>
+                                                    <option value={2}>Chính thức</option>
+                                                </select>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="profile-header">Thông tin khác</div>
+                            <div className="profile-header">Thông tin khác</div>
                             <div >
-                                <div class="grid-update-resume ">
+                                <div className="grid-update-resume ">
                                     <span>Nơi sinh</span>
-                                    <input type="text" class="form-control" value={values.placeOfBirth} name='placeOfBirth' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.placeOfBirth || ""} name='placeOfBirth' onChange={onChangeInput} />
                                     <span>Dân tộc</span>
-                                    <input type="text" class="form-control" value={values.religion} name='religion' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.religion || ""} name='religion' onChange={onChangeInput} />
                                     <span>Tôn giáo</span>
-                                    <input type="text" class="form-control" value={values.ethnic} name='ethnic' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.ethnic || ""} name='ethnic' onChange={onChangeInput} />
                                 </div>
                             </div>
-                            <table class="table profile-details update-resume-modal">
+                            <table className="table profile-details update-resume-modal">
                                 <tbody>
                                     <tr>
-                                        <th >CMT/Căn cước/Hộ chiếu <span class="text-danger"> *</span></th>
+                                        <th >CMT/Căn cước/Hộ chiếu <span className="text-danger"> *</span></th>
                                         <td colSpan={5}>
-                                            <input type="text" class="form-control" value={values.identityCard} name='identityCard' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.identityCard || ""} name='identityCard' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Ngày cấp <span class="text-danger"> *</span></th>
+                                        <th>Ngày cấp <span className="text-danger"> *</span></th>
                                         <td style={{ width: "155px" }}>
-                                            <input type="date" class="form-control" value={values.issueDateCCCD} name='placeCCCD' onChange={onChangeInput} />
+                                            <input type="date" className="form-control" value={values.issueDateCCCD || ""} name='issueDateCCCD' onChange={onChangeInput} />
                                         </td>
-                                        <th style={{ width: "80px" }}> Nơi cấp <span class="text-danger"> *</span></th>
+                                        <th style={{ width: "80px" }}> Nơi cấp <span className="text-danger"> *</span></th>
                                         <td >
-                                            <input type="text" class="form-control" value={values.placeCCCD} name='placeCCCD' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.placeCCCD || ""} name='placeCCCD' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                     <tr >
                                         <th>Nguyên quán</th>
                                         <td colSpan={5}>
-                                            <input type="text" class="form-control" value={values.homeTown} name='homeTown' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.homeTown || ""} name='homeTown' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>[Thường trú] Địa chỉ</th>
                                         <td colSpan={5}>
-                                            <input type="text" class="form-control" value={values.permanentAddress} name='permanentAddress' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.permanentAddress || ""} name='permanentAddress' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>[Chỗ ở hiện nay] Địa chỉ</th>
                                         <td colSpan={5}>
-                                            <input type="text" class="form-control" value={values.currentAddress} name='currentAddress' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.currentAddress || ""} name='currentAddress' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Mã số thuế cá nhân<span class="text-danger"> *</span></th>
+                                        <th>Mã số thuế cá nhân<span className="text-danger"> *</span></th>
                                         <td colSpan={5}>
-                                            <input type="text" class="form-control" value={values.taxCode} name='taxCode' onChange={onChangeInput} />
+                                            <input type="text" className="form-control" value={values.taxCode || ""} name='taxCode' onChange={onChangeInput} />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div >
-                                <div class="grid-update-resume " style={{ paddingTop: "5px" }}>
+                                <div className="grid-update-resume " style={{ paddingTop: "5px" }}>
                                     <span>Tên tài khoản</span>
-                                    <input type="text" class="form-control" value={values.bankAccountName} name='bankAccountName' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.bankAccountName || ""} name='bankAccountName' onChange={onChangeInput} />
                                     <span>Số tài khoản</span>
-                                    <input type="text" class="form-control" value={values.accountBank} name='accountBank' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.accountBank || ""} name='accountBank' onChange={onChangeInput} />
                                     <span>Ngân hàng</span>
-                                    <input type="text" class="form-control" value={values.bankName} name='bankName' onChange={onChangeInput} />
+                                    <input type="text" className="form-control" value={values.bankName || ""} name='bankName' onChange={onChangeInput} />
                                 </div>
                             </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleUpdateResume}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleUpdateResume}>CẬP NHẬT </button>
                         </div>
                     </div>
                 </div>

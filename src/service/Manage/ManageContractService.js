@@ -96,9 +96,16 @@ export const getCountContractType = (values) => {
 }
 
 
-// History
-export const getContractHistory = (contractId) => {
-    const formData = new FormData();
-    formData.append("contractId", contractId)
-    return axiosClient.post(`contract-history/get-contract-history`, formData)
+export const getCountContract = (values) => {
+    const requestBody = {
+        "name": values.name,
+        "type": values.type,
+        "status": values.status,
+        "pageIndex": values.pageIndex,
+        "department": values.department,
+        "jobPosition": values.jobPosition,
+        "duty": values.duty,
+        "dateJoin": values.dateJoin,
+    }
+    return axiosClient.post(`${REST_API_BASE_URL}/get-count-contract`, requestBody)
 }

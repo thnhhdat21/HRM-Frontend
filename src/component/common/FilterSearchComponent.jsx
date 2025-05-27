@@ -78,7 +78,6 @@ const FilterSearchComponent = ({ typeOpen }) => {
 
     const onChangeReset = (e) => {
         e.preventDefault()
-        console.log("hahah")
         dispatch(resetSearchFilter())
     }
 
@@ -94,42 +93,42 @@ const FilterSearchComponent = ({ typeOpen }) => {
     }
     return (
         <>
-            <div class="modal fade" id="search-filter">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
-                    <div class="modal-content" >
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Tìm kiếm </h4>
+            <div className="modal fade" id="search-filter">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
+                    <div className="modal-content" >
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Tìm kiếm </h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
                         <form action="employees.html">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active">
-                                    <div class="modal-body pb-0 overflow-modal-crud">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Tên nhân sự </label>
-                                                    <input type="text" class="form-control" name='name' value={values.name} onChange={onChangeInput} />
+                            <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active">
+                                    <div className="modal-body pb-0 overflow-modal-crud">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Tên nhân sự </label>
+                                                    <input type="text" className="form-control" name='name' value={values.name} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Ngày vào</label>
-                                                    <input type="date" class="form-control" placeholder='dd/mm/yyyy' name='dateJoin' value={values.dateJoin} onChange={onChangeInput} />
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Ngày vào</label>
+                                                    <input type="date" className="form-control" placeholder='dd/mm/yyyy' name='dateJoin' value={values.dateJoin} onChange={onChangeInput} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Phòng ban </label>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Phòng ban </label>
                                                     <SelectCustomer
                                                         listItem={listDepartment}
                                                         selectedItem={selectedDepartment}
@@ -139,10 +138,10 @@ const FilterSearchComponent = ({ typeOpen }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Vị trí </label>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Vị trí </label>
                                                     <SelectCustomer
                                                         listItem={listJobPostion}
                                                         selectedItem={selectedJobPosition}
@@ -152,10 +151,10 @@ const FilterSearchComponent = ({ typeOpen }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Chức vụ </label>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Chức vụ </label>
                                                     <SelectCustomer
                                                         listItem={listDuty}
                                                         selectedItem={selectedDuty}
@@ -166,12 +165,12 @@ const FilterSearchComponent = ({ typeOpen }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer" style={{ zIndex: 1060, position: "static" }}>
-                                        <button type="button" class="btn btn-outline-light border me-2"
+                                    <div className="modal-footer" style={{ zIndex: 1060, position: "static" }}>
+                                        <button type="button" className="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <div class={`btn ${searching() ? "btn-primary" : "btn-outline-light border"}  me-2`} onClick={(e) => { if (searching()) onChangeReset(e); }}
+                                        <div className={`btn ${searching() ? "btn-primary" : "btn-outline-light border"}  me-2`} onClick={(e) => { if (searching()) onChangeReset(e); }}
                                         >ĐẶT LẠI </div>
-                                        <button type="submit" class="btn btn-primary" onClick={onChangeSearch}>TÌM KIẾM </button>
+                                        <button type="submit" className="btn btn-primary" onClick={onChangeSearch}>TÌM KIẾM </button>
                                     </div>
                                 </div>
                             </div>

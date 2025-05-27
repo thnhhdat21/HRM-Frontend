@@ -28,8 +28,3 @@ export const deleteLetterReason = (id) => {
     return axiosClient.post(`${REST_API_BASE_URL}/delete-letter-reason`, formData)
 }
 
-export const getLetterReasonDetail = (id) => {
-    const formData = new FormData();
-    formData.append("id", id)
-    return axiosClient.post(`${REST_API_BASE_URL}/get-letter-reason-detail`, formData)
-}

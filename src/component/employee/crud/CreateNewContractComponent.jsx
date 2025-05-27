@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getListDepartmentChild } from '../../../service/DepartmentService';
 import { responseData } from '../../../util/ResponseUtil';
 import { getListJobPosition } from '../../../service/JobPositionService';
@@ -64,7 +64,7 @@ const CreateNewContractComponent = ({
         const { name, value } = event.target;
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, [name]: value, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, [name]: value, isUpdate: 'update' } : row
             )
         );
     };
@@ -77,7 +77,7 @@ const CreateNewContractComponent = ({
 
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: id, ["amount"]: amount, ["unit"]: unit, ["isUpdate"]: 'update' } : row
+                i === index ? { ...row, allowanceId: id, amount: amount, unit: unit, isUpdate: 'update' } : row
             )
         );
     };
@@ -89,7 +89,7 @@ const CreateNewContractComponent = ({
     const handleClearAllowance = (index) => {
         setAllowances(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, ["allowanceId"]: '', ["amount"]: '', ["unit"]: '' } : row
+                i === index ? { ...row, allowanceId: '', amount: '', unit: '' } : row
             )
         );
     };
@@ -102,7 +102,7 @@ const CreateNewContractComponent = ({
         if (typeof id === 'number' && !isNaN(id)) {
             setAllowances(prevRows =>
                 prevRows.map((allowance, i) =>
-                    i === index ? { ...allowance, ["isUpdate"]: "delete" } : allowance
+                    i === index ? { ...allowance, isUpdate: "delete" } : allowance
                 )
             );
         } else {
@@ -112,25 +112,25 @@ const CreateNewContractComponent = ({
 
     return (
         <>
-            <div class="tab-pane fade " id="create-employee-contract">
-                <div class="row mt-2">
-                    <div class="col-md-12" style={{ fontSize: "20px" }} onClick={() => setIsCreateContract(!isCreateContract)}>
-                        <i className={`${isCreateContract ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger`} /> <label class="form-label text-danger" style={{ cursor: 'pointer' }}>Thông tin hợp đồng</label>
+            <div className="tab-pane fade " id="create-employee-contract">
+                <div className="row mt-2">
+                    <div className="col-md-12" style={{ fontSize: "20px" }} onClick={() => setIsCreateContract(!isCreateContract)}>
+                        <i className={`${isCreateContract ? "ti ti-chevron-down" : "ti ti-chevron-up"}  text-danger`} /> <label className="form-label text-danger" style={{ cursor: 'pointer' }}>Thông tin hợp đồng</label>
                     </div>
                 </div>
                 <div className={`${isCreateContract ? "" : "hidden"}`}>
-                    <div class="row mt-2">
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">Mã hợp đồng </label>
-                                <input type="text" class={`form-control`} name='contractCode' value={contractDetail.contractCode || ""} onChange={onChangeInput} />
+                    <div className="row mt-2">
+                        <div className="col-md-3">
+                            <div className="mb-3">
+                                <label className="form-label">Mã hợp đồng </label>
+                                <input type="text" className={`form-control`} name='contractCode' value={contractDetail.contractCode || ""} onChange={onChangeInput} />
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="mb-3">
-                                <label class="form-label">Loại hợp đồng </label>
+                        <div className="col-md-5">
+                            <div className="mb-3">
+                                <label className="form-label">Loại hợp đồng </label>
                                 <div className="select-wrapper-department">
-                                    <select class="select-crud" value={Number(contractDetail.contractType)} name='contractType' onChange={onChangeContractType}>
+                                    <select className="select-crud" value={Number(contractDetail.contractType)} name='contractType' onChange={onChangeContractType}>
                                         <option value={""} hidden>Chọn loại hợp đồng</option>
                                         {
                                             listContractType.length > 0 && listContractType.map((item, index) => (
@@ -148,12 +148,12 @@ const CreateNewContractComponent = ({
                         </div>
                     </div>
 
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Phòng ban </label>
+                    <div className="row mt-2">
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Phòng ban </label>
                                 <div className="select-wrapper-department">
-                                    <select class="select-crud" value={Number(contractDetail.department)} name='department' onChange={onChangeInput}>
+                                    <select className="select-crud" value={Number(contractDetail.department)} name='department' onChange={onChangeInput}>
                                         <option value={""} hidden>Chọn phòng ban</option>
                                         {
                                             listDepartment.length > 0 && listDepartment.map((item, index) => (
@@ -169,20 +169,20 @@ const CreateNewContractComponent = ({
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Nơi làm việc </label>
-                                <input type="text" class="form-control readonly-input" value={"Công ty giải pháp phần mềm TDSoftware"} />
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Nơi làm việc </label>
+                                <input type="text" className="form-control readonly-input" value={"Công ty giải pháp phần mềm TDSoftware"} />
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Vị trí </label>
+                    <div className="row mt-2">
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Vị trí </label>
                                 <div className="select-wrapper-department">
-                                    <select class="select-crud" value={Number(contractDetail.jobPosition)} name='jobPosition' onChange={onChangeInput}>
+                                    <select className="select-crud" value={Number(contractDetail.jobPosition)} name='jobPosition' onChange={onChangeInput}>
                                         <option value={""} hidden>Chọn phòng ban</option>
                                         {
                                             listJobposition.length > 0 && listJobposition.map((item, index) => (
@@ -198,55 +198,55 @@ const CreateNewContractComponent = ({
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Hình thức </label>
-                                <input type="email" class="form-control" name='method' value={contractDetail.method || ""} />
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Hình thức </label>
+                                <input type="email" className="form-control" name='method' value={contractDetail.method || ""} />
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Hiệu lực từ ngày </label>
-                                <input type="date" class="form-control " name='dateStart' value={contractDetail.dateStart || ""} onChange={onChangeInput} />
+                    <div className="row mt-2">
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Hiệu lực từ ngày </label>
+                                <input type="date" className="form-control " name='dateStart' value={contractDetail.dateStart || ""} onChange={onChangeInput} />
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Đến ngày </label>
-                                <input type="date" class="form-control " name='dateEnd' value={contractDetail.dateEnd || ""} onChange={onChangeInput} />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Ngày ký </label>
-                                <input type="date" class="form-control " name='dateSign' value={contractDetail.dateSign || ""} onChange={onChangeInput} />
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Đến ngày </label>
+                                <input type="date" className="form-control " name='dateEnd' value={contractDetail.dateEnd || ""} onChange={onChangeInput} />
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12" style={{ fontSize: "20px" }}>
-                        <i className='ti ti-chevron-down text-danger' /> <label class="form-label text-danger" >Lương và phụ cấp mới</label>
-                    </div>
-
-                    <div className='row' style={{ marginLeft: "15px" }}>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">Mức lương </label>
-                                <input type="number" class="form-control " name='salaryGross' value={contractDetail.salaryGross || ""} onChange={onChangeInput} />
+                    <div className="row mt-2">
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label className="form-label">Ngày ký </label>
+                                <input type="date" className="form-control " name='dateSign' value={contractDetail.dateSign || ""} onChange={onChangeInput} />
                             </div>
                         </div>
+                    </div>
+
+                    <div className="col-md-12" style={{ fontSize: "20px" }}>
+                        <i className='ti ti-chevron-down text-danger' /> <label className="form-label text-danger" >Lương và phụ cấp mới</label>
                     </div>
 
                     <div className='row' style={{ marginLeft: "15px" }}>
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <table class="table borderless table-create-profile">
+                        <div className="col-md-3">
+                            <div className="mb-3">
+                                <label className="form-label">Mức lương </label>
+                                <input type="number" className="form-control " name='salaryGross' value={contractDetail.salaryGross || ""} onChange={onChangeInput} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='row' style={{ marginLeft: "15px" }}>
+                        <div className="col-md-8">
+                            <div className="mb-3">
+                                <table className="table borderless table-create-profile">
                                     <tbody>
                                         <tr>
                                             <th style={{ width: "50%" }}>Phụ cấp</th>
@@ -255,11 +255,11 @@ const CreateNewContractComponent = ({
                                             <th ></th>
                                         </tr>
                                         {
-                                            allowances.length > 0 && allowances.filter((item) => item.isUpdate != "delete").map((item, index) => (
+                                            allowances.length > 0 && allowances.filter((item) => item.isUpdate !== "delete").map((item, index) => (
                                                 <tr>
                                                     <td>
                                                         <div className="select-wrapper-department">
-                                                            <select class="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
+                                                            <select className="select-crud" value={item.allowanceId} name='allowanceId' onChange={(e) => { onChangeInputAllowance(index, e) }}>
                                                                 <option value={""} hidden>Chọn phụ cấp</option>
                                                                 {
                                                                     listAllowance.length > 0 && listAllowance.map((item, index) => (
@@ -276,7 +276,7 @@ const CreateNewContractComponent = ({
                                                     </td>
                                                     <td><input type="text" className="form-control" name='amount' value={item.amount || ""} onChange={(e) => onChangeInputAmountAndUnit(index, e)} /></td>
                                                     <td>
-                                                        <select class="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
+                                                        <select className="select-crud" value={item.unit || ""} name='unit' onChange={(e) => onChangeInputAmountAndUnit(index, e)}>
                                                             <option value={""} hidden>Đơn vị</option>
                                                             <option value={"Ngày"} >Ngày</option>
                                                             <option value={"Tháng"} >Tháng</option>
@@ -284,8 +284,8 @@ const CreateNewContractComponent = ({
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
-                                                            <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                                        <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={() => removeRow(index, item.id)}>
+                                                            <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -295,8 +295,8 @@ const CreateNewContractComponent = ({
                                 </table>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-start">
-                            <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                        <div className="d-flex justify-content-start">
+                            <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                 <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRow} />
                             </div>
                         </div>

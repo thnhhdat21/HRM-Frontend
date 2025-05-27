@@ -93,26 +93,26 @@ const EndJobLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
 
     return (
         <>
-            <div class="modal fade" id="create_endjob_letter">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Tạo mới đơn xin thôi việc</h4>
+            <div className="modal fade" id="create_endjob_letter">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-detail-timekeeping">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Tạo mới đơn xin thôi việc</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do thôi việc </label>
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do thôi việc </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn lý do</option>
                                                 {
                                                     listReason.length > 0 && listReason.map((item, index) => (
@@ -129,29 +129,29 @@ const EndJobLetterComponent = ({ type, typeOpen, letterId, updateLetter }) => {
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày thôi việc </label>
-                                        <input type="date" class="form-control" name='dateRegis' value={values.dateRegis} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Ngày thôi việc </label>
+                                        <input type="date" className="form-control" name='dateRegis' value={values.dateRegis} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Mô tả</label>
-                                        <textarea type="text" class="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Mô tả</label>
+                                        <textarea type="text" className="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
 
                     </div>

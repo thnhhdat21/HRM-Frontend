@@ -136,7 +136,7 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
     }
     return (
         <>
-            <div className="mt-5 tab-pane fade show active" id="profile-resume">
+            <div className={`mt-5 tab-pane fade ${navId === PROFILE_RESUME ? "show active" : ""} `} id="profile-resume">
                 <div className="profile-container">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Sơ yếu lý lịch</div>
@@ -165,7 +165,7 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                                 </tr>
                                 <tr>
                                     <th>Ngày sinh</th>
-                                    <td>{resume.dateOfBirth || ""}</td>
+                                    <td>{convertDate(resume.dateOfBirth) || ""}</td>
                                     <th>Giới tính</th>
                                     <td>{resume.gender || ""}</td>
                                 </tr>
@@ -197,7 +197,7 @@ const ResumeComponent = ({ employeeId, navId, handleGetFile }) => {
                                     <th>CMT/Căn cước/Hộ chiếu</th>
                                     <td>{resume.identityCard || ""}</td>
                                     <th>Ngày cấp, Nơi cấp</th>
-                                    <td>{resume.issueDateCCCD && resume.placeCCCD ? resume.issueDateCCCD + ", tại " + resume.placeCCCD : ""}</td>
+                                    <td>{resume.issueDateCCCD && resume.placeCCCD ? convertDate(resume.issueDateCCCD) + ", tại " + resume.placeCCCD : ""}</td>
                                 </tr>
                                 <tr>
                                     <th>Nơi sinh</th>

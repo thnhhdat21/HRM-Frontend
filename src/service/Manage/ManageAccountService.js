@@ -1,15 +1,49 @@
 import axiosClient from "../config/AxiosClient";
 const REST_API_BASE_URL = "admin/account";
 
-export const getListAccount = (type) => {
-    const formData = new FormData();
-    formData.append("type", type)
-    console.log(type)
-    return axiosClient.post(`${REST_API_BASE_URL}/get-list-account`, formData)
+export const getListAccount = (values) => {
+    console.log(values)
+    const requestBody = {
+        "name": values.name,
+        "type": values.type,
+        "status": values.status === 0 || values.status === '' || !values.status ? 1 : values.status,
+        "pageIndex": values.pageIndex,
+        "department": values.department,
+        "jobPosition": values.jobPosition,
+        "duty": values.duty,
+        "dateJoin": values.dateJoin,
+    }
+    return axiosClient.post(`${REST_API_BASE_URL}/get-list-account`, requestBody)
 }
 
-export const getCountAccount = () => {
-    return axiosClient.post(`${REST_API_BASE_URL}/get-count-account`)
+
+export const getCountAccountType = (values) => {
+    const requestBody = {
+        "name": values.name,
+        "type": values.type,
+        "status": values.status,
+        "pageIndex": values.pageIndex,
+        "department": values.department,
+        "jobPosition": values.jobPosition,
+        "duty": values.duty,
+        "dateJoin": values.dateJoin,
+    }
+    return axiosClient.post(`${REST_API_BASE_URL}/get-count-account-type`, requestBody)
+}
+
+
+export const getCountAccount = (values) => {
+    const requestBody = {
+        "name": values.name,
+        "type": values.type,
+        "status": values.status,
+        "pageIndex": values.pageIndex,
+        "department": values.department,
+        "jobPosition": values.jobPosition,
+        "duty": values.duty,
+        "dateJoin": values.dateJoin,
+    }
+    return axiosClient.post(`${REST_API_BASE_URL}/get-count-account`, requestBody)
 }
 
 export const lockAccount = (id) => {

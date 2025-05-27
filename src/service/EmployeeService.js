@@ -12,16 +12,17 @@ export const updateResumeProfile = (values, isUpdateAvatar) => {
     const requestBody = {
         "id": values.id,
         "fullName": values.fullName,
-        "dateOfBirth": '2025-10-01',
-        "gender": true,
-        "marriageStatus": true,
+        "dateOfBirth": values.dateOfBirth,
+        "gender": values.gender,
+        "type": values.type,
+        "marriageStatus": values.marriageStatus,
         "nation": values.nation,
         "phoneNumber": values.phoneNumber,
         "placeOfBirth": values.placeOfBirth,
         "religion": values.religion,
         "ethnic": values.ethnic,
         "identityCard": values.identityCard,
-        "issueDateCCCD": '2025-10-01',
+        "issueDateCCCD": values.issueDateCCCD,
         "placeCCCD": values.placeCCCD,
         "homeTown": values.homeTown,
         "permanentAddress": values.permanentAddress,
@@ -34,6 +35,7 @@ export const updateResumeProfile = (values, isUpdateAvatar) => {
         "dateJoin": values.dateJoin,
         "avatar": isUpdateAvatar ? values.avatar : null
     }
+    console.log(requestBody)
     return axiosClient.post(`${REST_API_BASE_URL}/update-resume-profile-employee`, requestBody, {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -58,75 +60,39 @@ export const getListEmployeeSelect = () => {
     return axiosClient.post(`${REST_API_BASE_URL}/get-list-employee`)
 }
 
-export const getTimeSheetEmployee = (yearMonth) => {
+
+export const getTimeSheetEmployee = (employeeId, yearMonth) => {
     const requestBody = {
-        employeeId: 444,
+        employeeId: employeeId,
         yearMonth: yearMonth
     }
     return axiosClient.post(`${REST_API_BASE_URL}/get-employee-timekeeping`, requestBody)
 }
 
-export const employeeCheckIn = () => {
+export const employeeCheckIn = (employeeId) => {
     const formData = new FormData();
-    formData.append("employeeId", 444)
+    formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/check-in`, formData)
 }
 
-export const employeeCheckOut = () => {
+export const employeeCheckOut = (employeeId) => {
     const formData = new FormData();
-    formData.append("employeeId", 444)
+    formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/check-out`, formData)
 }
 
-export const getListLeaveLetter = () => {
+export const getListLeaveLetter = (employeeId) => {
     const formData = new FormData();
-    formData.append("employeeId", 2)
+    formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/get-list-leave-letter`, formData)
 }
 
-export const getListOverTimeLetter = () => {
+export const getListOverTimeLetter = (employeeId) => {
     const formData = new FormData();
-    formData.append("employeeId", 2)
+    formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/get-list-overtime-letter`, formData)
 }
 
-
-export const createEmployee = (valuesResume, valuesEducation, valuesFamily, contractCreate, insuranceRequest) => {
-    const request = {
-        resumeRequest: valuesResume,
-        educationRequest: valuesEducation,
-        familyRequest: valuesFamily,
-        contractRequest: contractCreate,
-        insuranceRequest: insuranceRequest
-    }
-    const formData = new FormData();
-    formData.append("fullEmployeeRequest", new Blob([JSON.stringify(request)], { type: "application/json" }));
-    formData.append(
-        "avatar",
-        valuesResume.avatar instanceof File || valuesResume.avatar instanceof Blob
-            ? valuesResume.avatar
-            : new Blob([]) // gửi blob rỗng nếu không hợp lệ
-    );
-
-    formData.append(
-        "backIdentityCard",
-        valuesResume.backIdentityCard instanceof File || valuesResume.backIdentityCard instanceof Blob
-            ? valuesResume.backIdentityCard
-            : new Blob([]) // gửi blob rỗng nếu không hợp lệ
-    );
-    formData.append(
-        "fontIdentityCard",
-        valuesResume.fontIdentityCard instanceof File || valuesResume.fontIdentityCard instanceof Blob
-            ? valuesResume.fontIdentityCard
-            : new Blob([]) // gửi blob rỗng nếu không hợp lệ
-    );
-
-    return axiosClient.post(`${REST_API_BASE_URL}/create-employee`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-}
 
 export const updateInsuranceNumber = (values) => {
     const requestBody = {
@@ -162,4 +128,17 @@ export const getSalaryAllowanceEmployee = (employeeId) => {
     const formData = new FormData();
     formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/get-salary-allowance-employee`, formData)
+}
+
+
+export const getEmployeeNameAndCode = (employeeId) => {
+    const formData = new FormData();
+    formData.append("employeeId", employeeId)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-employee-name-code`, formData)
+}
+
+export const getEmployeeJobPosition = (employeeId) => {
+    const formData = new FormData();
+    formData.append("employeeId", employeeId)
+    return axiosClient.post(`${REST_API_BASE_URL}/get-employee-job-position`, formData)
 }

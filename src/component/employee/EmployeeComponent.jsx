@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import ContextMenuEmployee from '../../contextmenu/ContextMenuEmployee';
 import { Link } from 'react-router-dom';
@@ -35,7 +35,12 @@ const EmployeeComponent = () => {
     }
 
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 330);
+    const element = document.getElementById("contextMenuEmployee")
+    if (element) {
+        var width = element.offsetWidth
+        var height = element.offsetHeight
+    }
+    const { x, y, showMenu } = useRightClickMenu(tableRef, width, height);
     const searchFilter = useSelector((state) => state.searchFilter)
     const dispatch = useDispatch();
     dispatch(updateTitleHeader({ title: "Danh sách nhân sự", subTitle: "" }))
@@ -57,7 +62,6 @@ const EmployeeComponent = () => {
     const [education, setEducation] = useState([])
     const [family, setFamily] = useState([])
     const [resume, setResume] = useState([])
-
 
     useEffect(() => {
         getCountEmployee(searchFilter).then((response) => {
@@ -149,26 +153,27 @@ const EmployeeComponent = () => {
             responseData(listResponse, setListEmployee);
         }
     }
+
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div className='d-flex category-list-employ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
-                                <ul class="nav ">
-                                    <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "10px" }}>
-                                        <button class={`nav-link nav-link-profile ${searchFilter.type === '' ? "active" : ""}`}
+                                <ul className="nav ">
+                                    <li className="nav-item nav-profile" role="presentation" style={{ marginRight: "10px" }}>
+                                        <button className={`nav-link nav-link-profile ${searchFilter.type === '' ? "active" : ""}`}
                                             data-bs-target="#setting-asset-group" name='type' value={null} onClick={(e) => onChangeType(e, (mapCountType.get(1) + mapCountType.get(2)))}>Tất cả ({(mapCountType.get(1) + mapCountType.get(2)) || 0})</button>
                                     </li>
                                     {searchFilter.status !== '3' && (
                                         <>
-                                            <li class="nav-item" role="presentation" className='nav-profile' style={{ marginRight: "10px" }}>
-                                                <button class={`nav-link nav-link-profile ${searchFilter.type === '1' ? "active" : ""}`}
+                                            <li className="nav-item nav-profile" role="presentation" style={{ marginRight: "10px" }}>
+                                                <button className={`nav-link nav-link-profile ${searchFilter.type === '1' ? "active" : ""}`}
                                                     data-bs-target="#setting-asset-group" name='type' value={1} onClick={(e) => onChangeType(e, mapCountType.get(1))}>Thử việc ({mapCountType.get(1) || 0})</button>
                                             </li>
-                                            <li class="nav-item" role="presentation" style={{ marginRight: "10px" }}>
-                                                <button class={`nav-link nav-link-profile ${searchFilter.type === '2' ? "active" : ""}`}
+                                            <li className="nav-item" role="presentation" style={{ marginRight: "10px" }}>
+                                                <button className={`nav-link nav-link-profile ${searchFilter.type === '2' ? "active" : ""}`}
                                                     data-bs-target="#setting-asset-unit" name='type' value={2} onClick={(e) => onChangeType(e, mapCountType.get(2))}>Chính thức ({mapCountType.get(2) || 0})</button>
                                             </li>
                                         </>
@@ -176,7 +181,7 @@ const EmployeeComponent = () => {
                                 </ul>
                             </div>
 
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 <div className="d-flex flex-column align-items-center nav-item department-filter"
                                     style={{ fontSize: "13px", marginLeft: "30px", fontWeight: 500 }}
                                     data-bs-toggle="modal" data-bs-target="#department-filter"
@@ -186,19 +191,19 @@ const EmployeeComponent = () => {
                                 </div>
                                 {
                                     PerManageEmployee.some((role) => roles.has(role)) && (
-                                        <div class="mb-2 dropdown profile-dropdown" style={{ marginLeft: "20px" }}>
-                                            <Link to={"/manage-employee/create-employee"} class="btn btn-danger d-flex align-items-center" >
-                                                <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                                        <div className="mb-2 dropdown profile-dropdown" style={{ marginLeft: "20px" }}>
+                                            <Link to={"/manage-employee/create-employee"} className="btn btn-danger d-flex align-items-center" >
+                                                <i className="ti ti-circle-plus" style={{ fontSize: "20px" }} />
                                             </Link>
                                         </div>
                                     )
                                 }
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="custom-datatable-filter table-responsive">
-                                <div class="table-container">
-                                    <div class="grid-list-employee header-payroll" style={{ backgroundColor: "#e5e7eb" }}>
+                        <div className="card-body p-0">
+                            <div className="custom-datatable-filter table-responsive">
+                                <div className="table-container">
+                                    <div className="grid-list-employee header-payroll" style={{ backgroundColor: "#e5e7eb" }}>
                                         <span></span>
                                         <span>Mã NS</span>
                                         <span>Họ và tên</span>

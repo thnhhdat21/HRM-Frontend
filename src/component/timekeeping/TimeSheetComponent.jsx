@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './css/timekeeping-style.css'
 import TimeKeepingDetailComponent from './crud/TimeKeepingDetailComponent';
 import useDoubleClickDetail from '../../hooks/useDoubleClickDetail';
@@ -9,15 +9,29 @@ import dayjs from 'dayjs';
 import customLocale from '../../util/month-locale';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { updatePageIndexFilter, updateYearMonthFilter } from '../../redux/slice/SearchFilterSlice';
-import { closingTimeKeeping, getCountTimeKeeping, getListTimeKeeping, timeSheetState } from '../../service/TimeKeepingSerivce';
+import { closingTimeKeeping, getCountTimeKeeping, getListTimeKeeping, timeSheetState } from '../../service/Manage/ManageTimeKeepingSerivce';
 import { responseData } from '../../util/ResponseUtil';
 import { LETTER_TYPE_INOUT, LETTER_TYPE_LEAVE, LETTER_TYPE_OVERTIME } from '../../util/LetterUtil';
 import DeparmentFilterComponent from '../employee/component/DeparmentFilterComponent';
 import { toast } from 'react-toastify';
-import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
 import { CLOSING } from '../../util/ApproveOrDeleteUtil';
+import Cookies from 'js-cookie';
+import ApproveOrDeleteComponent from '../customer/ApproveOrDeleteComponent';
+import { PerManageTimeSheet } from '../../util/PermissionUtil';
 
 const TimeSheetComponent = () => {
+    //lay role
+    const roleString = Cookies.get('permissions');
+    let roles = new Set();
+    let isWatchCompany = false;
+    let isManage = false;
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+        isWatchCompany = roles.has('ROLE_WATCH_TIMESHEET_COMPANY') || roles.has('ADMIN')
+        isManage = PerManageTimeSheet.some((role) => roles.has(role))
+    }
+
     const dispatch = useDispatch();
     const [monthValue, setMonthValue] = useState(dayjs());
     const [open, setOpen] = useState(false);
@@ -43,12 +57,12 @@ const TimeSheetComponent = () => {
     }, [monthValue])
 
     useEffect(() => {
-        if (timeSheetFilter.yearMonth) {
+        if (timeSheetFilter.yearMonth && isManage) {
             timeSheetState(timeSheetFilter.yearMonth).then((response) => {
                 responseData(response, setSheetState)
             })
         }
-    }, [timeSheetFilter.yearMonth])
+    }, [timeSheetFilter.yearMonth, isManage])
 
     useEffect(() => {
         if (timeSheetFilter.yearMonth) {
@@ -99,14 +113,14 @@ const TimeSheetComponent = () => {
 
     return (
         <>
-            <div class="page-wrapper">
-                <div class="card">
-                    <div class="card-header  flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="card">
+                    <div className="card-header  flex-wrap row-gap-3 p-categoty-list">
                         <div className='d-flex category-list-employ align-items-center justify-content-between ' style={{ gap: '20px', fontSize: '14px', fontWeight: 500 }}>
                             <span className='active-category-list'>Bảng chấm công</span>
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                            <div className="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                                 {
-                                    sheetState === false && (
+                                    isManage && sheetState === false && (
                                         <div className="d-flex flex-column align-items-center icon-header-2" style={{ fontSize: "12px" }}
                                             data-bs-toggle="modal"
                                             data-bs-target="#approve_delete_component"
@@ -120,7 +134,7 @@ const TimeSheetComponent = () => {
                                     onClick={handleIconClick} >
                                     <i className='fe fe-calendar' style={{ fontSize: "20px", cursor: "pointer" }} />
                                     <span style={{ whiteSpace: 'nowrap' }}>{monthValue ? monthValue.format('MM/YYYY') : 'Tháng'} </span>
-                                    <div style={{ position: 'absolute', top: 0, left: "80px", opacity: 0, pointerEvents: 'none' }}>
+                                    <div style={{ position: 'absolute', top: 0, left: isWatchCompany ? "80px" : "30px", opacity: 0, pointerEvents: 'none' }}>
                                         <DatePicker
                                             open={open}
                                             onOpenChange={setOpen}
@@ -133,24 +147,27 @@ const TimeSheetComponent = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="d-flex flex-column align-items-center nav-item department-filter"
-                                    style={{ fontSize: "13px", marginLeft: "15px", fontWeight: 500 }}
-                                    data-bs-toggle="modal" data-bs-target="#department-filter"
-                                    onClick={() => setTypeOpen([...typeOpen, "departmentFilter"])}
-                                >
-                                    <i className='fe fe-layers' />
-                                    <span>Phòng ban</span>
-                                </div>
+                                {
+                                    isWatchCompany && (
+                                        <div className="d-flex flex-column align-items-center nav-item department-filter"
+                                            style={{ fontSize: "13px", marginLeft: "15px", fontWeight: 500 }}
+                                            data-bs-toggle="modal" data-bs-target="#department-filter"
+                                            onClick={() => setTypeOpen([...typeOpen, "departmentFilter"])}
+                                        >
 
-
+                                            <i className='fe fe-layers' />
+                                            <span>Phòng ban</span>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="custom-datatable-filter table-responsive height-my-table">
-                            <div class="table-container sticky-table">
-                                <table class="table table-bordered" id='myTable'>
-                                    <thead class="thead-light">
+                    <div className="card-body p-0">
+                        <div className="custom-datatable-filter table-responsive height-my-table">
+                            <div className="table-container sticky-table">
+                                <table className="table table-bordered" id='myTable'>
+                                    <thead className="thead-light">
                                         <tr>
                                             <th rowSpan="2" className='table-manv'>Mã NV</th>
                                             <th rowSpan="2" className='table-hovaten'>Họ và tên</th>

@@ -50,7 +50,7 @@ const RewardAndPenaltyDecisionComponent = ({ decisionId, typeOpen, type, listEmp
     }, [typeOpen])
 
     useEffect(() => {
-        if (Number(type) === DECISION_TYPE_REWARD)
+        if (Number(type) === DECISION_TYPE_REWARD && typeOpen.at(-1).includes("create_reward_penalty_decision"))
             getListRewardOrPenalty(DECISION_TYPE_REWARD).then((response) => {
                 responseData(response, setListRewardOrPenalty)
             })
@@ -122,40 +122,40 @@ const RewardAndPenaltyDecisionComponent = ({ decisionId, typeOpen, type, listEmp
 
     return (
         <>
-            <div class="modal fade" id="create_reward_penalty_decision">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-crud-appendix">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">{Number(type) === DECISION_TYPE_REWARD ? "Quyết định khen thưởng" : "Kỷ luật nội bộ"} </h4>
+            <div className="modal fade" id="create_reward_penalty_decision">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-crud-appendix">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">{Number(type) === DECISION_TYPE_REWARD ? "Quyết định khen thưởng" : "Kỷ luật nội bộ"} </h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body ">
-                            <div class="row ">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label class="form-label">Số quyết định </label>
-                                        <input type="email" class="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
+                        <div className="modal-body ">
+                            <div className="row ">
+                                <div className="col-md-8">
+                                    <div className="mb-3">
+                                        <label className="form-label">Số quyết định </label>
+                                        <input type="email" className="form-control" placeholder='Số quyết định' name='code' value={values.code} onChange={onChangeInput} />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày quyết định </label>
-                                        <input type="date" class="form-control" placeholder='Ngày quyết định' name='date' value={values.date} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Ngày quyết định </label>
+                                        <input type="date" className="form-control" placeholder='Ngày quyết định' name='date' value={values.date} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nhân viên </label>
+                            <div className="row mt-2">
+                                <div className="col-md-12">
+                                    <div className="mb-3">
+                                        <label className="form-label">Nhân viên </label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.employeeId)} name='employeeId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn nhân sự</option>
                                                 {
                                                     listEmployeeSelect.length > 0 && listEmployeeSelect.map((item, index) => (
@@ -173,12 +173,12 @@ const RewardAndPenaltyDecisionComponent = ({ decisionId, typeOpen, type, listEmp
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-8">
-                                    <div class="mb-63">
-                                        <label class="form-label">{Number(type) === DECISION_TYPE_REWARD ? "Khen thưởng " : "Kỷ luật"}</label>
+                            <div className="row mt-2">
+                                <div className="col-md-8">
+                                    <div className="mb-63">
+                                        <label className="form-label">{Number(type) === DECISION_TYPE_REWARD ? "Khen thưởng " : "Kỷ luật"}</label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.rewardAndPenaltyId)} name='rewardAndPenaltyId' onChange={(e) => { onChangeInputAllowance(e) }} >
+                                            <select className="select-crud" value={Number(values.rewardAndPenaltyId)} name='rewardAndPenaltyId' onChange={(e) => { onChangeInputAllowance(e) }} >
                                                 <option value={""} hidden>Chọn chế độ</option>
                                                 {
                                                     listRewardOrPenalty.length > 0 && listRewardOrPenalty.map((item, index) => (
@@ -196,19 +196,19 @@ const RewardAndPenaltyDecisionComponent = ({ decisionId, typeOpen, type, listEmp
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Số tiền </label>
-                                        <input type="email" class="form-control" placeholder='Số tiền' name='amount' value={values.amount} onChange={onChangeInput} />
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label className="form-label">Số tiền </label>
+                                        <input type="email" className="form-control" placeholder='Số tiền' name='amount' value={values.amount} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
                     </div>
                 </div>

@@ -56,21 +56,20 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
         })
     }
 
-    console.log(onLeave)
 
     return (
         <>
-            <div class="mt-5 tab-pane fade" id="profile-work" role="tabpanel">
-                <div class="profile-container">
-                    <div class="profile-header">Thông tin công việc</div>
-                    <div class="profile-info">
-                        <table class="table borderless profile-details">
+            <div className={`mt-5 tab-pane fade ${navId === PROFILE_WORK ? "show active" : ""} `} id="profile-work" role="tabpanel">
+                <div className="profile-container">
+                    <div className="profile-header">Thông tin công việc</div>
+                    <div className="profile-info">
+                        <table className="table borderless profile-details">
                             <tbody>
                                 <tr>
                                     <th>Trạng thái</th>
-                                    <td><span class={`badge ${work.status ? EmployeeStatus.get(work.status).textType : ""}`}>{work.status ? EmployeeStatus.get(work.status).name : ""}</span></td>
+                                    <td><span className={`badge ${work.status ? EmployeeStatus.get(work.status).textType : ""}`}>{work.status ? EmployeeStatus.get(work.status).name : ""}</span></td>
                                     <th>Tình trạng hồ sơ</th>
-                                    <td><span class={`badge ${work.type ? EmployeeType.get(work.type).textType : ""}`}>{work.type ? EmployeeType.get(work.type).name : ""}</span></td>
+                                    <td><span className={`badge ${work.type ? EmployeeType.get(work.type).textType : ""}`}>{work.type ? EmployeeType.get(work.type).name : ""}</span></td>
                                 </tr>
                                 <tr>
                                     <th>Phòng ban</th>
@@ -115,7 +114,7 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                     </div>
                 </div>
 
-                <div class="profile-container mt-4">
+                <div className="profile-container mt-4">
                     <div className="d-flex align-items-center justify-content-between profile-header">
                         <div>Thông tin nghỉ phép</div>
                         {
@@ -128,8 +127,8 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                         }
 
                     </div>
-                    <div class="profile-info">
-                        <table class="table borderless profile-details">
+                    <div className="profile-info">
+                        <table className="table borderless profile-details">
                             <tbody>
                                 <tr>
                                     <th style={{ width: "25%" }}>Số phép theo quy định</th>
@@ -149,9 +148,9 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                     </div>
                 </div>
 
-                <div class="profile-container mt-4">
-                    <div class="profile-header">Quá trình nhân sự</div>
-                    <table class="table borderless profile-details">
+                <div className="profile-container mt-4">
+                    <div className="profile-header">Quá trình nhân sự</div>
+                    <table className="table borderless profile-details">
                         <tbody>
                             <tr>
                                 <th>Từ ngày</th>
@@ -166,7 +165,7 @@ const EmployeeWorkComponnent = ({ employeeId, navId }) => {
                             {workHistory.length > 0 && workHistory.map((item, index) => (
                                 <tr>
                                     <td>{item.dateStart}</td>
-                                    <td><span class={`badge ${item.status ? ContractStatus.get(item.status).bg : ""}`}>{item.status ? ContractStatus.get(item.status).name : ""}</span></td>
+                                    <td><span className={`badge ${item.status ? ContractStatus.get(item.status).bg : ""}`}>{item.status ? ContractStatus.get(item.status).name : ""}</span></td>
                                     <td>{item.department}</td>
                                     <td>{item.jobPosition}</td>
                                     <td>{item.duty}</td>

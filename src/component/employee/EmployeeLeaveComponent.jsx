@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
-import ContextMenuContract from '../../contextmenu/ContextMenuContract';
-import LeaveApprovalComponent from '../letter/crud/LeaveLetterComponent';
 import { useDispatch } from 'react-redux';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
 import { getOnLeaveProfile } from '../../service/OnLeaveService';
@@ -11,9 +9,10 @@ import { convertDate, convertLeaveDayToText, formatDateTime } from '../../util/T
 import { LETTER_TYPE_LEAVE, LetterState } from '../../util/LetterUtil';
 import LeaveLetterComponent from '../letter/crud/LeaveLetterComponent';
 import ContextMenuEmployeeTwoItem from '../../contextmenu/ContextMenuEmployeeTwoItem';
-import ApproveOrDeleteComponent from '../common/ApproveOrDeleteComponent';
 import { DELETE } from '../../util/ApproveOrDeleteUtil';
 import { deleteLetter } from '../../service/LetterService';
+import ApproveOrDeleteComponent from '../customer/ApproveOrDeleteComponent';
+import Cookies from 'js-cookie';
 
 const EmployeeLeaveComponent = () => {
     const tableRef = useRef(null)
@@ -24,12 +23,12 @@ const EmployeeLeaveComponent = () => {
     const [selected, setSelected] = useState("")
     const dispatch = useDispatch()
     dispatch(updateTitleHeader({ title: "Danh sách nghỉ", subTitle: "" }))
-
+    const employeeId = Cookies.get('employeeId')
     useEffect(() => {
-        getOnLeaveProfile("442").then((response) => {
+        getOnLeaveProfile(employeeId).then((response) => {
             responseData(response, setOnLeave)
         })
-        getListLeaveLetter().then((response) => {
+        getListLeaveLetter(employeeId).then((response) => {
             responseData(response, setListLeave)
         })
     }, [])
@@ -39,11 +38,11 @@ const EmployeeLeaveComponent = () => {
     }
 
     const update = (e) => {
-        getOnLeaveProfile("442").then((response) => {
+        getOnLeaveProfile(employeeId).then((response) => {
             responseData(response, setOnLeave)
         })
 
-        getListLeaveLetter().then((response) => {
+        getListLeaveLetter(employeeId).then((response) => {
             responseData(response, setListLeave)
         })
     }
@@ -56,16 +55,15 @@ const EmployeeLeaveComponent = () => {
             }
         })
     }
-
     return (
         <>
-            <div class="page-wrapper">
-                <div class="content">
-                    <div class="card">
-                        <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+            <div className="page-wrapper">
+                <div className="content">
+                    <div className="card">
+                        <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div>
                                 <h6>THÔNG TIN NGHỈ PHÉP</h6>
-                                <table class="table list-on-leave text-black">
+                                <table className="table list-on-leave text-black">
                                     <tbody>
                                         <tr >
                                             <td>Phép năm:</td>
@@ -77,15 +75,19 @@ const EmployeeLeaveComponent = () => {
                                             <td>Đã sử dụng</td>
                                             <td>{onLeave.usedDay}</td>
                                             <td className='strong-timekeeping text-black'>Phép còn lại:</td>
-                                            <td className='strong-timekeeping text-black'>{(onLeave.usedDay != 0 ? ((onLeave.reguladay + onLeave.seniorDay) - onLeave.usedDay) : 0)}</td>
+                                            <td className='strong-timekeeping text-black'>{
+                                                (Number(onLeave.usedDay) !== 0
+                                                    ? (Number(onLeave.regulaDay) + Number(onLeave.seniorDay) - Number(onLeave.usedDay))
+                                                    : 0)
+                                            }</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
+                        <div className="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 p-categoty-list">
                             <div style={{ marginBottom: "10px" }} className='d-flex align-items-center justify-content-center'>
-                                <a href="#" class="btn btn-danger d-flex align-items-center"
+                                <a href="#" className="btn btn-danger d-flex align-items-center"
                                     data-bs-toggle="modal"
                                     data-bs-target="#create_leave_letter"
                                     onClick={() => handleClickDropMenu("create_leave_letter")}
@@ -94,8 +96,8 @@ const EmployeeLeaveComponent = () => {
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <table class="table borderless table-timekeeping-employee">
+                        <div className="card-body p-0">
+                            <table className="table borderless table-timekeeping-employee">
                                 <thead>
                                     <tr>
                                         <th style={{ width: "15%" }}>Ngày đăng ký / Lý do</th>
@@ -107,7 +109,7 @@ const EmployeeLeaveComponent = () => {
                                     {listLeave.length > 0 && listLeave.map((item, index) => (
                                         <tr key={index} onContextMenu={() => setSelected(item)}>
                                             <td className="align-top text-center" style={{ padding: "10px" }}>
-                                                <div class="timekeeping-items d-flex flex-column">
+                                                <div className="timekeeping-items d-flex flex-column">
                                                     <span style={{ padding: 0 }} className='reason-leave'>{item.workdayEnabled === true ? "Nghỉ phép " + convertLeaveDayToText(item.total) : "Nghỉ không lương"}</span>
                                                     <span style={{ color: "#787676  ", fontWeight: 400, padding: 0 }}>{convertDate(item.dateRegis)}</span>
                                                 </div>

@@ -1,27 +1,40 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useRightClickMenu from '../../hooks/useRightClickMenu';
 import HolidaysCRUDComponent from './crud/HolidaysCRUDComponent';
-import ContextMenuTimeKeeping from '../../contextmenu/ContextMenuTimeKeeping';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
 import { updateTitleHeader } from '../../redux/slice/TitleHeaderSlice';
-import { deleteHoliday, getListHoliday, updateHoliday } from '../../service/HolidayService';
+import { deleteHoliday, getListHoliday, updateHoliday } from '../../service/Manage/ManageHolidayService';
 import { responseData, responseDelete } from '../../util/ResponseUtil';
 import { convertDate } from '../../util/TimeUtil';
 import { HolidayType } from '../../util/HolidayUtil';
 import ContextMenuTwoItem from '../../contextmenu/ContextMenuTwoItem';
 import { toast } from 'react-toastify';
+import { DELETE } from '../../util/ApproveOrDeleteUtil';
+import ApproveOrDeleteComponent from '../customer/ApproveOrDeleteComponent';
+import Cookies from 'js-cookie';
+import { PerManageTimeSheet } from '../../util/PermissionUtil';
+
 
 const HolidaysComponent = () => {
     const dispatch = useDispatch();
     const tableRef = useRef(null)
-    const { x, y, showMenu } = useRightClickMenu(tableRef, 220, 220);
+    const { x, y, showMenu } = useRightClickMenu(tableRef, 200, 82);
     const [holidayFilter, setHolidayFilter] = useState({
         type: 0,
         pageIndex: 1,
         year: 2025
     })
+
+    const roleString = Cookies.get('permissions');
+    let roles = new Set();
+    let isManage = false;
+    if (roleString) {
+        const parsedRoles = roleString.split(',');
+        roles = new Set(parsedRoles);
+        isManage = PerManageTimeSheet.some((role) => roles.has(role))
+    }
 
     const [open, setOpen] = useState(false);
     const [yearValue, setYearValue] = useState(dayjs());
@@ -65,6 +78,10 @@ const HolidaysComponent = () => {
     const handleDelete = (e) => {
         deleteHoliday(selected.id).then((response) => {
             responseDelete(response, setListHoliday, selected.id)
+            if (response.data.code === 1000) {
+                document.querySelector('#approve_delete_component [data-bs-dismiss="modal"]').click();
+
+            }
         })
     }
 
@@ -124,15 +141,16 @@ const HolidaysComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-2 dropdown profile-dropdown" >
-                                    <a href="#" class="btn btn-danger d-flex align-items-center"
-                                        data-bs-toggle="modal" data-bs-target="#crud_holiday"
-                                        onClick={() => setOpenModal([...openModal, "create"])}
-                                    >
-                                        <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
-                                    </a>
-                                </div>
-
+                                {isManage && (
+                                    <div class="mb-2 dropdown profile-dropdown" >
+                                        <a href="#" class="btn btn-danger d-flex align-items-center"
+                                            data-bs-toggle="modal" data-bs-target="#crud_holiday"
+                                            onClick={() => setOpenModal([...openModal, "create"])}
+                                        >
+                                            <i class="ti ti-circle-plus" style={{ fontSize: "20px" }} />
+                                        </a>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -192,9 +210,14 @@ const HolidaysComponent = () => {
                 y={y}
                 showMenu={showMenu}
                 modalId={"crud_holiday"}
-                handleDelete={handleDelete}
                 setTypeOpen={setOpenModal}
             />
+
+            <ApproveOrDeleteComponent
+                handleClick={handleDelete}
+                type={DELETE}
+            />
+
             <HolidaysCRUDComponent selected={selected} openModal={openModal} handleUpdateHoliday={handleUpdateHoliday} />
         </>
     );

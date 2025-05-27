@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LETTER_TYPE_INOUT } from '../../../util/LetterUtil';
 import { responseData } from '../../../util/ResponseUtil';
 import { getListLetterReason } from '../../../service/LetterReasonService';
@@ -89,26 +89,26 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRe
 
     return (
         <>
-            <div class="modal fade" id="create_checkin_letter">
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-400">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Giải trình đi muộn/về sớm</h4>
+            <div className="modal fade" id="create_checkin_letter">
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-400">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Giải trình đi muộn/về sớm</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
 
-                        <div class="modal-body overflow-modal-crud">
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Lý do cá nhân</label>
+                        <div className="modal-body overflow-modal-crud">
+                            <div className="row ">
+                                <div className="col-md-12">
+                                    <div className="mb-3">
+                                        <label className="form-label">Lý do cá nhân</label>
                                         <div className="select-wrapper-department">
-                                            <select class="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInput}>
+                                            <select className="select-crud" value={Number(values.letterReasonId)} name='letterReasonId' onChange={onChangeInput}>
                                                 <option value={""} hidden>Chọn lý do</option>
                                                 {
                                                     listReason.length > 0 && listReason.map((item, index) => (
@@ -126,19 +126,19 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRe
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Mô tả</label>
-                                        <textarea type="email" class="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
+                            <div className="row mt-2">
+                                <div className="col-md-12">
+                                    <div className="mb-3">
+                                        <label className="form-label">Mô tả</label>
+                                        <textarea type="email" className="form-control" placeholder='Mô tả' name='description' value={values.description} onChange={onChangeInput} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-light border me-2"
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-light border me-2"
                                 data-bs-dismiss="modal">HỦY BỎ</button>
-                            <button type="submit" class="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
+                            <button type="submit" className="btn btn-primary" onClick={handleClickUpdate}>CẬP NHẬT </button>
                         </div>
                     </div>
                 </div>

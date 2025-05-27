@@ -29,7 +29,7 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
         const { name, value } = event.target;
         setRows(prevRows =>
             prevRows.map((row, i) =>
-                i === index ? { ...row, [name]: value, ["isUpdate"]: "update" } : row
+                i === index ? { ...row, [name]: value, isUpdate: "update" } : row
             )
         );
     }
@@ -55,7 +55,7 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
         if (typeof id === 'number' && !isNaN(id)) {
             setRows(prevRows =>
                 prevRows.map((row, i) =>
-                    row.id === id ? { ...row, ["isUpdate"]: "delete" } : row
+                    row.id === id ? { ...row, isUpdate: "delete" } : row
                 )
             );
         } else {
@@ -118,26 +118,26 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
 
     return (
         <>
-            <div class="modal fade" id={modalId}>
-                <div class="modal-dialog modal-dialog-centered modal-lg modal-update-family">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="modal-title me-2">Cập nhật thông tin gia đình</h4>
+            <div className="modal fade" id={modalId}>
+                <div className="modal-dialog modal-dialog-centered modal-lg modal-update-family">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <div className="d-flex align-items-center">
+                                <h4 className="modal-title me-2">Cập nhật thông tin gia đình</h4>
                             </div>
-                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
-                                <i class="ti ti-x"></i>
+                                <i className="ti ti-x"></i>
                             </button>
                         </div>
                         <form action="employees.html">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active">
-                                    <div class="modal-body pb-0 ">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <table class="table table-add table-leave">
+                            <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active">
+                                    <div className="modal-body pb-0 ">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="mb-3">
+                                                    <table className="table table-add table-leave">
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: "5%" }}>Mối QH</th>
@@ -153,7 +153,7 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {rows.filter((item) => item.isUpdate != "delete").map((row, index) => (
+                                                            {rows.filter((item) => item.isUpdate !== "delete").map((row, index) => (
                                                                 <tr key={row.id}>
                                                                     <td>
                                                                         <select className="form-control" value={row.relationShip} name='relationShip' onChange={(e) => onChangeInputCreate(index, e)}>
@@ -183,8 +183,8 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
                                                                     </td>
                                                                     <td><input type="text" className="form-control" name='taxCode' value={row.taxCode} onChange={(e) => onChangeInputCreate(index, e)} /></td>
                                                                     <td>
-                                                                        <div class="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id)}>
-                                                                            <i class="ti ti-x " style={{ fontSize: "20px" }}></i>
+                                                                        <div className="col-md-1 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={(e) => removeRow(row.id)}>
+                                                                            <i className="ti ti-x " style={{ fontSize: "20px" }}></i>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -194,16 +194,16 @@ const UpdateFamilyComponent = ({ employeeId, family, openModal, updateFamily }) 
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start">
-                                            <div class="mb-2 circle" style={{ cursor: "pointer" }}>
+                                        <div className="d-flex justify-content-start">
+                                            <div className="mb-2 circle" style={{ cursor: "pointer" }}>
                                                 <i className='ti ti-plus' style={{ cursor: "pointer" }} onClick={addRow} />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-light border me-2"
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-outline-light border me-2"
                                             data-bs-dismiss="modal">HỦY BỎ</button>
-                                        <button type="submit" class="btn btn-primary" onClick={handleUpdateFamily}>CẬP NHẬT </button>
+                                        <button type="submit" className="btn btn-primary" onClick={handleUpdateFamily}>CẬP NHẬT </button>
                                     </div>
                                 </div>
                             </div>

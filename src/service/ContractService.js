@@ -32,10 +32,3 @@ export const getListContractOfEmployee = (employeeId) => {
     formData.append("employeeId", employeeId)
     return axiosClient.post(`${REST_API_BASE_URL}/get-list-contract-of-employee`, formData)
 }
-
-// History
-export const getContractHistory = (contractId) => {
-    const formData = new FormData();
-    formData.append("contractId", contractId)
-    return axiosClient.post(`contract-history/get-contract-history`, formData)
-}

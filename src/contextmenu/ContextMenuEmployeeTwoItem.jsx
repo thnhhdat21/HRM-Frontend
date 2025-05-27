@@ -1,6 +1,4 @@
-import React from 'react';
 import './css/context-menu-style.css'
-import { DELETE } from '../util/ApproveOrDeleteUtil';
 
 const ContextMenuEmployeeTwoItem = ({ x, y, showMenu, modalId, setTypeOpen, state }) => {
     const CHECKED = 2;

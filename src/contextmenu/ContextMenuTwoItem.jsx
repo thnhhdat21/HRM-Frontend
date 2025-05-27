@@ -1,4 +1,3 @@
-import React from 'react';
 import './css/context-menu-style.css'
 
 const ContextMenuTwoItem = ({ x, y, showMenu, modalId, setTypeOpen }) => {
@@ -9,7 +8,8 @@ const ContextMenuTwoItem = ({ x, y, showMenu, modalId, setTypeOpen }) => {
             top: y,
             left: x,
             position: 'absolute',
-            display: showMenu ? 'flex' : 'none'
+            display: showMenu ? 'flex' : 'none',
+            zIndex: 10
         }
     }
 
@@ -17,7 +17,10 @@ const ContextMenuTwoItem = ({ x, y, showMenu, modalId, setTypeOpen }) => {
         <>
             <div className="menu" style={style()}>
                 <ul>
-                    <li style={{ width: "200px" }} data-bs-toggle="modal" data-bs-target={`#${modalId}`} onClick={() => setTypeOpen(prevList => [...prevList, modalId + "-edit"])}><i className='ti ti-edit' />
+                    <li style={{ width: "200px" }}
+                        data-bs-toggle="modal"
+                        data-bs-target={`#${modalId}`}
+                        onClick={() => setTypeOpen(prevList => [...prevList, modalId + "-edit"])}><i className='ti ti-edit' />
                         Chỉnh sửa
                     </li>
                     <li style={{ width: "200px" }}
