@@ -19,6 +19,7 @@ import Cookies from 'js-cookie';
 import { PerManageLetter } from '../../util/PermissionUtil';
 import DetailLetterComponent from './DetailLetterComponent';
 import ApproveOrDeleteComponent from '../customer/ApproveOrDeleteComponent';
+import { convertDate } from '../../util/TimeUtil';
 const ManageLetterComponent = () => {
     //lay role
     const roleString = Cookies.get('permissions');
@@ -159,7 +160,6 @@ const ManageLetterComponent = () => {
                                             <tr>
                                                 <th className="no-sort">
                                                 </th>
-                                                <th>Người tạo</th>
                                                 <th>Mã NV</th>
                                                 <th>Họ và tên</th>
                                                 <th>Trạng thái</th>
@@ -172,13 +172,12 @@ const ManageLetterComponent = () => {
                                             {listLetter.length > 0 && listLetter.map((item, index) => (
                                                 <tr key={index} onContextMenu={() => setSelected(item)} >
                                                     <td></td>
-                                                    <td>{item.createdBy}</td>
                                                     <td>{item.employeeCode}</td>
                                                     <td>{item.employeeName}</td>
                                                     <td><span className={`badge ${item.letterState ? LetterState.get(Number(item.letterState)).bg : ""}`}>{item.letterState ? LetterState.get(Number(item.letterState)).name : ""}</span></td>
                                                     <td>{item.letterType ? LetterType.get(Number(item.letterType)).name : ""}</td>
                                                     <td>{item.department}</td>
-                                                    <td>{item.createdAt}</td>
+                                                    <td>{convertDate(item.createdAt)}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

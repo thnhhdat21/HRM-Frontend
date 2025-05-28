@@ -215,7 +215,9 @@ const ReasonWorktimeCRUDComponent = ({ selectedId, typeOpen, reasonType, handleU
                                                             <option value={"Ngày / Tuần"}>Ngày / Tuần</option>
                                                             <option value={"Ngày / Tháng"}>Ngày / Tháng</option>
                                                             <option value={"Ngày / Năm"}>Ngày / Năm</option>
-                                                        </select>                                                    </div>
+                                                            <option value={"Tháng / Năm"}>Tháng / Năm</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div className="col-md-1">
                                                     <div className="mb-3">
@@ -286,6 +288,7 @@ const ReasonWorktimeCRUDComponent = ({ selectedId, typeOpen, reasonType, handleU
                                                                                     <option value={"Ngày / Tuần"}>Ngày / Tuần</option>
                                                                                     <option value={"Ngày / Tháng"}>Ngày / Tháng</option>
                                                                                     <option value={"Ngày / Năm"}>Ngày / Năm</option>
+                                                                                    <option value={"Tháng / Năm"}>Tháng / Năm</option>
                                                                                 </select>
                                                                             </td>
                                                                             <td>

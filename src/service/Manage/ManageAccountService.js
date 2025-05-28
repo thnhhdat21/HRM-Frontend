@@ -72,12 +72,6 @@ export const activeAccount = (employeeCode, password) => {
     return axiosClient.post(`${REST_API_BASE_URL}/active-account`, requestBody)
 }
 
-export const getAccountDetail = (id) => {
-    const formData = new FormData();
-    formData.append("id", id)
-    return axiosClient.post(`${REST_API_BASE_URL}/get-detail-account`, formData)
-}
-
 export const changePassword = (id, password) => {
     const formData = new FormData();
     formData.append("id", id);

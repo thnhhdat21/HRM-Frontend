@@ -49,28 +49,14 @@ export const updateWorkTimeLetter = (values) => {
     return axiosClient.post(`${REST_API_BASE_URL}/update-worktime-letter`, requestBody)
 }
 
-export const updateTerminationLetter = (values) => {
-    const requestBody = {
-        letterId: values.letterId,
-        code: values.code,
-        date: values.date,
-        employeeId: values.employeeId,
-        letterReasonId: values.letterReasonId,
-        description: values.description
-    }
-    return axiosClient.post(`${REST_API_BASE_URL}/update-inout-endwork-letter`, requestBody)
-}
-
-
-
 export const updateInOutAndEndWorkLetter = (values) => {
     const requestBody = {
         letterId: values.letterId,
-        // employeeId: values.employeeId,
-        employeeId: 2,
+        employeeId: values.employeeId,
         letterReasonId: values.letterReasonId,
         dateRegis: values.dateRegis,
-        description: values.description
+        description: values.description,
+        type: values.type
     }
     return axiosClient.post(`${REST_API_BASE_URL}/update-inout-endwork-letter`, requestBody)
 }

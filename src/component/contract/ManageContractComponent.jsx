@@ -198,7 +198,7 @@ const ManageContractComponent = () => {
                                     <table className="table" id='myTable'>
                                         <thead className="thead-light">
                                             <tr>
-                                                <th>Người tạo</th>
+                                                <th></th>
                                                 <th>Mã HĐ</th>
                                                 <th>Mã nhân sự</th>
                                                 <th>Tên nhân sự</th>
@@ -213,7 +213,7 @@ const ManageContractComponent = () => {
                                             {
                                                 listContract.length > 0 && listContract.map((item, index) => (
                                                     <tr onContextMenu={() => handleSetInfoEmployee(item)}>
-                                                        <td>{item.createdBy}</td>
+                                                        <td></td>
                                                         <td>{item.contractCode}</td>
                                                         <td>{item.employeeCode}</td>
                                                         <td>{item.employeeName}</td>

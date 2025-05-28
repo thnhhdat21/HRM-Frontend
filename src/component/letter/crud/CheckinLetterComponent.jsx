@@ -4,8 +4,10 @@ import { responseData } from '../../../util/ResponseUtil';
 import { getListLetterReason } from '../../../service/LetterReasonService';
 import { toast } from 'react-toastify';
 import { getLetter, updateInOutAndEndWorkLetter } from '../../../service/LetterService';
+import Cookies from 'js-cookie';
 
 const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRegis }) => {
+    const employeeId = Cookies.get("employeeId")
     const createModal = "create_checkin_letter-create"
     const editModal = "create_checkin_letter-edit"
     const [listReason, setListReason] = useState([])
@@ -13,7 +15,7 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRe
     const [values, setValues] = useState({
         letterId: "",
         dateRegis: dateRegis,
-        employeeId: "",
+        employeeId: employeeId,
         letterReasonId: "",
         description: "",
         type: LETTER_TYPE_INOUT
@@ -31,7 +33,7 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRe
             setValues({
                 letterId: "",
                 dateRegis: dateRegis,
-                employeeId: "",
+                employeeId: employeeId,
                 letterReasonId: "",
                 description: '',
                 type: LETTER_TYPE_INOUT
@@ -77,7 +79,7 @@ const CheckinLetterComponent = ({ type, typeOpen, letterId, updateLetter, dateRe
         if (isCorrect) {
             updateInOutAndEndWorkLetter(values).then((response) => {
                 if (response.data.code === 1000) {
-                    toast.success("Cập nhật quyết định thành công")
+                    toast.success("Cập nhật giải trình thành công")
                     updateLetter()
                     document.querySelector('#create_checkin_letter [data-bs-dismiss="modal"]').click();
                 } else if (response.data.code > 1000) {

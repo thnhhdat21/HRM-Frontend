@@ -35,7 +35,7 @@ const EmployeeOTComponent = () => {
     }
 
     const update = (e) => {
-        getListOverTimeLetter().then((response) => {
+        getListOverTimeLetter(employeeId).then((response) => {
             responseData(response, setListOvertime)
         })
     }

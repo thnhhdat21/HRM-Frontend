@@ -72,9 +72,6 @@ const ManageGroupComponent = () => {
                                                 <th>Tên nhóm</th>
                                                 <th>Quản trị hệ thống</th>
                                                 <th>Nhóm mặc định</th>
-                                                <th>Tài khoản</th>
-                                                <th>Người tạo</th>
-                                                <th>Người sửa</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Ngày sửa</th>
                                             </tr>
@@ -87,9 +84,6 @@ const ManageGroupComponent = () => {
                                                         <td><span>{item.name}</span></td>
                                                         <td><span>{item.accountAdmin ? "Có" : "Không"}</span></td>
                                                         <td><span>{item.accountDefault ? "Có" : "Không"}</span></td>
-                                                        <td><span>{item.count}</span></td>
-                                                        <td><span>{item.createdBy}</span></td>
-                                                        <td><span>{item.updatedBy}</span></td>
                                                         <td><span>{item.createdDate}</span></td>
                                                         <td><span>{item.updatedDate}</span></td>
                                                     </tr>

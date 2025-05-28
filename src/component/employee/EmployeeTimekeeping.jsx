@@ -22,6 +22,7 @@ const EmployeeTimekeeping = () => {
     const [typeSave, setTypeSave] = useState(0)
     const [dateRegisInOut, setDateRegisInOut] = useState("");
     const employeeId = Cookies.get('employeeId')
+    const currentHour = new Date().getHours();
     const handleIconClick = () => {
         setOpen(true);
     };
@@ -49,7 +50,7 @@ const EmployeeTimekeeping = () => {
 
     const updateTimeKeeping = () => {
         const fommattedMonthValue = monthValue.format('YYYY-MM')
-        getTimeSheetEmployee(fommattedMonthValue).then((response) => {
+        getTimeSheetEmployee(employeeId, fommattedMonthValue).then((response) => {
             responseData(response, setTimeSheet)
         })
     }
@@ -83,13 +84,12 @@ const EmployeeTimekeeping = () => {
                                     <h6>Bảng công chi tiết tháng</h6>
                                     <div className="d-flex align-items-center">
                                         <div className="d-flex align-items-center" style={{ paddingRight: "10px" }}>
-                                            {/* {currentHour >= 5 && currentHour < 10 && ( */}
-                                            <button type="submit" className="btn btn-primary" onClick={handleClickCheckin}>CHECK IN</button>
-                                            {/* )} */}
-                                            {/* {currentHour >= 15 && ( */}
-                                            <button type="submit" className="btn btn-primary" onClick={handleClickCheckout}>CHECK OUT</button>
-                                            {/* // )} */}
-
+                                            {currentHour >= 5 && currentHour < 10 && (
+                                                <button type="submit" className="btn btn-primary" onClick={handleClickCheckin}>CHECK IN</button>
+                                            )}
+                                            {currentHour >= 15 && (
+                                                <button type="submit" className="btn btn-primary" onClick={handleClickCheckout}>CHECK OUT</button>
+                                            )}
                                         </div>
                                         <div className="d-flex flex-column align-items-center icon-header-2" style={{ fontSize: "13px", position: "relative" }}
                                             onClick={handleIconClick} >
@@ -150,7 +150,7 @@ const EmployeeTimekeeping = () => {
                                                                         <span>Công làm việc:</span>
                                                                         <span className='strong-timekeeping'>{item.workDay}</span>
                                                                     </div>
-                                                                    <div className={`go-late ${item.timeLate ? "" : "hidden"}`}>
+                                                                    <div className={`go-late ${(item.timeLate && item.timeLate !== "00:00:00") ? "" : "hidden"}`}>
                                                                         <span>Đi muộn:</span>
                                                                         <span className='strong-timekeeping'>{formatTimeToVietnamese(item.timeLate)}</span>
                                                                     </div>

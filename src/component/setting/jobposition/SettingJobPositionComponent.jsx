@@ -77,7 +77,7 @@ const SettingJobPositionComponent = () => {
                                                         <td><span>{item.createBy}</span></td>
                                                         <td><span>{item.name}</span></td>
                                                         <td><span>{item.role}</span></td>
-                                                        <td><span>{item.salaryFrom} - {item.salaryTo}</span></td>
+                                                        <td><span>{Number(item.salaryFrom).toLocaleString("vi-VN")} - {Number(item.salaryTo).toLocaleString("vi-VN")}</span></td>
                                                         <td><span className='badge'>{item.status}</span></td>
                                                     </tr>
                                                 ))
